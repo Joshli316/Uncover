@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Uncover — A Visual Conversation Tool</title>
-  <meta name="description" content="A visual tool for real conversations. 21 images, 4 questions, and a framework for seeing the layers of yourself you don't always show.">
+  <meta name="description" content="A visual tool for real conversations. 25 images, 4 questions, and a framework for seeing the layers of yourself you don't always show.">
   <meta property="og:title" content="Uncover — A Visual Conversation Tool">
-  <meta property="og:description" content="21 images. 4 questions. A window into the layers of yourself you don't always show.">
+  <meta property="og:description" content="25 images. 4 questions. A window into the layers of yourself you don't always show.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="/og.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -758,7 +758,7 @@
     <!-- What Is This -->
     <div class="landing-section reveal">
       <div class="section-label">What is this</div>
-      <h2 class="section-heading">21 images. 4 questions.<br>One real conversation.</h2>
+      <h2 class="section-heading">25 images. 4 questions.<br>One real conversation.</h2>
       <p class="section-body" id="what-body-1"></p>
       <p class="section-body" id="what-body-2"></p>
     </div>
@@ -808,7 +808,7 @@
         <div class="step">
           <div class="step-icon">1</div>
           <h3>Choose</h3>
-          <p>For each of 4 questions, browse 21 photographs and pick the 3 that resonate most. Trust your gut.</p>
+          <p>For each of 4 questions, browse 25 photographs and pick the 3 that resonate most. Trust your gut.</p>
         </div>
         <div class="step">
           <div class="step-icon">2</div>
@@ -976,7 +976,7 @@ const COPY = {
   intl: {
     tagline: "A visual tool for naming what you carry between worlds.",
     whatBody1: "Every journey between cultures carries weight — goodbyes that linger, languages that don't capture what you mean, holidays nobody around you knows. Uncover gives you a way to see that weight, name it, and share it.",
-    whatBody2: "You'll look at 21 photographs — each one chosen to stir something — and pick the ones that resonate. The images you choose reveal patterns about how you move through the world, what you're protecting, and what you need.",
+    whatBody2: "You'll look at 25 photographs — each one chosen to stir something — and pick the ones that resonate. The images you choose reveal patterns about how you move through the world, what you're protecting, and what you need.",
     frameworkHeading: "We all carry more than we show",
     frameworkBody1: "When you cross cultures, you learn to hold multiple worlds inside you. Some parts keep it together for everyone watching. Some parts carry the ache of what you left behind. Some parts kick in when the weight gets too heavy. And underneath all of it is something whole — the you that exists before and after all the performing.",
     frameworkBody2: "Uncover helps you see all four layers.",
@@ -1047,7 +1047,7 @@ const COPY = {
   },
   general: {
     tagline: "A visual tool for seeing the parts of yourself you don't always show.",
-    whatBody1: "Uncover is a visual conversation tool. You look at 21 photographs — each one chosen to stir something — and pick the ones that resonate. That's it.",
+    whatBody1: "Uncover is a visual conversation tool. You look at 25 photographs — each one chosen to stir something — and pick the ones that resonate. That's it.",
     whatBody2: "But here's what happens: the images you choose reveal patterns. Patterns about how you move through the world, what you're protecting, and what you need. It's not a quiz. There's no score. It's a mirror.",
     frameworkHeading: "We all have layers",
     frameworkBody1: "We all have different layers inside us. Some run the show. Some carry old pain. Some step in when things get hard. And underneath all of them is a calm, curious, compassionate core — your truest self.",
@@ -1165,7 +1165,7 @@ function applyMode(mode) {
   }
 }
 
-// ─── PHOTOS (21) — people, places, objects ───
+// ─── PHOTOS (25) — people, places, objects ───
 // Every photo hand-picked from known Unsplash images, verified content matches title
 const PHOTOS = [
   // PEOPLE (1–8)
@@ -1195,6 +1195,11 @@ const PHOTOS = [
   // CULTURALLY DIVERSE (23–24)
   { id: 23, title: "Departure Gate",       src: "https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=400&h=267&fit=crop&auto=format", credit: "Leio McLaren" },
   { id: 24, title: "Shared Meal",          src: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=400&h=267&fit=crop&auto=format", credit: "Priscilla Du Preez" },
+  // NATURE + MOOD (25–28)
+  { id: 25, title: "Open Water",           src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=267&fit=crop&auto=format", credit: "Sean O." },
+  { id: 26, title: "The Road",             src: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=267&fit=crop&auto=format", credit: "Caleb Jones" },
+  { id: 27, title: "Night Sky",            src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=267&fit=crop&auto=format", credit: "Benjamin Voros" },
+  { id: 28, title: "Rain On Glass",        src: "https://images.unsplash.com/photo-1515694346937-b952b2a2be70?w=400&h=267&fit=crop&auto=format", credit: "Valentin Muller" },
 ];
 
 // ─── STATE ───
@@ -1221,8 +1226,8 @@ function renderHeroMosaic() {
   const grid = document.getElementById('hero-mosaic-grid');
   if (!grid) return;
   grid.innerHTML = '';
-  // Show top 20 for a clean 5x4 / 3-col grid
-  PHOTOS.slice(0, 20).forEach((photo, i) => {
+  // Show all 25 for a clean 5x5 grid
+  PHOTOS.slice(0, 25).forEach((photo, i) => {
     const img = document.createElement('img');
     img.src = photo.src;
     img.alt = photo.title;
