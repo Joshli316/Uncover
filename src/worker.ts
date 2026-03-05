@@ -8,6 +8,14 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
+// Simple IP-based rate limit: 3 emails per IP per hour
+async function checkRateLimit(db: D1Database, ip: string): Promise<boolean> {
+  const result = await db.prepare(
+    `SELECT COUNT(*) as cnt FROM leads WHERE ip = ? AND created_at > datetime('now', '-1 hour')`
+  ).bind(ip).first<{ cnt: number }>();
+  return (result?.cnt ?? 0) < 3;
+}
+
 app.post('/api/email-results', async (c) => {
   const { email, mode, results } = await c.req.json();
 
@@ -15,10 +23,21 @@ app.post('/api/email-results', async (c) => {
     return c.json({ error: 'Missing fields' }, 400);
   }
 
+  // Basic email format check
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return c.json({ error: 'Invalid email' }, 400);
+  }
+
+  const ip = c.req.header('cf-connecting-ip') || c.req.header('x-forwarded-for') || 'unknown';
+
+  if (!await checkRateLimit(c.env.DB, ip)) {
+    return c.json({ error: 'Rate limit exceeded. Try again later.' }, 429);
+  }
+
   // Store lead in D1
   await c.env.DB.prepare(
-    'INSERT INTO leads (email, mode, results) VALUES (?, ?, ?)'
-  ).bind(email, mode, JSON.stringify(results)).run();
+    'INSERT INTO leads (email, mode, results, ip) VALUES (?, ?, ?, ?)'
+  ).bind(email, mode, JSON.stringify(results), ip).run();
 
   // Send email via Resend
   const html = buildEmailHTML(results);
@@ -43,6 +62,20 @@ app.post('/api/email-results', async (c) => {
   }
 
   return c.json({ data: 'sent' });
+});
+
+// Analytics beacon handler
+app.post('/api/analytics', async (c) => {
+  try {
+    const body = await c.req.json();
+    const ip = c.req.header('cf-connecting-ip') || c.req.header('x-forwarded-for') || 'unknown';
+    await c.env.DB.prepare(
+      'INSERT INTO analytics (event, mode, ip, payload) VALUES (?, ?, ?, ?)'
+    ).bind(body.event || 'unknown', body.mode || 'unknown', ip, JSON.stringify(body)).run();
+  } catch (e) {
+    // Best-effort, don't fail
+  }
+  return c.json({ ok: true });
 });
 
 export default app;

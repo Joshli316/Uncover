@@ -11,6 +11,9 @@
   <meta property="og:image" content="/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="/og.png">
+  <meta property="og:url" content="https://uncover.pages.dev">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C4704B'/><text x='16' y='24' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='22' fill='white'>U</text></svg>">
+  <link rel="apple-touch-icon" href="/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -897,6 +900,7 @@
       <div class="summary-cta-block">
         <p>What you uncovered matters. Don't let it stay here. Share it with one person this week.</p>
         <button class="btn btn-outline" onclick="restart()">Start Over</button>
+        <button class="btn btn-outline" id="share-btn" onclick="shareResults()" style="display:none;">Share</button>
         <a class="btn btn-accent" href="https://frontiercommons.org#community" target="_blank">Find Community</a>
       </div>
 
@@ -1161,7 +1165,7 @@ function applyMode(mode) {
   }
 }
 
-// ─── PHOTOS (30) — people, places, objects ───
+// ─── PHOTOS (21) — people, places, objects ───
 // Every photo hand-picked from known Unsplash images, verified content matches title
 const PHOTOS = [
   // PEOPLE (1–8)
@@ -1217,7 +1221,8 @@ function renderHeroMosaic() {
   const grid = document.getElementById('hero-mosaic-grid');
   if (!grid) return;
   grid.innerHTML = '';
-  PHOTOS.forEach((photo, i) => {
+  // Show top 20 for a clean 5x4 / 3-col grid
+  PHOTOS.slice(0, 20).forEach((photo, i) => {
     const img = document.createElement('img');
     img.src = photo.src;
     img.alt = photo.title;
@@ -1317,9 +1322,14 @@ function updateFooter() {
   else el.innerHTML = 'All <strong>3</strong> selected';
 }
 
+function saveProgress() {
+  try { sessionStorage.setItem('uncover_progress', JSON.stringify({ currentQ, selections, mode: MODE })); } catch(e) {}
+}
+
 function nextQuestion() {
   selections[currentQ] = [...currentSelections];
   currentQ++;
+  saveProgress();
   const t = COPY[MODE].transitions[currentQ - 1];
   document.getElementById('transition-text').textContent = t.text;
   document.getElementById('transition-sub').textContent = t.sub;
@@ -1364,6 +1374,10 @@ function renderSummary() {
       container.appendChild(d);
     }
   });
+
+  // Show share button
+  const shareBtn = document.getElementById('share-btn');
+  if (shareBtn) shareBtn.style.display = '';
 
   // Analytics beacon
   try {
@@ -1419,7 +1433,22 @@ async function sendResults(e) {
 
 function restart() {
   currentQ = 0; selections = {}; currentSelections = [];
+  sessionStorage.removeItem('uncover_progress');
   showScreen('screen-landing');
+}
+
+// Share results via native share or clipboard fallback
+async function shareResults() {
+  const text = 'I just uncovered my four layers with Uncover — a visual conversation tool. Try it yourself:';
+  const url = window.location.origin + (MODE === 'intl' ? '?mode=intl' : '');
+  if (navigator.share) {
+    try { await navigator.share({ title: 'Uncover — What I Uncovered', text, url }); } catch (e) {}
+  } else {
+    await navigator.clipboard.writeText(`${text} ${url}`);
+    const btn = document.getElementById('share-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Share', 2000);
+  }
 }
 
 // ─── TOGGLE SETUP ───
@@ -1495,6 +1524,19 @@ audioToggle.addEventListener('click', () => {
 // ─── INIT ───
 applyMode(MODE);
 renderHeroMosaic();
+
+// Restore in-progress session
+try {
+  const saved = JSON.parse(sessionStorage.getItem('uncover_progress'));
+  if (saved && saved.currentQ > 0 && saved.currentQ < 4) {
+    selections = saved.selections || {};
+    currentQ = saved.currentQ;
+    if (saved.mode) applyMode(saved.mode);
+    showQuestion();
+    showScreen('screen-question');
+    setTimeout(() => document.getElementById('q-footer').classList.add('show'), 400);
+  }
+} catch(e) {}
 
 // ─── PRELOAD ───
 window.addEventListener('load', () => {
