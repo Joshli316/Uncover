@@ -498,6 +498,84 @@
       font-weight: 600;
     }
 
+    /* Email save */
+    .email-save {
+      text-align: center;
+      margin-top: 48px;
+      padding: 32px 24px;
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+    .email-save.sent {
+      border-style: solid;
+      border-color: var(--accent-light);
+      background: var(--accent-glow);
+    }
+    .email-save-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .email-save p {
+      font-size: 14px;
+      color: var(--ink-light);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .email-save-form {
+      display: flex;
+      gap: 8px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .email-save-input {
+      flex: 1;
+      padding: 10px 14px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .email-save-input:focus { border-color: var(--accent); }
+    .email-save-input::placeholder { color: var(--muted); }
+    .email-save-btn {
+      padding: 10px 20px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      white-space: nowrap;
+    }
+    .email-save-btn:hover { background: var(--accent-hover); }
+    .email-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .email-save-msg {
+      font-size: 13px;
+      color: var(--accent);
+      margin-top: 12px;
+      display: none;
+    }
+    .email-save-fine {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+    @media (max-width: 480px) {
+      .email-save-form { flex-direction: column; }
+    }
+
     .summary-actions { display: flex; gap: 12px; justify-content: center; margin-top: 56px; flex-wrap: wrap; }
     .summary-footer { text-align: center; margin-top: 72px; padding-top: 32px; border-top: 1px solid var(--border); }
     .summary-footer p { font-size: 12px; color: var(--muted); line-height: 1.6; }
@@ -740,6 +818,17 @@
         <p>What you uncovered matters. Don't let it stay here. Share it with one person this week.</p>
         <button class="btn btn-outline" onclick="restart()">Start Over</button>
         <a class="btn btn-accent" href="https://frontiercommons.org#community" target="_blank">Find Community</a>
+      </div>
+
+      <div class="email-save" id="email-save">
+        <div class="email-save-label">Optional</div>
+        <p>Want to save this? We'll email you your results so you can revisit them later.</p>
+        <form class="email-save-form" onsubmit="sendResults(event)">
+          <input type="email" class="email-save-input" id="email-input" placeholder="your@email.com" required>
+          <button type="submit" class="email-save-btn" id="email-btn">Send</button>
+        </form>
+        <div class="email-save-msg" id="email-msg"></div>
+        <div class="email-save-fine">No spam. Just your results. We may share occasional updates from Frontier Commons.</div>
       </div>
 
       <div class="guide">
@@ -1214,6 +1303,52 @@ function renderSummary() {
   try {
     navigator.sendBeacon('/api/analytics', JSON.stringify({ event: 'summary_rendered', mode: MODE, questions: 4, timestamp: Date.now() }));
   } catch(e) {}
+}
+
+async function sendResults(e) {
+  e.preventDefault();
+  const email = document.getElementById('email-input').value.trim();
+  if (!email) return;
+  const btn = document.getElementById('email-btn');
+  const msg = document.getElementById('email-msg');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  // Build results payload
+  const questions = COPY[MODE].questions;
+  const results = questions.map((q, qi) => ({
+    question: q.text,
+    layer: q.partLabel,
+    insight: q.partInsight,
+    picks: (selections[qi] || []).map(pid => {
+      const photo = PHOTOS.find(p => p.id === pid);
+      return { title: photo.title, src: photo.src };
+    }),
+    prompts: q.prompts,
+  }));
+
+  try {
+    const res = await fetch('/api/email-results', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, mode: MODE, results }),
+    });
+    if (res.ok) {
+      msg.textContent = 'Sent! Check your inbox.';
+      msg.style.display = 'block';
+      document.getElementById('email-save').classList.add('sent');
+      btn.textContent = 'Sent ✓';
+    } else {
+      throw new Error('Failed');
+    }
+  } catch (err) {
+    // Fallback: save results locally if API unavailable
+    msg.textContent = 'Could not send right now. Try again later.';
+    msg.style.display = 'block';
+    msg.style.color = 'var(--muted)';
+    btn.textContent = 'Send';
+    btn.disabled = false;
+  }
 }
 
 function restart() {
