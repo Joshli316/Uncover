@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Uncover — See Your Inner Parts</title>
-  <meta name="description" content="A visual tool for real conversations. 30 images, 4 questions, and a framework for understanding the parts of yourself you don't always see. Informed by Internal Family Systems.">
-  <meta property="og:title" content="Uncover — See Your Inner Parts">
-  <meta property="og:description" content="30 images. 4 questions. A window into the parts of yourself you don't always see.">
+  <title>Uncover — A Visual Conversation Tool</title>
+  <meta name="description" content="A visual tool for real conversations. 20 images, 4 questions, and a framework for seeing the layers of yourself you don't always show.">
+  <meta property="og:title" content="Uncover — A Visual Conversation Tool">
+  <meta property="og:description" content="20 images. 4 questions. A window into the layers of yourself you don't always show.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,6 +49,40 @@
     .screen.visible { opacity: 1; }
 
     /* ═══════════════════════════════════════
+       MODE TOGGLE
+       ═══════════════════════════════════════ */
+    .mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .mode-toggle-opt {
+      padding: 6px 14px;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+    .mode-toggle-opt.active {
+      background: var(--accent);
+      color: white;
+    }
+    .mode-toggle-opt:not(.active):hover {
+      background: var(--accent-glow);
+    }
+    .mode-toggle--small {
+      font-size: 10px;
+    }
+    .mode-toggle--small .mode-toggle-opt {
+      padding: 4px 10px;
+    }
+
+    /* ═══════════════════════════════════════
        LANDING PAGE
        ═══════════════════════════════════════ */
 
@@ -69,18 +103,31 @@
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       opacity: 0; transform: translateY(16px);
       animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-definition {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      opacity: 0; transform: translateY(12px);
+      animation: fadeUp 0.7s 0.4s ease both;
     }
     .landing-tagline {
       font-size: clamp(17px, 3vw, 22px);
       color: var(--ink-light);
       max-width: 480px;
       line-height: 1.5;
-      margin-bottom: 40px;
+      margin-bottom: 24px;
       opacity: 0; transform: translateY(12px);
       animation: fadeUp 0.7s 0.5s ease both;
+    }
+    .hero-toggle-wrap {
+      margin-bottom: 40px;
+      opacity: 0; transform: translateY(12px);
+      animation: fadeUp 0.7s 0.6s ease both;
     }
     .landing-scroll-hint {
       position: absolute;
@@ -189,7 +236,7 @@
       line-height: 1.5;
     }
 
-    /* IFS Parts Explainer */
+    /* Layers Explainer */
     .parts-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -326,6 +373,9 @@
     .q-header { position: sticky; top: 0; z-index: 50; background: var(--bg); padding: 20px 0 16px; }
     .q-header::after { content: ''; position: absolute; bottom: 0; left: -24px; right: -24px; height: 1px; background: var(--border); }
 
+    .q-header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .q-header-toggle { /* container for small toggle in question header */ }
+
     .progress-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
     .progress-track { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s ease; }
@@ -392,9 +442,28 @@
     .conversation-prompt h4 { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
     .conversation-prompt ul { list-style: none; padding: 0; }
     .conversation-prompt li { font-size: 14px; color: var(--ink-light); line-height: 1.6; padding: 4px 0; padding-left: 20px; position: relative; }
-    .conversation-prompt li::before { content: '→'; position: absolute; left: 0; color: var(--accent-light); }
+    .conversation-prompt li::before { content: '\2192'; position: absolute; left: 0; color: var(--accent-light); }
 
     .summary-divider { width: 40px; height: 2px; background: var(--border); margin: 72px auto; }
+
+    /* Post-summary CTA */
+    .summary-cta-block {
+      text-align: center;
+      background: var(--warm);
+      border-radius: 16px;
+      padding: 48px 32px;
+      margin-top: 72px;
+    }
+    .summary-cta-block p {
+      font-size: 17px;
+      color: var(--ink-light);
+      line-height: 1.6;
+      max-width: 420px;
+      margin: 0 auto 28px;
+    }
+    .summary-cta-block .btn + .btn {
+      margin-left: 12px;
+    }
 
     /* Facilitator guide */
     .guide { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px; margin-top: 72px; }
@@ -403,6 +472,25 @@
     .guide-tip { display: flex; gap: 16px; padding: 14px 0; border-top: 1px solid var(--border); }
     .guide-tip-num { font-family: var(--font-display); font-weight: 700; color: var(--accent); font-size: 14px; flex-shrink: 0; width: 24px; }
     .guide-tip-text { font-size: 14px; color: var(--ink-light); line-height: 1.6; }
+    .guide-section-heading {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      margin-top: 32px;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+    .guide-scripture {
+      font-size: 14px;
+      color: var(--ink-light);
+      line-height: 1.7;
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+    }
+    .guide-scripture strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
 
     .summary-actions { display: flex; gap: 12px; justify-content: center; margin-top: 56px; flex-wrap: wrap; }
     .summary-footer { text-align: center; margin-top: 72px; padding-top: 32px; border-top: 1px solid var(--border); }
@@ -430,6 +518,9 @@
       .summary-picks { gap: 8px; }
       .guide { padding: 24px; }
       .landing-section { padding: 72px 24px; }
+      .summary-cta-block { padding: 32px 20px; }
+      .summary-cta-block .btn + .btn { margin-left: 0; margin-top: 12px; }
+      .summary-cta-block .btn { display: block; width: 100%; }
     }
     @media (max-width: 480px) {
       .card-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
@@ -447,7 +538,7 @@
 
     /* Print */
     @media print {
-      .q-footer, .btn, .progress-bar { display: none; }
+      .q-footer, .btn, .progress-bar, .mode-toggle { display: none; }
       .screen { display: block !important; opacity: 1 !important; }
     }
   </style>
@@ -462,7 +553,14 @@
     <!-- Hero -->
     <div class="landing-hero">
       <h1>Uncover</h1>
-      <p class="landing-tagline">A visual tool for seeing the parts of yourself you don't always show.</p>
+      <div class="hero-definition">un·cov·er /&#716;&#601;n&#712;k&#652;v&#601;r/ verb — to reveal what lies beneath the surface.</div>
+      <p class="landing-tagline" id="landing-tagline"></p>
+      <div class="hero-toggle-wrap">
+        <div class="mode-toggle" id="hero-toggle">
+          <div class="mode-toggle-opt" data-mode="intl">International student</div>
+          <div class="mode-toggle-opt" data-mode="general">General</div>
+        </div>
+      </div>
       <div class="landing-scroll-hint">
         Learn more
         <div class="scroll-arrow"></div>
@@ -472,43 +570,43 @@
     <!-- What Is This -->
     <div class="landing-section reveal">
       <div class="section-label">What is this</div>
-      <h2 class="section-heading">30 images. 4 questions.<br>A real conversation.</h2>
-      <p class="section-body">Uncover is a visual conversation tool. You look at 30 photographs — each one chosen to stir something — and pick the ones that resonate. That's it.</p>
-      <p class="section-body">But here's what happens: the images you choose reveal patterns. Patterns about how you move through the world, what you're protecting, and what you need. It's not a quiz. There's no score. It's a mirror.</p>
+      <h2 class="section-heading">20 images. 4 questions.<br>One real conversation.</h2>
+      <p class="section-body" id="what-body-1"></p>
+      <p class="section-body" id="what-body-2"></p>
     </div>
 
     <!-- The Framework -->
     <div class="landing-section full-warm reveal">
       <div class="section-inner">
         <div class="section-label">The idea behind it</div>
-        <h2 class="section-heading">We all have parts</h2>
-        <p class="section-body">Internal Family Systems (IFS) is a way of understanding the mind. The idea is simple: we all have different "parts" inside us. Some run the show. Some carry old pain. Some step in when things get hard. And underneath all of them is a calm, curious, compassionate core — your Self.</p>
-        <p class="section-body">Most of the time, we only see the surface. Uncover helps you see the rest.</p>
+        <h2 class="section-heading" id="framework-heading"></h2>
+        <p class="section-body" id="framework-body-1"></p>
+        <p class="section-body" id="framework-body-2"></p>
 
         <div class="parts-grid">
           <div class="part-card">
             <div class="part-card-icon"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 6C24 6 10 12 10 22V34L24 42L38 34V22C38 12 24 6 24 6Z" stroke="#C4704B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0" style="filter:url(#pencil)"/><path d="M24 14V30" stroke="#C4704B" stroke-width="1" stroke-linecap="round" opacity="0.4"/><path d="M18 20L24 14L30 20" stroke="#C4704B" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/><defs><filter id="pencil" x="-2" y="-2" width="52" height="52"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg></div>
-            <div class="part-card-label">Part 1</div>
-            <h4>Managers</h4>
-            <p>The parts that run your daily life. They plan, achieve, control, and keep things together. They're the face you show the world.</p>
+            <div class="part-card-label">Layer 1</div>
+            <h4>The Surface</h4>
+            <p id="layer1-desc"></p>
           </div>
           <div class="part-card">
             <div class="part-card-icon"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 42S8 32 8 20C8 14 12 8 18 8C21 8 23 10 24 12C25 10 27 8 30 8C36 8 40 14 40 20C40 32 24 42 24 42Z" stroke="#C4704B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="filter:url(#pencil)"/><path d="M20 18L28 30" stroke="#C4704B" stroke-width="1" stroke-linecap="round" opacity="0.5" style="filter:url(#pencil)"/><path d="M20 30L28 18" stroke="#C4704B" stroke-width="1" stroke-linecap="round" opacity="0.3" style="filter:url(#pencil)"/></svg></div>
-            <div class="part-card-label">Part 2</div>
-            <h4>Exiles</h4>
-            <p>The parts that carry old wounds — shame, fear, loneliness. They're often young, and they're kept hidden by your protectors.</p>
+            <div class="part-card-label">Layer 2</div>
+            <h4>What You Carry</h4>
+            <p id="layer2-desc"></p>
           </div>
           <div class="part-card">
             <div class="part-card-icon"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 42C24 42 24 34 24 28C20 34 14 38 12 36C10 34 14 28 18 24C12 26 6 28 6 24C6 20 14 20 20 18C14 14 10 8 12 6C14 4 20 8 24 14C28 8 34 4 36 6C38 8 34 14 28 18C34 20 42 20 42 24C42 28 36 26 30 24C34 28 38 34 36 36C34 38 28 34 24 28" stroke="#C4704B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="filter:url(#pencil)"/><circle cx="24" cy="24" r="3" stroke="#C4704B" stroke-width="1" opacity="0.4" style="filter:url(#pencil)"/></svg></div>
-            <div class="part-card-label">Part 3</div>
-            <h4>Firefighters</h4>
-            <p>The parts that react when pain breaks through. They numb, escape, fight, or distract. They're not bad — they're desperate.</p>
+            <div class="part-card-label">Layer 3</div>
+            <h4>How You Cope</h4>
+            <p id="layer3-desc"></p>
           </div>
           <div class="part-card">
             <div class="part-card-icon"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="16" stroke="#C4704B" stroke-width="1.5" stroke-linecap="round" style="filter:url(#pencil)"/><circle cx="24" cy="24" r="6" stroke="#C4704B" stroke-width="1" opacity="0.5" style="filter:url(#pencil)"/><circle cx="24" cy="24" r="2" fill="#C4704B" opacity="0.3"/><line x1="24" y1="4" x2="24" y2="10" stroke="#C4704B" stroke-width="1" stroke-linecap="round" opacity="0.4" style="filter:url(#pencil)"/><line x1="24" y1="38" x2="24" y2="44" stroke="#C4704B" stroke-width="1" stroke-linecap="round" opacity="0.4" style="filter:url(#pencil)"/><line x1="4" y1="24" x2="10" y2="24" stroke="#C4704B" stroke-width="1" stroke-linecap="round" opacity="0.4" style="filter:url(#pencil)"/><line x1="38" y1="24" x2="44" y2="24" stroke="#C4704B" stroke-width="1" stroke-linecap="round" opacity="0.4" style="filter:url(#pencil)"/></svg></div>
-            <div class="part-card-label">Part 4</div>
-            <h4>Self</h4>
-            <p>The calm center underneath all the parts. Curious, compassionate, clear. It's always there — sometimes just buried under protection.</p>
+            <div class="part-card-label">Layer 4</div>
+            <h4>What You Need</h4>
+            <p id="layer4-desc"></p>
           </div>
         </div>
       </div>
@@ -522,7 +620,7 @@
         <div class="step">
           <div class="step-icon">1</div>
           <h3>Browse</h3>
-          <p>Look through 30 photographs. Don't analyze — just notice what catches your eye.</p>
+          <p>Look through 20 photographs. Don't analyze — just notice what catches your eye.</p>
         </div>
         <div class="step">
           <div class="step-icon">2</div>
@@ -532,7 +630,7 @@
         <div class="step">
           <div class="step-icon">3</div>
           <h3>Reflect</h3>
-          <p>See your picks mapped to your inner parts. Use the prompts to start a real conversation — with yourself or someone you trust.</p>
+          <p>See your picks mapped to four layers. Use the prompts to start a real conversation — with yourself or someone you trust.</p>
         </div>
       </div>
     </div>
@@ -540,31 +638,21 @@
     <!-- Who Uses This -->
     <div class="landing-section reveal">
       <div class="section-label">Who this is for</div>
-      <h2 class="section-heading">Anyone ready to go below the surface</h2>
-      <p class="section-body">Uncover works for personal reflection, but it's especially powerful in conversation. It gives people a way to talk about inner experience without needing the vocabulary for it.</p>
-      <div class="uses-list">
-        <span class="use-tag">Small groups</span>
-        <span class="use-tag">Counselors</span>
-        <span class="use-tag">Couples</span>
-        <span class="use-tag">Retreats</span>
-        <span class="use-tag">Campus ministry</span>
-        <span class="use-tag">Self-reflection</span>
-        <span class="use-tag">Therapy warm-ups</span>
-        <span class="use-tag">Team building</span>
-      </div>
+      <h2 class="section-heading" id="who-heading"></h2>
+      <p class="section-body" id="who-body"></p>
+      <div class="uses-list" id="uses-list"></div>
     </div>
 
     <!-- CTA -->
     <div class="landing-cta reveal">
-      <h2>Ready?</h2>
+      <h2>Ready to uncover?</h2>
       <p>Takes about 10 minutes. No sign-up. No data saved.</p>
       <button class="btn btn-primary btn-large" onclick="goToBrowse()">Begin Uncover</button>
     </div>
 
     <div class="landing-footer">
       Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a> ·
-      Built by <a href="https://frontiercommons.org" target="_blank">Frontier Commons</a> ·
-      Informed by <a href="https://ifs-institute.com" target="_blank">Internal Family Systems</a>
+      Built by <a href="https://frontiercommons.org" target="_blank">Frontier Commons</a>
     </div>
   </div>
 
@@ -575,7 +663,7 @@
     <div class="browse">
       <div class="browse-header">
         <h2>Take a moment</h2>
-        <p>Scroll through all 30 images. Don't pick yet — just notice which ones catch your eye. When you're ready, we'll begin.</p>
+        <p>Scroll through all 20 images. Don't pick yet — just notice which ones catch your eye. When you're ready, we'll begin.</p>
       </div>
       <div class="browse-grid" id="browse-grid"></div>
       <div class="browse-cta">
@@ -590,11 +678,19 @@
   <div id="screen-question" class="screen">
     <div class="question-screen">
       <div class="q-header">
-        <div class="progress-bar">
-          <div class="progress-track">
-            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        <div class="q-header-top">
+          <div class="progress-bar" style="flex:1; margin-bottom:0;">
+            <div class="progress-track">
+              <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-label" id="progress-label">1 / 4</div>
           </div>
-          <div class="progress-label" id="progress-label">1 / 4</div>
+          <div class="q-header-toggle" style="margin-left:16px;">
+            <div class="mode-toggle mode-toggle--small" id="header-toggle">
+              <div class="mode-toggle-opt" data-mode="intl">Intl</div>
+              <div class="mode-toggle-opt" data-mode="general">General</div>
+            </div>
+          </div>
         </div>
         <div class="q-content">
           <div class="q-number" id="q-number"></div>
@@ -635,150 +731,289 @@
     <div class="summary">
       <div class="summary-header">
         <h2>What You Uncovered</h2>
-        <p>Each question surfaced a different layer. Here are the parts of you that showed up.</p>
+        <p id="summary-desc"></p>
       </div>
       <div id="summary-content"></div>
 
+      <div class="summary-cta-block">
+        <p>What you uncovered matters. Don't let it stay here. Share it with one person this week.</p>
+        <button class="btn btn-outline" onclick="restart()">Start Over</button>
+        <a class="btn btn-accent" href="https://frontiercommons.org" target="_blank">Find Community</a>
+      </div>
+
       <div class="guide">
         <h3>A Guide for Facilitators</h3>
-        <p>This tool is informed by Internal Family Systems (IFS) — the idea that we all have different "parts" inside us. Some protect, some carry pain, some hold joy. These images help surface those parts without forcing anyone to name them directly.</p>
+        <p>Uncover uses a layers framework — the idea that we all have different layers inside us. Some protect, some carry pain, some hold joy. These images help surface those layers without forcing anyone to name them directly.</p>
         <div class="guide-tip">
           <div class="guide-tip-num">01</div>
           <div class="guide-tip-text"><strong>Curiosity, not interpretation.</strong> Ask "what drew you to this?" — never "I think this means you're..." Let them lead.</div>
         </div>
         <div class="guide-tip">
           <div class="guide-tip-num">02</div>
-          <div class="guide-tip-text"><strong>Notice the protectors.</strong> If someone picks all "positive" images, gently notice: "I see a lot of strength here — is there anything these images are protecting?"</div>
+          <div class="guide-tip-text"><strong>Name the cultural weight.</strong> If someone is far from home, acknowledge it: "That sounds like it carries something." Don't minimize what distance costs.</div>
         </div>
         <div class="guide-tip">
           <div class="guide-tip-num">03</div>
-          <div class="guide-tip-text"><strong>Question two is the heart.</strong> "What you carry but rarely show" surfaces exiled parts. Go slow. Sit with whatever comes up.</div>
+          <div class="guide-tip-text"><strong>Question two is the heart.</strong> "What you carry but rarely show" surfaces the deepest layers. Go slow. Sit with whatever comes up.</div>
         </div>
         <div class="guide-tip">
           <div class="guide-tip-num">04</div>
-          <div class="guide-tip-text"><strong>Share your own picks.</strong> Vulnerability invites vulnerability. When you go first with honesty, you give permission.</div>
+          <div class="guide-tip-text"><strong>Share your own picks first.</strong> Vulnerability invites vulnerability. When you go first with honesty, you give permission.</div>
         </div>
         <div class="guide-tip">
           <div class="guide-tip-num">05</div>
+          <div class="guide-tip-text"><strong>Point toward committed community.</strong> This tool opens doors. What matters is what happens next — a group, a friendship, a place to belong.</div>
+        </div>
+        <div class="guide-tip">
+          <div class="guide-tip-num">06</div>
           <div class="guide-tip-text"><strong>This is not therapy.</strong> It's a conversation starter. If something heavy surfaces: "Thank you for sharing that. Would you want to explore that more with someone?" Know your limits.</div>
         </div>
-      </div>
 
-      <div class="summary-actions">
-        <button class="btn btn-outline" onclick="restart()">Start Over</button>
+        <div class="guide-section-heading">For Faith-Based Settings</div>
+        <div class="guide-scripture">
+          <strong>Lament.</strong> Psalm 42 ("My tears have been my food day and night") and Psalm 137 ("How can we sing the Lord's song in a foreign land?") are natural companions to Question 2. Let people sit in the ache before rushing to resolution.
+        </div>
+        <div class="guide-scripture">
+          <strong>Prayer.</strong> After Question 4, invite the group to hold their "wholeness" images and pray — for themselves, for each other. Let the images become prayers.
+        </div>
+        <div class="guide-scripture">
+          <strong>Being known.</strong> 1 Corinthians 13:12 ("Now I know in part; then I shall know fully, even as I am fully known") and Psalm 139 speak to the ache of wholeness. We are fully known — and fully loved.
+        </div>
+        <div class="guide-scripture">
+          <strong>Scripture touchpoints.</strong> Genesis 12 (Abram leaving home), Ruth (loyalty across cultures), the exile psalms, Jesus as sojourner ("Foxes have holes, but the Son of Man has no place to lay his head" — Matt 8:20). These texts meet people where the images take them.
+        </div>
       </div>
 
       <div class="summary-footer">
         <p>
-          Uncover is a tool for real conversations about the parts of ourselves we don't always see.<br>
           Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
           Built by <a href="https://frontiercommons.org" target="_blank">Frontier Commons</a>.
-          Informed by <a href="https://ifs-institute.com" target="_blank">IFS</a>.
+          Framework informed by <a href="https://ifs-institute.com" target="_blank">IFS</a>.
         </p>
       </div>
     </div>
   </div>
 
 <script>
+// ─── MODE SYSTEM ───
+const params = new URLSearchParams(window.location.search);
+let MODE = params.get('mode') === 'intl' ? 'intl' : 'general';
+
+const COPY = {
+  intl: {
+    tagline: "A visual tool for naming what you carry between worlds.",
+    whatBody1: "Every journey between cultures carries weight — goodbyes that linger, languages that don't capture what you mean, holidays nobody around you knows. Uncover gives you a way to see that weight, name it, and share it.",
+    whatBody2: "You'll look at 20 photographs — each one chosen to stir something — and pick the ones that resonate. The images you choose reveal patterns about how you move through the world, what you're protecting, and what you need.",
+    frameworkHeading: "We all carry more than we show",
+    frameworkBody1: "When you cross cultures, you learn to hold multiple worlds inside you. Some parts keep it together for everyone watching. Some parts carry the ache of what you left behind. Some parts kick in when the weight gets too heavy. And underneath all of it is something whole — the you that exists before and after all the performing.",
+    frameworkBody2: "Uncover helps you see all four layers.",
+    layer1Desc: "The parts that run your daily life here. They plan, achieve, adapt, and keep things together. They're the face you show the world.",
+    layer2Desc: "The parts that carry homesickness, loneliness, the goodbyes you never fully processed. They're often hidden — even from you.",
+    layer3Desc: "What kicks in when the weight is too much — overworking, retreating, numbing, performing. They're not bad — they're surviving.",
+    layer4Desc: "The calm underneath all the layers. Being fully known, fully at rest. Not perfection — just wholeness.",
+    whoHeading: "For anyone navigating between worlds",
+    whoBody: "Uncover is especially powerful for people who carry the weight of distance — from home, from language, from the version of themselves they left behind. It gives you a way to talk about inner experience without needing the vocabulary for it.",
+    tags: ["International student groups", "Cross-cultural teams", "Orientation programs", "Small groups", "Retreats", "Campus ministry", "Counselors", "Self-reflection"],
+    questions: [
+      {
+        number: "Question One",
+        text: "Which images feel like how you show up every day?",
+        hint: "The surface — how you hold it together here, what people see.",
+        partLabel: "Layer 1 · The Surface",
+        partInsight: "These are the parts that run the show — adapting, achieving, keeping it together for everyone watching. They're often the first things we identify with.",
+        prompts: [
+          "What does this image capture about your life here?",
+          "Is this how you want to show up, or just how you've learned to?",
+          "What part of you is working hardest in this image?",
+        ],
+      },
+      {
+        number: "Question Two",
+        text: "Which images feel like something you carry but rarely share?",
+        hint: "The weight — homesickness, loneliness, the things you've learned to push down.",
+        partLabel: "Layer 2 · What You Carry",
+        partInsight: "These are the parts that carry the weight of distance — the goodbyes, the holidays alone, the things you can't explain to people who haven't lived it.",
+        prompts: [
+          "When did this feeling first show up for you?",
+          "What does this part need that it hasn't gotten?",
+          "What would happen if someone here really saw this part of you?",
+        ],
+      },
+      {
+        number: "Question Three",
+        text: "Which images feel like what you do when it gets heavy?",
+        hint: "How you cope — what kicks in when the weight is too much.",
+        partLabel: "Layer 3 · How You Cope",
+        partInsight: "These are the parts that react when the weight breaks through. They numb, escape, overwork, or retreat. They're not bad — they're trying to keep you standing.",
+        prompts: [
+          "What does this coping look like in your daily life?",
+          "What is this part trying to protect you from feeling?",
+          "If this part could talk, what would it say it needs?",
+        ],
+      },
+      {
+        number: "Question Four",
+        text: "Which images feel like what wholeness would look like for you?",
+        hint: "Not perfection — but being fully known, fully at rest, fully yourself.",
+        partLabel: "Layer 4 · What You Need",
+        partInsight: "This is your core — the you that exists beyond all the performing and adapting. Whole, at rest, known. It's always there, sometimes just buried under layers of survival.",
+        prompts: [
+          "What would change in your life if you had this?",
+          "What's the biggest thing standing between you and this?",
+          "Where — or with whom — do you feel closest to this?",
+        ],
+      },
+    ],
+    transitions: [
+      { text: "Missing home isn't weakness. It's proof you loved something.", sub: "Next: what you carry but rarely share." },
+      { text: "Now think about your reactions.", sub: "Next: what you do when things get heavy." },
+      { text: "One more — this one matters most.", sub: "Next: what wholeness would look like." },
+      { text: "Here's what you uncovered.", sub: "" },
+    ],
+    summaryDesc: "Four layers. One conversation. Here's what showed up when you stopped performing and started noticing.",
+  },
+  general: {
+    tagline: "A visual tool for seeing the parts of yourself you don't always show.",
+    whatBody1: "Uncover is a visual conversation tool. You look at 20 photographs — each one chosen to stir something — and pick the ones that resonate. That's it.",
+    whatBody2: "But here's what happens: the images you choose reveal patterns. Patterns about how you move through the world, what you're protecting, and what you need. It's not a quiz. There's no score. It's a mirror.",
+    frameworkHeading: "We all have layers",
+    frameworkBody1: "We all have different layers inside us. Some run the show. Some carry old pain. Some step in when things get hard. And underneath all of them is a calm, curious, compassionate core — your truest self.",
+    frameworkBody2: "Most of the time, we only see the surface. Uncover helps you see the rest.",
+    layer1Desc: "The parts that run your daily life. They plan, achieve, control, and keep things together. They're the face you show the world.",
+    layer2Desc: "The parts that carry old wounds — shame, fear, loneliness. They're often young, and they're kept hidden by your protectors.",
+    layer3Desc: "The parts that react when pain breaks through. They numb, escape, fight, or distract. They're not bad — they're desperate.",
+    layer4Desc: "The calm center underneath all the layers. Curious, compassionate, clear. It's always there — sometimes just buried under protection.",
+    whoHeading: "Anyone ready to go below the surface",
+    whoBody: "Uncover works for personal reflection, but it's especially powerful in conversation. It gives people a way to talk about inner experience without needing the vocabulary for it.",
+    tags: ["Small groups", "Counselors", "Couples", "Retreats", "Campus ministry", "Self-reflection", "Therapy warm-ups", "Team building"],
+    questions: [
+      {
+        number: "Question One",
+        text: "Which images feel like your everyday life right now?",
+        hint: "The surface — what people see, how you move through the day.",
+        partLabel: "Layer 1 · The Surface",
+        partInsight: "These are the parts that run the show — planning, achieving, keeping it together. They're often the first things we identify with.",
+        prompts: [
+          "What does this image capture about your day-to-day?",
+          "Is this how you want things to feel, or just how they are?",
+          "What part of you shows up most in this image?",
+        ],
+      },
+      {
+        number: "Question Two",
+        text: "Which images feel like something you carry but rarely show?",
+        hint: "The parts you protect. The feelings you push down or hide.",
+        partLabel: "Layer 2 · What You Carry",
+        partInsight: "These are the parts that carry old pain — shame, fear, loneliness. They're often young, and they've been waiting to be seen.",
+        prompts: [
+          "When did this part of you first show up?",
+          "What does this part need that it hasn't gotten?",
+          "What would happen if someone really saw this part of you?",
+        ],
+      },
+      {
+        number: "Question Three",
+        text: "Which images feel like what you do when things get hard?",
+        hint: "How you cope. How you react. What kicks in when the pain is too much.",
+        partLabel: "Layer 3 · How You Cope",
+        partInsight: "These are the parts that react when pain breaks through. They numb, escape, fight, or distract. They're not bad — they're trying to protect you.",
+        prompts: [
+          "What does this coping look like in your life?",
+          "What is this part trying to protect you from?",
+          "If this part could talk, what would it say it needs?",
+        ],
+      },
+      {
+        number: "Question Four",
+        text: "Which images feel like what you most need?",
+        hint: "What would healing, peace, or wholeness look like for you?",
+        partLabel: "Layer 4 · What You Need",
+        partInsight: "This is your core — calm, curious, compassionate, clear. It's always there, sometimes just buried under layers of protection.",
+        prompts: [
+          "What would change in your life if you had this?",
+          "What's the biggest thing standing between you and this?",
+          "Is there a part of you that believes you can't have this? What does it say?",
+        ],
+      },
+    ],
+    transitions: [
+      { text: "Let's go a little deeper.", sub: "Next: what you carry but rarely show." },
+      { text: "Now think about your reactions.", sub: "Next: what you do when things get hard." },
+      { text: "One more — this one matters most.", sub: "Next: what you most need." },
+      { text: "Here's what you uncovered.", sub: "" },
+    ],
+    summaryDesc: "Each question surfaced a different layer. Here's what showed up.",
+  },
+};
+
+function applyMode(mode) {
+  MODE = mode;
+  const c = COPY[mode];
+
+  // Update URL without reload
+  const url = new URL(window.location);
+  if (mode === 'intl') url.searchParams.set('mode', 'intl');
+  else url.searchParams.delete('mode');
+  history.replaceState({}, '', url);
+
+  // Landing page
+  document.getElementById('landing-tagline').textContent = c.tagline;
+  document.getElementById('what-body-1').textContent = c.whatBody1;
+  document.getElementById('what-body-2').textContent = c.whatBody2;
+  document.getElementById('framework-heading').textContent = c.frameworkHeading;
+  document.getElementById('framework-body-1').textContent = c.frameworkBody1;
+  document.getElementById('framework-body-2').textContent = c.frameworkBody2;
+  document.getElementById('layer1-desc').textContent = c.layer1Desc;
+  document.getElementById('layer2-desc').textContent = c.layer2Desc;
+  document.getElementById('layer3-desc').textContent = c.layer3Desc;
+  document.getElementById('layer4-desc').textContent = c.layer4Desc;
+  document.getElementById('who-heading').textContent = c.whoHeading;
+  document.getElementById('who-body').textContent = c.whoBody;
+  document.getElementById('summary-desc').textContent = c.summaryDesc;
+
+  // Tags
+  const tagsList = document.getElementById('uses-list');
+  tagsList.innerHTML = c.tags.map(t => `<span class="use-tag">${t}</span>`).join('');
+
+  // Toggle UI
+  document.querySelectorAll('.mode-toggle').forEach(toggle => {
+    toggle.querySelectorAll('.mode-toggle-opt').forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.mode === mode);
+    });
+  });
+
+  // If currently on a question screen, update the question text
+  if (document.getElementById('screen-question').classList.contains('active')) {
+    const q = c.questions[currentQ];
+    document.getElementById('q-number').textContent = q.number;
+    document.getElementById('q-text').textContent = q.text;
+    document.getElementById('q-hint').textContent = q.hint;
+    document.getElementById('q-part-label').textContent = q.partLabel;
+  }
+}
+
+// ─── PHOTOS (20, renumbered) ───
 const PHOTOS = [
-  // ── INNER CHILD: innocence, play, vulnerability ──
   { id: 1,  title: "Children Laughing",     src: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&h=267&fit=crop&auto=format", credit: "Larm Rmah" },
-  { id: 2,  title: "Little Girl",           src: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&h=267&fit=crop&auto=format", credit: "Bui Thanh Tam" },
-  // ── EXILE: pain, shame, hiding, being unseen ──
-  { id: 3,  title: "Head In Hands",         src: "https://images.unsplash.com/photo-1541199249251-f713e6145474?w=400&h=267&fit=crop&auto=format", credit: "Christian Erfurt" },
-  { id: 4,  title: "Watching From Inside",  src: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&h=267&fit=crop&auto=format", credit: "Joshua Rawson-Harris" },
-  { id: 5,  title: "Sitting Alone",         src: "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?w=400&h=267&fit=crop&auto=format", credit: "Anthony Tran" },
-  { id: 6,  title: "Rain On Glass",         src: "https://images.unsplash.com/photo-1507808973436-a4ed7b5e87c9?w=400&h=267&fit=crop&auto=format", credit: "Valentin Muller" },
-  // ── PROTECTOR (MANAGER): control, order, achievement ──
-  { id: 7,  title: "Chess",                 src: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=400&h=267&fit=crop&auto=format", credit: "Randy Fath" },
-  { id: 8,  title: "Passing Of Time",       src: "https://images.unsplash.com/photo-1501139083538-0139583c060f?w=400&h=267&fit=crop&auto=format", credit: "Aron Visuals" },
-  { id: 9,  title: "City Skyline",          src: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400&h=267&fit=crop&auto=format", credit: "Pedro Lastra" },
-  // ── PROTECTOR (FIREFIGHTER): numbing, rage, escape ──
-  { id: 10, title: "Boxing",                src: "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400&h=267&fit=crop&auto=format", credit: "Johann Walter Bantz" },
-  { id: 11, title: "Neon Night",            src: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=267&fit=crop&auto=format", credit: "Anthony Delanoix" },
-  { id: 12, title: "Losing Yourself",       src: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=267&fit=crop&auto=format", credit: "Marcela Laskoski" },
-  // ── WALLS & ARMOR: protection, confinement ──
-  { id: 13, title: "Behind Bars",           src: "https://images.unsplash.com/photo-1543536448-d209d2d13a1c?w=400&h=267&fit=crop&auto=format", credit: "Ye Jinghan" },
-  { id: 14, title: "Abandoned Hallway",     src: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?w=400&h=267&fit=crop&auto=format", credit: "Denny Muller" },
-  { id: 15, title: "Stairs Into Darkness",  src: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=400&h=267&fit=crop&auto=format", credit: "Yeshi Kangrang" },
-  { id: 16, title: "Maze",                  src: "https://images.unsplash.com/photo-1494059980473-813e73ee784b?w=400&h=267&fit=crop&auto=format", credit: "Susan Yin" },
-  // ── HEALING & OPENING ──
-  { id: 17, title: "Candle In Darkness",    src: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732?w=400&h=267&fit=crop&auto=format", credit: "Rebecca Peterson-Hall" },
-  { id: 18, title: "Butterfly",             src: "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=400&h=267&fit=crop&auto=format", credit: "Ester Marie Doysabas" },
-  { id: 19, title: "Reaching Out",          src: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=400&h=267&fit=crop&auto=format", credit: "Kat Yukawa" },
-  // ── CONNECTION & BELONGING ──
-  { id: 20, title: "Dancing Together",      src: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=267&fit=crop&auto=format", credit: "Chang Duong" },
-  { id: 21, title: "Growing Old Together",  src: "https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=400&h=267&fit=crop&auto=format", credit: "Esther Ann" },
-  { id: 22, title: "Father And Child",      src: "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=400&h=267&fit=crop&auto=format", credit: "Kelly Sikkema" },
-  { id: 23, title: "Wedding Day",           src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=267&fit=crop&auto=format", credit: "Charisse Kenion" },
-  // ── SELF-ENERGY: calm, creative, joyful, courageous ──
-  { id: 24, title: "Arms Wide Open",        src: "https://images.unsplash.com/photo-1502126324834-38f8e02d7160?w=400&h=267&fit=crop&auto=format", credit: "Jonny Gios" },
-  { id: 25, title: "Pure Laughter",         src: "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=400&h=267&fit=crop&auto=format", credit: "Priscilla Du Preez" },
-  { id: 26, title: "Dance",                 src: "https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?w=400&h=267&fit=crop&auto=format", credit: "Ahmad Odeh" },
-  { id: 27, title: "Painting",              src: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=400&h=267&fit=crop&auto=format", credit: "Rhondak" },
-  // ── BURDEN & CRISIS ──
-  { id: 28, title: "Rubble",                src: "https://images.unsplash.com/photo-1542596768-5d1d21f1cf98?w=400&h=267&fit=crop&auto=format", credit: "Levi Meir Clancy" },
-  { id: 29, title: "Hospital Corridor",     src: "https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=400&h=267&fit=crop&auto=format", credit: "Hush Naidoo" },
-  // ── NATURE (2 only) ──
-  { id: 30, title: "Cosmos",                src: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=400&h=267&fit=crop&auto=format", credit: "Jeremy Thomas" },
-];
-
-const QUESTIONS = [
-  {
-    number: "Question One",
-    text: "Which images feel like your everyday life right now?",
-    hint: "The surface — what people see, how you move through the day.",
-    partLabel: "Surfaces your Managers",
-    partInsight: "These are the parts that run the show — planning, achieving, keeping it together. They're often the first things we identify with.",
-    prompts: [
-      "What does this image capture about your day-to-day?",
-      "Is this how you want things to feel, or just how they are?",
-      "What part of you shows up most in this image?",
-    ],
-  },
-  {
-    number: "Question Two",
-    text: "Which images feel like something you carry but rarely show?",
-    hint: "The parts you protect. The feelings you push down or hide.",
-    partLabel: "Surfaces your Exiles",
-    partInsight: "These are the parts that carry old pain — shame, fear, loneliness. They're often young, and they've been waiting to be seen.",
-    prompts: [
-      "When did this part of you first show up?",
-      "What does this part need that it hasn't gotten?",
-      "What would happen if someone really saw this part of you?",
-    ],
-  },
-  {
-    number: "Question Three",
-    text: "Which images feel like what you do when things get hard?",
-    hint: "How you cope. How you react. What kicks in when the pain is too much.",
-    partLabel: "Surfaces your Firefighters",
-    partInsight: "These are the parts that react when pain breaks through. They numb, escape, fight, or distract. They're not bad — they're trying to protect you.",
-    prompts: [
-      "What does this coping look like in your life?",
-      "What is this part trying to protect you from?",
-      "If this part could talk, what would it say it needs?",
-    ],
-  },
-  {
-    number: "Question Four",
-    text: "Which images feel like what you most need?",
-    hint: "What would healing, peace, or wholeness look like for you?",
-    partLabel: "Surfaces your Self",
-    partInsight: "This is your core — calm, curious, compassionate, clear. It's always there, sometimes just buried under layers of protection.",
-    prompts: [
-      "What would change in your life if you had this?",
-      "What's the biggest thing standing between you and this?",
-      "Is there a part of you that believes you can't have this? What does it say?",
-    ],
-  },
-];
-
-const TRANSITIONS = [
-  { text: "Let's go a little deeper.", sub: "Next: what you carry but rarely show." },
-  { text: "Now think about your reactions.", sub: "Next: what you do when things get hard." },
-  { text: "One more — this one matters most.", sub: "Next: what you most need." },
-  { text: "Here's what you uncovered.", sub: "" },
+  { id: 2,  title: "Head In Hands",         src: "https://images.unsplash.com/photo-1541199249251-f713e6145474?w=400&h=267&fit=crop&auto=format", credit: "Christian Erfurt" },
+  { id: 3,  title: "Watching From Inside",  src: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&h=267&fit=crop&auto=format", credit: "Joshua Rawson-Harris" },
+  { id: 4,  title: "Sitting Alone",         src: "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?w=400&h=267&fit=crop&auto=format", credit: "Anthony Tran" },
+  { id: 5,  title: "Rain On Glass",         src: "https://images.unsplash.com/photo-1507808973436-a4ed7b5e87c9?w=400&h=267&fit=crop&auto=format", credit: "Valentin Muller" },
+  { id: 6,  title: "Passing Of Time",       src: "https://images.unsplash.com/photo-1501139083538-0139583c060f?w=400&h=267&fit=crop&auto=format", credit: "Aron Visuals" },
+  { id: 7,  title: "Boxing",                src: "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400&h=267&fit=crop&auto=format", credit: "Johann Walter Bantz" },
+  { id: 8,  title: "Behind Bars",           src: "https://images.unsplash.com/photo-1543536448-d209d2d13a1c?w=400&h=267&fit=crop&auto=format", credit: "Ye Jinghan" },
+  { id: 9,  title: "Maze",                  src: "https://images.unsplash.com/photo-1494059980473-813e73ee784b?w=400&h=267&fit=crop&auto=format", credit: "Susan Yin" },
+  { id: 10, title: "Candle In Darkness",    src: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732?w=400&h=267&fit=crop&auto=format", credit: "Rebecca Peterson-Hall" },
+  { id: 11, title: "Butterfly",             src: "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=400&h=267&fit=crop&auto=format", credit: "Ester Marie Doysabas" },
+  { id: 12, title: "Reaching Out",          src: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=400&h=267&fit=crop&auto=format", credit: "Kat Yukawa" },
+  { id: 13, title: "Dancing Together",      src: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=267&fit=crop&auto=format", credit: "Chang Duong" },
+  { id: 14, title: "Growing Old Together",  src: "https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=400&h=267&fit=crop&auto=format", credit: "Esther Ann" },
+  { id: 15, title: "Father And Child",      src: "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=400&h=267&fit=crop&auto=format", credit: "Kelly Sikkema" },
+  { id: 16, title: "Arms Wide Open",        src: "https://images.unsplash.com/photo-1502126324834-38f8e02d7160?w=400&h=267&fit=crop&auto=format", credit: "Jonny Gios" },
+  { id: 17, title: "Pure Laughter",         src: "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=400&h=267&fit=crop&auto=format", credit: "Priscilla Du Preez" },
+  { id: 18, title: "Dance",                 src: "https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?w=400&h=267&fit=crop&auto=format", credit: "Ahmad Odeh" },
+  { id: 19, title: "Painting",              src: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=400&h=267&fit=crop&auto=format", credit: "Rhondak" },
+  { id: 20, title: "Cosmos",                src: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=400&h=267&fit=crop&auto=format", credit: "Jeremy Thomas" },
 ];
 
 // ─── STATE ───
@@ -834,20 +1069,20 @@ function startQuestions() {
 }
 
 function showQuestion() {
-  const q = QUESTIONS[currentQ];
+  const q = COPY[MODE].questions[currentQ];
   currentSelections = [];
   document.getElementById('q-number').textContent = q.number;
   document.getElementById('q-text').textContent = q.text;
   document.getElementById('q-hint').textContent = q.hint;
   document.getElementById('q-part-label').textContent = q.partLabel;
-  const pct = (currentQ / QUESTIONS.length) * 100;
+  const pct = (currentQ / 4) * 100;
   document.getElementById('progress-fill').style.width = `${pct}%`;
-  document.getElementById('progress-label').textContent = `${currentQ + 1} / ${QUESTIONS.length}`;
+  document.getElementById('progress-label').textContent = `${currentQ + 1} / 4`;
   updatePills();
   renderCardGrid();
   updateFooter();
   document.getElementById('next-btn').disabled = true;
-  document.getElementById('next-btn').textContent = currentQ === QUESTIONS.length - 1 ? 'See what I uncovered' : 'Continue';
+  document.getElementById('next-btn').textContent = currentQ === 3 ? 'See what I uncovered' : 'Continue';
 }
 
 function renderCardGrid() {
@@ -917,11 +1152,11 @@ function updateFooter() {
 function nextQuestion() {
   selections[currentQ] = [...currentSelections];
   currentQ++;
-  const t = TRANSITIONS[currentQ - 1];
+  const t = COPY[MODE].transitions[currentQ - 1];
   document.getElementById('transition-text').textContent = t.text;
   document.getElementById('transition-sub').textContent = t.sub;
 
-  if (currentQ >= QUESTIONS.length) {
+  if (currentQ >= 4) {
     document.getElementById('q-footer').classList.remove('show');
     document.getElementById('progress-fill').style.width = '100%';
     showScreen('screen-transition');
@@ -935,8 +1170,9 @@ function nextQuestion() {
 // ─── SUMMARY ───
 function renderSummary() {
   const container = document.getElementById('summary-content');
+  const questions = COPY[MODE].questions;
   container.innerHTML = '';
-  QUESTIONS.forEach((q, qi) => {
+  questions.forEach((q, qi) => {
     const picks = selections[qi] || [];
     const section = document.createElement('div');
     section.className = 'summary-section stagger-in';
@@ -954,7 +1190,7 @@ function renderSummary() {
       <div class="conversation-prompt"><h4>Go deeper</h4><ul>${promptsHTML}</ul></div>
     `;
     container.appendChild(section);
-    if (qi < QUESTIONS.length - 1) {
+    if (qi < questions.length - 1) {
       const d = document.createElement('div');
       d.className = 'summary-divider';
       container.appendChild(d);
@@ -967,11 +1203,23 @@ function restart() {
   showScreen('screen-landing');
 }
 
+// ─── TOGGLE SETUP ───
+document.querySelectorAll('.mode-toggle').forEach(toggle => {
+  toggle.addEventListener('click', (e) => {
+    const opt = e.target.closest('.mode-toggle-opt');
+    if (!opt || opt.dataset.mode === MODE) return;
+    applyMode(opt.dataset.mode);
+  });
+});
+
 // ─── SCROLL REVEAL ───
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.15 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ─── INIT ───
+applyMode(MODE);
 
 // ─── PRELOAD ───
 window.addEventListener('load', () => {
