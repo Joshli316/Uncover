@@ -1,0 +1,12 @@
+name = "uncover"
+main = "src/worker.ts"
+compatibility_date = "2024-12-01"
+
+[assets]
+directory = "./public"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "uncover-db"
+database_id = "75ef4dea-9a35-4336-be19-d19009745039"
+migrations_dir = "migrations"

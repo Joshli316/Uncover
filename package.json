@@ -1,0 +1,33 @@
+{
+  "name": "uncover",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create uncover-db",
+    "db:migrate:local": "wrangler d1 migrations apply uncover-db --local",
+    "db:migrate": "wrangler d1 migrations apply uncover-db --remote"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fc-us/uncover.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/fc-us/uncover/issues"
+  },
+  "homepage": "https://github.com/fc-us/uncover#readme",
+  "dependencies": {
+    "hono": "^4.12.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260305.1",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.70.0"
+  }
+}
