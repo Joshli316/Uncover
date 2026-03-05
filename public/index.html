@@ -8,7 +8,9 @@
   <meta property="og:title" content="Uncover — A Visual Conversation Tool">
   <meta property="og:description" content="30 images. 4 questions. A window into the layers of yourself you don't always show.">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="/og.png">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -620,14 +622,67 @@
     .img-wrap img { opacity: 0; transition: opacity 0.4s ease; }
     .img-wrap img.loaded { opacity: 1; }
 
+    /* Audio toggle */
+    .audio-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: all 0.2s ease;
+      opacity: 0.7;
+    }
+    .audio-toggle:hover { opacity: 1; box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+    .audio-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 16px;
+    }
+    .audio-bar {
+      width: 3px;
+      background: var(--accent);
+      border-radius: 1px;
+      transition: height 0.2s ease;
+    }
+    .audio-toggle.playing .audio-bar { animation: audioWave 1.2s ease-in-out infinite; }
+    .audio-toggle.playing .audio-bar:nth-child(1) { animation-delay: 0s; }
+    .audio-toggle.playing .audio-bar:nth-child(2) { animation-delay: 0.2s; }
+    .audio-toggle.playing .audio-bar:nth-child(3) { animation-delay: 0.4s; }
+    .audio-toggle.playing .audio-bar:nth-child(4) { animation-delay: 0.1s; }
+    .audio-toggle:not(.playing) .audio-bar { height: 4px !important; }
+    @keyframes audioWave {
+      0%, 100% { height: 4px; }
+      50% { height: 16px; }
+    }
+
     /* Print */
     @media print {
-      .q-footer, .btn, .progress-bar, .mode-toggle { display: none; }
+      .q-footer, .btn, .progress-bar, .mode-toggle, .audio-toggle { display: none; }
       .screen { display: block !important; opacity: 1 !important; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Ambient audio -->
+  <button class="audio-toggle" id="audio-toggle" title="Toggle ambient music" aria-label="Toggle ambient music">
+    <div class="audio-bars">
+      <div class="audio-bar" style="height:8px"></div>
+      <div class="audio-bar" style="height:12px"></div>
+      <div class="audio-bar" style="height:6px"></div>
+      <div class="audio-bar" style="height:14px"></div>
+    </div>
+  </button>
 
   <!-- ═══════════════════════════════════════
        LANDING PAGE
@@ -1090,7 +1145,7 @@ const PHOTOS = [
   { id: 4,  title: "Alone In A Crowd",     src: "https://images.unsplash.com/photo-1674188474342-400dbf077ea4?w=400&h=267&fit=crop&auto=format", credit: "Nikoloz Gachechiladze" },
   { id: 5,  title: "Mother And Child",     src: "https://images.unsplash.com/photo-1770872938224-8e88ab44fe66?w=400&h=267&fit=crop&auto=format", credit: "Aleksandra Sapozhnikova" },
   { id: 6,  title: "Gathering",            src: "https://images.unsplash.com/photo-1771837602933-c1cc6293702b?w=400&h=267&fit=crop&auto=format", credit: "Andrew Solok" },
-  { id: 7,  title: "The Scream",           src: "https://images.unsplash.com/photo-1628490678667-6b61174ff2a5?w=400&h=267&fit=crop&auto=format", credit: "Daniil Onischenko" },
+  { id: 7,  title: "The Scream",           src: "https://images.unsplash.com/photo-1758600432468-dfdc74893e9f?w=400&h=267&fit=crop&auto=format", credit: "Vitaly Gariev" },
   { id: 8,  title: "Behind The Mask",      src: "https://images.unsplash.com/photo-1624301439594-dcc78e3ccda5?w=400&h=267&fit=crop&auto=format", credit: "Waldemar Brandt" },
   { id: 9,  title: "Hands In Prayer",      src: "https://images.unsplash.com/photo-1771315019711-c4814a76e9cb?w=400&h=267&fit=crop&auto=format", credit: "Hoi An Photographer" },
   { id: 10, title: "Walking Away",         src: "https://images.unsplash.com/photo-1620842493821-720e48a67852?w=400&h=267&fit=crop&auto=format", credit: "Zeynep Sumer" },
@@ -1100,20 +1155,20 @@ const PHOTOS = [
   { id: 13, title: "Open Ocean",           src: "https://images.unsplash.com/photo-1765033809984-91233fe9f816?w=400&h=267&fit=crop&auto=format", credit: "Tuaans" },
   { id: 14, title: "The Summit",           src: "https://images.unsplash.com/photo-1675332151570-f8cd370525ae?w=400&h=267&fit=crop&auto=format", credit: "Gerson Lozano" },
   { id: 15, title: "Airport Terminal",     src: "https://images.unsplash.com/photo-1600184029839-58530ba111e9?w=400&h=267&fit=crop&auto=format", credit: "Shawn" },
-  { id: 16, title: "Foggy Path",           src: "https://images.unsplash.com/photo-1610098977365-bd02906e8056?w=400&h=267&fit=crop&auto=format", credit: "Egor Vikhrev" },
-  { id: 17, title: "The Bridge",           src: "https://images.unsplash.com/photo-1639987817247-a87ace8d7376?w=400&h=267&fit=crop&auto=format", credit: "Studio Pizza" },
+  { id: 16, title: "Foggy Path",           src: "https://images.unsplash.com/photo-1748599031489-6e63acf98a00?w=400&h=267&fit=crop&auto=format", credit: "Willi Nüchterlein" },
+  { id: 17, title: "The Bridge",           src: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&h=267&fit=crop&auto=format", credit: "Pedro Lastra" },
   { id: 18, title: "Hospital Hallway",     src: "https://images.unsplash.com/photo-1699202317805-d29cf8032ad9?w=400&h=267&fit=crop&auto=format", credit: "vuk burgic" },
   { id: 19, title: "Sanctuary",            src: "https://images.unsplash.com/photo-1666638489390-7f21d4d79ab3?w=400&h=267&fit=crop&auto=format", credit: "Kaja Sariwating" },
   { id: 20, title: "Front Porch",          src: "https://images.unsplash.com/photo-1628528132630-f50513dc2743?w=400&h=267&fit=crop&auto=format", credit: "Claudio Carrozzo" },
   // OBJECTS (21–30)
   { id: 21, title: "Stack Of Money",       src: "https://images.unsplash.com/photo-1608521704450-893e5ac294fc?w=400&h=267&fit=crop&auto=format", credit: "Mari Gimenez" },
-  { id: 22, title: "Shattered Glass",      src: "https://images.unsplash.com/photo-1648583169325-baad54257903?w=400&h=267&fit=crop&auto=format", credit: "Mick Haupt" },
-  { id: 23, title: "Old Photograph",       src: "https://images.unsplash.com/photo-1588420635201-3a9e2a2a0a07?w=400&h=267&fit=crop&auto=format", credit: "Konstantin Dyadyun" },
-  { id: 24, title: "Locked",               src: "https://images.unsplash.com/photo-1703237570688-551586d89ad3?w=400&h=267&fit=crop&auto=format", credit: "William Warby" },
+  { id: 22, title: "Shattered Glass",      src: "https://images.unsplash.com/photo-1648583169325-baad54257903?w=400&h=267&fit=crop&auto=format", credit: "Mick Haupt" },  // broken mirror close-up
+  { id: 23, title: "Old Photograph",       src: "https://images.unsplash.com/photo-1455723576895-6ab1d5abbcb9?w=400&h=267&fit=crop&auto=format", credit: "Cheryl Winn-Boujnida" },
+  { id: 24, title: "Locked",               src: "https://images.unsplash.com/photo-1645047573426-8d013c071193?w=400&h=267&fit=crop&auto=format", credit: "Arkadiusz Gasiorowski" },
   { id: 25, title: "Single Flame",         src: "https://images.unsplash.com/photo-1770022438087-f44581234d37?w=400&h=267&fit=crop&auto=format", credit: "Josef Hejpetr" },
   { id: 26, title: "Hourglass",            src: "https://images.unsplash.com/photo-1544629724-7aeabbe7b3f6?w=400&h=267&fit=crop&auto=format", credit: "Jack Sharp" },
   { id: 27, title: "Packed Suitcase",      src: "https://plus.unsplash.com/premium_photo-1661591537036-6ea58b5b716e?w=400&h=267&fit=crop&auto=format", credit: "Getty Images" },
-  { id: 28, title: "Empty Bowl",           src: "https://images.unsplash.com/photo-1678092915061-081085afc9b5?w=400&h=267&fit=crop&auto=format", credit: "Shidong Yan" },
+  { id: 28, title: "Empty Bowl",           src: "https://images.unsplash.com/photo-1606687826420-9973a460fa70?w=400&h=267&fit=crop&auto=format", credit: "David Todd McCarty" },
   { id: 29, title: "Tangled Thread",       src: "https://images.unsplash.com/photo-1638503397424-52fe232b138a?w=400&h=267&fit=crop&auto=format", credit: "Alexey Demidov" },
   { id: 30, title: "New Growth",           src: "https://images.unsplash.com/photo-1563760836797-bf5d5f9d2243?w=400&h=267&fit=crop&auto=format", credit: "Jen Theodore" },
 ];
@@ -1370,6 +1425,61 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.15 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ─── AMBIENT AUDIO ───
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let audioPlaying = false;
+let audioBuffer = null;
+let audioSource = null;
+let gainNode = audioCtx.createGain();
+gainNode.connect(audioCtx.destination);
+gainNode.gain.value = 0.15; // soft background level
+
+// Generate a gentle ambient drone procedurally (no external file needed)
+function createAmbientDrone() {
+  const duration = 30;
+  const sampleRate = audioCtx.sampleRate;
+  const buffer = audioCtx.createBuffer(2, sampleRate * duration, sampleRate);
+
+  for (let ch = 0; ch < 2; ch++) {
+    const data = buffer.getChannelData(ch);
+    for (let i = 0; i < data.length; i++) {
+      const t = i / sampleRate;
+      // Layered sine waves at consonant intervals (C2, G2, C3, E3) with slow modulation
+      const base = Math.sin(2 * Math.PI * 65.41 * t) * 0.3;
+      const fifth = Math.sin(2 * Math.PI * 98.0 * t + ch * 0.5) * 0.2;
+      const octave = Math.sin(2 * Math.PI * 130.81 * t) * 0.15;
+      const third = Math.sin(2 * Math.PI * 164.81 * t + ch * 0.3) * 0.1;
+      // Slow amplitude modulation for breathing feel
+      const mod = 0.7 + 0.3 * Math.sin(2 * Math.PI * 0.08 * t + ch * 1.5);
+      // Slight detuning for warmth
+      const detune = Math.sin(2 * Math.PI * 0.5 * t) * 0.002;
+      const warm = Math.sin(2 * Math.PI * (65.41 + detune) * t) * 0.1;
+      data[i] = (base + fifth + octave + third + warm) * mod;
+    }
+  }
+  return buffer;
+}
+
+const audioToggle = document.getElementById('audio-toggle');
+audioToggle.addEventListener('click', () => {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  if (!audioPlaying) {
+    if (!audioBuffer) audioBuffer = createAmbientDrone();
+    audioSource = audioCtx.createBufferSource();
+    audioSource.buffer = audioBuffer;
+    audioSource.loop = true;
+    audioSource.connect(gainNode);
+    audioSource.start();
+    audioToggle.classList.add('playing');
+    audioPlaying = true;
+  } else {
+    audioSource.stop();
+    audioToggle.classList.remove('playing');
+    audioPlaying = false;
+  }
+});
 
 // ─── INIT ───
 applyMode(MODE);
