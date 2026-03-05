@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Uncover — A Visual Conversation Tool</title>
-  <meta name="description" content="A visual tool for real conversations. 25 images, 4 questions, and a framework for seeing the layers of yourself you don't always show.">
+  <meta name="description" content="A visual tool for real conversations. 30 images, 4 questions, and a framework for seeing the layers of yourself you don't always show.">
   <meta property="og:title" content="Uncover — A Visual Conversation Tool">
-  <meta property="og:description" content="25 images. 4 questions. A window into the layers of yourself you don't always show.">
+  <meta property="og:description" content="30 images. 4 questions. A window into the layers of yourself you don't always show.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="/og.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -758,7 +758,7 @@
     <!-- What Is This -->
     <div class="landing-section reveal">
       <div class="section-label">What is this</div>
-      <h2 class="section-heading">25 images. 4 questions.<br>One real conversation.</h2>
+      <h2 class="section-heading">30 images. 4 questions.<br>One real conversation.</h2>
       <p class="section-body" id="what-body-1"></p>
       <p class="section-body" id="what-body-2"></p>
     </div>
@@ -808,7 +808,7 @@
         <div class="step">
           <div class="step-icon">1</div>
           <h3>Choose</h3>
-          <p>For each of 4 questions, browse 25 photographs and pick the 3 that resonate most. Trust your gut.</p>
+          <p>For each of 4 questions, browse 30 photographs and pick the 3 that resonate most. Trust your gut.</p>
         </div>
         <div class="step">
           <div class="step-icon">2</div>
@@ -976,7 +976,7 @@ const COPY = {
   intl: {
     tagline: "A visual tool for naming what you carry between worlds.",
     whatBody1: "Every journey between cultures carries weight — goodbyes that linger, languages that don't capture what you mean, holidays nobody around you knows. Uncover gives you a way to see that weight, name it, and share it.",
-    whatBody2: "You'll look at 25 photographs — each one chosen to stir something — and pick the ones that resonate. The images you choose reveal patterns about how you move through the world, what you're protecting, and what you need.",
+    whatBody2: "You'll look at 30 photographs — each one chosen to stir something — and pick the ones that resonate. The images you choose reveal patterns about how you move through the world, what you're protecting, and what you need.",
     frameworkHeading: "We all carry more than we show",
     frameworkBody1: "When you cross cultures, you learn to hold multiple worlds inside you. Some parts keep it together for everyone watching. Some parts carry the ache of what you left behind. Some parts kick in when the weight gets too heavy. And underneath all of it is something whole — the you that exists before and after all the performing.",
     frameworkBody2: "Uncover helps you see all four layers.",
@@ -1047,7 +1047,7 @@ const COPY = {
   },
   general: {
     tagline: "A visual tool for seeing the parts of yourself you don't always show.",
-    whatBody1: "Uncover is a visual conversation tool. You look at 25 photographs — each one chosen to stir something — and pick the ones that resonate. That's it.",
+    whatBody1: "Uncover is a visual conversation tool. You look at 30 photographs — each one chosen to stir something — and pick the ones that resonate. That's it.",
     whatBody2: "But here's what happens: the images you choose reveal patterns. Patterns about how you move through the world, what you're protecting, and what you need. It's not a quiz. There's no score. It's a mirror.",
     frameworkHeading: "We all have layers",
     frameworkBody1: "We all have different layers inside us. Some run the show. Some carry old pain. Some step in when things get hard. And underneath all of them is a calm, curious, compassionate core — your truest self.",
@@ -1165,41 +1165,42 @@ function applyMode(mode) {
   }
 }
 
-// ─── PHOTOS (25) — people, places, objects ───
-// Every photo hand-picked from known Unsplash images, verified content matches title
+// ─── PHOTOS (30) — curated for international student experience ───
 const PHOTOS = [
-  // PEOPLE (1–8)
-  { id: 1,  title: "Children Laughing",    src: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Larm Rmah" },
-  { id: 2,  title: "Suited Up",            src: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&h=267&fit=crop&auto=format", credit: "Cristian Newman" },
-  { id: 3,  title: "Heart Hands",          src: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Priscilla Du Preez" },
-  { id: 4,  title: "Alone",                src: "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Anthony Tran" },
-  { id: 5,  title: "Father And Child",     src: "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Kelly Sikkema" },
-  { id: 6,  title: "Friends Together",     src: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Chang Duong" },
-  { id: 7,  title: "Head In Hands",        src: "https://images.unsplash.com/photo-1541199249251-f713e6145474?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Christian Erfurt" },
-  { id: 8,  title: "Arms Wide",            src: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Joshua Rawson-Harris" },
-  // CONNECTIONS (9–10)
-  { id: 9,  title: "Side By Side",         src: "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400&h=267&fit=crop&auto=format", credit: "Johann Walter Bantz" },
-  { id: 10, title: "Flickering Light",     src: "https://images.unsplash.com/photo-1476900164809-ff19b8ae5968?w=400&h=267&fit=crop&auto=format", credit: "Mantas Hesthaven" },
-  // PLACES (11–18)
-  { id: 11, title: "Empty Room",           src: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=400&h=267&fit=crop&auto=format", credit: "Philipp Berndt" },
-  { id: 12, title: "Crowded Crossing",     src: "https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=400&h=267&fit=crop&auto=format", credit: "Ryoji Iwata" },
-  { id: 15, title: "Waiting To Depart",    src: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=400&h=267&fit=crop&auto=format", credit: "JESHOOTS.COM" },
-  { id: 17, title: "The Bridge",           src: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=267&fit=crop&auto=format", credit: "Joseph Barrientos" },
-  { id: 18, title: "Hospital Hallway",     src: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=267&fit=crop&auto=format", credit: "Marcelo Leal" },
-  // HOME (19–20)
-  { id: 19, title: "Home",                 src: "https://images.unsplash.com/photo-1449844908441-8829872d2607?w=400&h=267&fit=crop&auto=format", credit: "Aaron Huber" },
-  // OBJECTS (20–25)
-  { id: 20, title: "Money",                src: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=400&h=267&fit=crop&auto=format", credit: "Alexander Mils" },
-  { id: 21, title: "Spare Change",         src: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=400&h=267&fit=crop&auto=format", credit: "Kat Yukawa" },
-  { id: 22, title: "Passing Of Time",      src: "https://images.unsplash.com/photo-1501139083538-0139583c060f?w=400&h=267&fit=crop&auto=format", credit: "Aron Visuals" },
-  // CULTURALLY DIVERSE (23–24)
-  { id: 23, title: "Departure Gate",       src: "https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=400&h=267&fit=crop&auto=format", credit: "Leio McLaren" },
-  { id: 24, title: "Shared Meal",          src: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=400&h=267&fit=crop&auto=format", credit: "Priscilla Du Preez" },
-  // NATURE + MOOD (25–28)
-  { id: 25, title: "Open Water",           src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=267&fit=crop&auto=format", credit: "Sean O." },
-  { id: 26, title: "The Road",             src: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=267&fit=crop&auto=format", credit: "Caleb Jones" },
-  { id: 27, title: "Night Sky",            src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=267&fit=crop&auto=format", credit: "Benjamin Voros" },
-  { id: 28, title: "Rain On Glass",        src: "https://images.unsplash.com/photo-1515694346937-b952b2a2be70?w=400&h=267&fit=crop&auto=format", credit: "Valentin Muller" },
+  // PLACES: transition + disorientation (1–8)
+  { id: 1,  title: "Alone In Terminal",    src: "https://images.unsplash.com/photo-1683890822115-08dfb6b4e911?w=400&h=267&fit=crop&auto=format", credit: "Michal Parzuchowski" },
+  { id: 2,  title: "Tunnel Passage",       src: "https://images.unsplash.com/photo-1720465701412-81b548a82b71?w=400&h=267&fit=crop&auto=format", credit: "Andre Chao" },
+  { id: 3,  title: "Which Direction",      src: "https://images.unsplash.com/photo-1665057303526-5c92e60d9fa0?w=400&h=267&fit=crop&auto=format", credit: "tommao wang" },
+  { id: 4,  title: "Closed Doors",         src: "https://images.unsplash.com/photo-1664075853320-81cf85fac626?w=400&h=267&fit=crop&auto=format", credit: "Anthony Sebbo" },
+  { id: 5,  title: "Empty Lecture Hall",   src: "https://images.unsplash.com/photo-1760121788536-9797394e210e?w=400&h=267&fit=crop&auto=format", credit: "Zsofia Hajnal" },
+  { id: 6,  title: "Night Wait",           src: "https://images.unsplash.com/photo-1645544091185-6f0b4ae25670?w=400&h=267&fit=crop&auto=format", credit: "Chuko Cribb" },
+  { id: 7,  title: "Foreign Aisle",        src: "https://images.unsplash.com/photo-1646806950396-5dbe86c336cd?w=400&h=267&fit=crop&auto=format", credit: "Frankie Cordoba" },
+  { id: 8,  title: "Rainy Distance",       src: "https://images.unsplash.com/photo-1644249360770-a0e104b04587?w=400&h=267&fit=crop&auto=format", credit: "Toushif Alam" },
+  // OBJECTS: pressure + bureaucracy + coping (9–18)
+  { id: 9,  title: "Passport Papers",      src: "https://images.unsplash.com/photo-1454496406107-dc34337da8d6?w=400&h=267&fit=crop&auto=format", credit: "Nicole Geri" },
+  { id: 10, title: "Half-Packed Life",     src: "https://images.unsplash.com/photo-1760095435041-3957a2fa220e?w=400&h=267&fit=crop&auto=format", credit: "Evgeniy Beloshytskiy" },
+  { id: 11, title: "Late-Night Glow",      src: "https://images.unsplash.com/photo-1675510183225-76c920848c29?w=400&h=267&fit=crop&auto=format", credit: "Kajetan Sumila" },
+  { id: 12, title: "App Overload",         src: "https://images.unsplash.com/photo-1745848413078-f85af10e5bf2?w=400&h=267&fit=crop&auto=format", credit: "dlxmedia.hu" },
+  { id: 13, title: "Packed Calendar",      src: "https://images.unsplash.com/photo-1668621175883-c3a42fa76da4?w=400&h=267&fit=crop&auto=format", credit: "Marissa Grootes" },
+  { id: 14, title: "2AM Grind",            src: "https://images.unsplash.com/photo-1642789610687-3ef7bb2ba569?w=400&h=267&fit=crop&auto=format", credit: "Juzzepo" },
+  { id: 15, title: "Survival Meal",        src: "https://images.unsplash.com/photo-1759923593745-6302b220d719?w=400&h=267&fit=crop&auto=format", credit: "James Lo" },
+  { id: 16, title: "Tuned Out",            src: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=400&h=267&fit=crop&auto=format", credit: "TheRegisti" },
+  { id: 17, title: "Study Stack",          src: "https://images.unsplash.com/photo-1639705124640-8336eedfbd49?w=400&h=267&fit=crop&auto=format", credit: "Derek Prince Ministries" },
+  { id: 18, title: "Counting Pennies",     src: "https://images.unsplash.com/photo-1585401586477-2a671e1cae4e?w=400&h=267&fit=crop&auto=format", credit: "Emil Kalibradov" },
+  // PEOPLE: belonging + invisibility + trust (19–25)
+  { id: 19, title: "Standing Still",       src: "https://images.unsplash.com/photo-1761290534308-030ca49f0650?w=400&h=267&fit=crop&auto=format", credit: "Claudio Alba" },
+  { id: 20, title: "Empty Cafeteria",      src: "https://images.unsplash.com/photo-1769989016283-a233d974c1d1?w=400&h=267&fit=crop&auto=format", credit: "Spencer Plouzek" },
+  { id: 21, title: "Walking Together",     src: "https://images.unsplash.com/photo-1624355275924-d5426f2e4542?w=400&h=267&fit=crop&auto=format", credit: "Taha" },
+  { id: 22, title: "Gentle Conversation",  src: "https://images.unsplash.com/photo-1626108862021-d6a7af6521b7?w=400&h=267&fit=crop&auto=format", credit: "gaspar zaldo" },
+  { id: 23, title: "Around The Table",     src: "https://images.unsplash.com/photo-1673280529860-39b642ccb9a6?w=400&h=267&fit=crop&auto=format", credit: "Frankie Cordoba" },
+  { id: 24, title: "Shared Meal",          src: "https://images.unsplash.com/photo-1561539623-f8091d2c2b20?w=400&h=267&fit=crop&auto=format", credit: "Toa Heftiba" },
+  { id: 25, title: "Looking Away",         src: "https://images.unsplash.com/photo-1622016492308-5ce8554c2387?w=400&h=267&fit=crop&auto=format", credit: "绵 绵" },
+  // FEELINGS: metaphor images (26–30)
+  { id: 26, title: "Foggy Glass",          src: "https://images.unsplash.com/photo-1565231952678-923294d26ce5?w=400&h=267&fit=crop&auto=format", credit: "Nathan DeFiesta" },
+  { id: 27, title: "Balancing Stones",     src: "https://images.unsplash.com/photo-1758499947613-545e373b2ee5?w=400&h=267&fit=crop&auto=format", credit: "Amanda Swanepoel" },
+  { id: 28, title: "Locked Door",          src: "https://images.unsplash.com/photo-1636708835095-d1a480d24aed?w=400&h=267&fit=crop&auto=format", credit: "Christelle Hayek" },
+  { id: 29, title: "Open Door",            src: "https://images.unsplash.com/photo-1723713296731-a82e99a1873e?w=400&h=267&fit=crop&auto=format", credit: "Yzy Pop" },
+  { id: 30, title: "Morning Light",        src: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400&h=267&fit=crop&auto=format", credit: "Federico Respini" },
 ];
 
 // ─── STATE ───
@@ -1226,8 +1227,8 @@ function renderHeroMosaic() {
   const grid = document.getElementById('hero-mosaic-grid');
   if (!grid) return;
   grid.innerHTML = '';
-  // Show all 25 for a clean 5x5 grid
-  PHOTOS.slice(0, 25).forEach((photo, i) => {
+  // Show all 30 for a 5x6 grid
+  PHOTOS.forEach((photo, i) => {
     const img = document.createElement('img');
     img.src = photo.src;
     img.alt = photo.title;
