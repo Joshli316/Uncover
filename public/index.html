@@ -1138,31 +1138,31 @@ function applyMode(mode) {
 
 // ─── PHOTOS (30) — people, places, objects ───
 const PHOTOS = [
-  // PEOPLE (1–10)
-  { id: 1,  title: "Child Laughing",       src: "https://images.unsplash.com/photo-1554342321-0776d282ceac?w=400&h=267&fit=crop&auto=format", credit: "Jeremy McKnight" },
+  // PEOPLE (1–10) — crop=faces for centering on faces
+  { id: 1,  title: "Child Laughing",       src: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Larm Rmah" },
   { id: 2,  title: "Elderly Hands",        src: "https://images.unsplash.com/photo-1759487088474-29421ad18d3d?w=400&h=267&fit=crop&auto=format", credit: "ward rain" },
-  { id: 3,  title: "Held Close",           src: "https://images.unsplash.com/photo-1565169464865-9f33e7987eb7?w=400&h=267&fit=crop&auto=format", credit: "Angelina Tkachenko" },
-  { id: 4,  title: "Alone In A Crowd",     src: "https://images.unsplash.com/photo-1674188474342-400dbf077ea4?w=400&h=267&fit=crop&auto=format", credit: "Nikoloz Gachechiladze" },
-  { id: 5,  title: "Mother And Child",     src: "https://images.unsplash.com/photo-1770872938224-8e88ab44fe66?w=400&h=267&fit=crop&auto=format", credit: "Aleksandra Sapozhnikova" },
-  { id: 6,  title: "Gathering",            src: "https://images.unsplash.com/photo-1771837602933-c1cc6293702b?w=400&h=267&fit=crop&auto=format", credit: "Andrew Solok" },
-  { id: 7,  title: "The Scream",           src: "https://images.unsplash.com/photo-1758600432468-dfdc74893e9f?w=400&h=267&fit=crop&auto=format", credit: "Vitaly Gariev" },
-  { id: 8,  title: "Behind The Mask",      src: "https://images.unsplash.com/photo-1624301439594-dcc78e3ccda5?w=400&h=267&fit=crop&auto=format", credit: "Waldemar Brandt" },
-  { id: 9,  title: "Hands In Prayer",      src: "https://images.unsplash.com/photo-1771315019711-c4814a76e9cb?w=400&h=267&fit=crop&auto=format", credit: "Hoi An Photographer" },
-  { id: 10, title: "Walking Away",         src: "https://images.unsplash.com/photo-1620842493821-720e48a67852?w=400&h=267&fit=crop&auto=format", credit: "Zeynep Sumer" },
+  { id: 3,  title: "Held Close",           src: "https://images.unsplash.com/photo-1565169464865-9f33e7987eb7?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Angelina Tkachenko" },
+  { id: 4,  title: "Alone In A Crowd",     src: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=400&h=267&fit=crop&auto=format", credit: "Timon Studler" },
+  { id: 5,  title: "Mother And Child",     src: "https://images.unsplash.com/photo-1770872938224-8e88ab44fe66?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Aleksandra Sapozhnikova" },
+  { id: 6,  title: "Gathering",            src: "https://images.unsplash.com/photo-1771837602933-c1cc6293702b?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Andrew Solok" },
+  { id: 7,  title: "The Scream",           src: "https://images.unsplash.com/photo-1517423738875-5ce310acd3da?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Gabriel Matula" },
+  { id: 8,  title: "Behind The Mask",      src: "https://images.unsplash.com/photo-1614107151491-6876eecbff89?w=400&h=267&fit=crop&crop=faces&auto=format", credit: "Photographer" },
+  { id: 9,  title: "Hands In Prayer",      src: "https://images.unsplash.com/photo-1445262102387-5fbb30a5e59d?w=400&h=267&fit=crop&auto=format", credit: "Jeremy Yap" },
+  { id: 10, title: "Walking Away",         src: "https://images.unsplash.com/photo-1476900164809-ff19b8ae5968?w=400&h=267&fit=crop&auto=format", credit: "Mantas Hesthaven" },
   // PLACES (11–20)
   { id: 11, title: "Empty Room",           src: "https://images.unsplash.com/photo-1678251543028-04f1ec670c6b?w=400&h=267&fit=crop&auto=format", credit: "Alexander Kaufmann" },
-  { id: 12, title: "City Rush",            src: "https://images.unsplash.com/photo-1621522109457-a9d2ae54b51d?w=400&h=267&fit=crop&auto=format", credit: "Bogdan Khamidullin" },
+  { id: 12, title: "City Rush",            src: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=267&fit=crop&auto=format", credit: "Jezael Melgoza" },
   { id: 13, title: "Open Ocean",           src: "https://images.unsplash.com/photo-1765033809984-91233fe9f816?w=400&h=267&fit=crop&auto=format", credit: "Tuaans" },
   { id: 14, title: "The Summit",           src: "https://images.unsplash.com/photo-1675332151570-f8cd370525ae?w=400&h=267&fit=crop&auto=format", credit: "Gerson Lozano" },
   { id: 15, title: "Airport Terminal",     src: "https://images.unsplash.com/photo-1600184029839-58530ba111e9?w=400&h=267&fit=crop&auto=format", credit: "Shawn" },
   { id: 16, title: "Foggy Path",           src: "https://images.unsplash.com/photo-1748599031489-6e63acf98a00?w=400&h=267&fit=crop&auto=format", credit: "Willi Nüchterlein" },
-  { id: 17, title: "The Bridge",           src: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&h=267&fit=crop&auto=format", credit: "Pedro Lastra" },
+  { id: 17, title: "The Bridge",           src: "https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?w=400&h=267&fit=crop&auto=format", credit: "Daniel Sessler" },
   { id: 18, title: "Hospital Hallway",     src: "https://images.unsplash.com/photo-1699202317805-d29cf8032ad9?w=400&h=267&fit=crop&auto=format", credit: "vuk burgic" },
   { id: 19, title: "Sanctuary",            src: "https://images.unsplash.com/photo-1666638489390-7f21d4d79ab3?w=400&h=267&fit=crop&auto=format", credit: "Kaja Sariwating" },
   { id: 20, title: "Front Porch",          src: "https://images.unsplash.com/photo-1628528132630-f50513dc2743?w=400&h=267&fit=crop&auto=format", credit: "Claudio Carrozzo" },
   // OBJECTS (21–30)
-  { id: 21, title: "Stack Of Money",       src: "https://images.unsplash.com/photo-1608521704450-893e5ac294fc?w=400&h=267&fit=crop&auto=format", credit: "Mari Gimenez" },
-  { id: 22, title: "Shattered Glass",      src: "https://images.unsplash.com/photo-1648583169325-baad54257903?w=400&h=267&fit=crop&auto=format", credit: "Mick Haupt" },  // broken mirror close-up
+  { id: 21, title: "Stack Of Money",       src: "https://images.unsplash.com/photo-1554672723-b208dc85134f?w=400&h=267&fit=crop&auto=format", credit: "Photographer" },
+  { id: 22, title: "Shattered Glass",      src: "https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=400&h=267&fit=crop&auto=format", credit: "Jilbert Ebrahimi" },
   { id: 23, title: "Old Photograph",       src: "https://images.unsplash.com/photo-1455723576895-6ab1d5abbcb9?w=400&h=267&fit=crop&auto=format", credit: "Cheryl Winn-Boujnida" },
   { id: 24, title: "Locked",               src: "https://images.unsplash.com/photo-1645047573426-8d013c071193?w=400&h=267&fit=crop&auto=format", credit: "Arkadiusz Gasiorowski" },
   { id: 25, title: "Single Flame",         src: "https://images.unsplash.com/photo-1770022438087-f44581234d37?w=400&h=267&fit=crop&auto=format", credit: "Josef Hejpetr" },
