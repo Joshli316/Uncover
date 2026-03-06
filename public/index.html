@@ -791,6 +791,7 @@
         <h2 class="section-heading" id="framework-heading"></h2>
         <p class="section-body" id="framework-body-1"></p>
         <p class="section-body" id="framework-body-2"></p>
+        <p class="section-body" style="font-size:13px;color:var(--muted);margin-top:12px;">This framework is inspired by <a href="https://ifs-institute.com" target="_blank" style="color:var(--muted);text-decoration:underline;text-underline-offset:2px;">Internal Family Systems</a> (IFS), a model developed by Dr. Richard Schwartz that sees the mind as naturally made up of different parts — each with its own role, feelings, and perspective.</p>
 
         <div class="parts-grid">
           <div class="part-card">
@@ -1014,10 +1015,10 @@ const COPY = {
     questions: [
       {
         number: "Question One",
-        text: "Which images feel like how you show up every day?",
-        hint: "The surface — how you hold it together here, what people see.",
+        text: "What does your everyday life look like?",
+        hint: "Pick 3 images that feel like a normal day for you right now.",
         partLabel: "Layer 1 · The Surface",
-        partInsight: "These are the parts that run the show — adapting, achieving, keeping it together for everyone watching. They're often the first things we identify with.",
+        partInsight: "In IFS, these are your managers — the parts that run your daily life. They plan, adapt, and hold it together, especially when people are watching.",
         prompts: [
           "What does this image capture about your life here?",
           "Is this how you want to show up, or just how you've learned to?",
@@ -1026,10 +1027,10 @@ const COPY = {
       },
       {
         number: "Question Two",
-        text: "Which images feel like something you carry but rarely share?",
-        hint: "The weight — homesickness, loneliness, the things you've learned to push down.",
+        text: "What do you carry that nobody sees?",
+        hint: "Pick 3 images that feel like the stuff you don't talk about.",
         partLabel: "Layer 2 · What You Carry",
-        partInsight: "These are the parts that carry the weight of distance — the goodbyes, the holidays alone, the things you can't explain to people who haven't lived it.",
+        partInsight: "In IFS, these are your exiles — the parts that carry pain you've pushed down. The goodbyes, the holidays alone, the things you can't explain to people who haven't lived it.",
         prompts: [
           "When did this feeling first show up for you?",
           "What does this part need that it hasn't gotten?",
@@ -1038,10 +1039,10 @@ const COPY = {
       },
       {
         number: "Question Three",
-        text: "Which images feel like what you do when it gets heavy?",
-        hint: "How you cope — what kicks in when the weight is too much.\nThere's no judgment here. These are strategies, not failures.",
+        text: "What do you do when it gets too heavy?",
+        hint: "Pick 3 images that feel like your go-to when you're overwhelmed.\nNo judgment. These are survival strategies, not failures.",
         partLabel: "Layer 3 · How You Cope",
-        partInsight: "These are the parts that react when the weight breaks through. They numb, escape, overwork, or retreat. They're not bad — they're trying to keep you standing.",
+        partInsight: "In IFS, these are your firefighters — the parts that kick in when the pain breaks through. They numb, escape, overwork, or shut down. They're not bad — they're trying to keep you standing.",
         prompts: [
           "What does this coping look like in your daily life?",
           "What is this part trying to protect you from feeling?",
@@ -1050,10 +1051,10 @@ const COPY = {
       },
       {
         number: "Question Four",
-        text: "Which images feel like what wholeness would look like for you?",
-        hint: "Not perfection — but being fully known, fully at rest, fully home.\nThink about a moment you felt most like yourself.",
+        text: "What do you actually need?",
+        hint: "Pick 3 images that feel like what would make you feel whole.\nThink about a moment you felt most like yourself.",
         partLabel: "Layer 4 · What You Need",
-        partInsight: "This is your core — the you that exists beyond all the performing and adapting. Whole, at rest, known. It's always there, sometimes just buried under layers of survival.",
+        partInsight: "In IFS, this is your Self — the you underneath all the performing. Calm, curious, whole. It's always there, sometimes just buried under layers of protection.",
         prompts: [
           "What would change in your life if you had this?",
           "What's the biggest thing standing between you and this?",
@@ -1062,9 +1063,9 @@ const COPY = {
       },
     ],
     transitions: [
-      { text: "Missing home isn't weakness. It's proof you loved something.", sub: "Next: what you carry but rarely share." },
+      { text: "Missing home isn't weakness. It's proof you loved something.", sub: "Next: what you carry but don't show." },
       { text: "Now think about your reactions.", sub: "Next: what you do when things get heavy." },
-      { text: "One more — this one matters most.", sub: "Next: what wholeness would look like." },
+      { text: "One more — this one matters most.", sub: "Next: what you actually need." },
       { text: "Here's what you uncovered.", sub: "" },
     ],
     summaryDesc: "Four layers. One conversation. Here's what showed up when you stopped performing and started noticing.",
@@ -1086,10 +1087,10 @@ const COPY = {
     questions: [
       {
         number: "Question One",
-        text: "Which images feel like your everyday life right now?",
-        hint: "The surface — what people see, how you move through the day.",
+        text: "What does your everyday life look like?",
+        hint: "Pick 3 images that feel like a normal day for you right now.",
         partLabel: "Layer 1 · The Surface",
-        partInsight: "These are the parts that run the show — planning, achieving, keeping it together. They're often the first things we identify with.",
+        partInsight: "In IFS, these are your managers — the parts that run the show. They plan, achieve, and keep it together. They're often the first things we identify with.",
         prompts: [
           "What does this image capture about your day-to-day?",
           "Is this how you want things to feel, or just how they are?",
@@ -1098,10 +1099,10 @@ const COPY = {
       },
       {
         number: "Question Two",
-        text: "Which images feel like something you carry but rarely show?",
-        hint: "The parts you protect. The feelings you push down or hide.",
+        text: "What do you carry that nobody sees?",
+        hint: "Pick 3 images that feel like the stuff you keep hidden.",
         partLabel: "Layer 2 · What You Carry",
-        partInsight: "These are the parts that carry old pain — shame, fear, loneliness. They're often young, and they've been waiting to be seen.",
+        partInsight: "In IFS, these are your exiles — the parts that carry old pain. They're often young, and they've been waiting to be seen.",
         prompts: [
           "When did this part of you first show up?",
           "What does this part need that it hasn't gotten?",
@@ -1110,10 +1111,10 @@ const COPY = {
       },
       {
         number: "Question Three",
-        text: "Which images feel like what you do when things get hard?",
-        hint: "How you cope. How you react. What kicks in when the pain is too much.\nThere's no judgment here. These are strategies, not failures.",
+        text: "What do you do when it gets too hard?",
+        hint: "Pick 3 images that feel like your go-to when you're overwhelmed.\nNo judgment. These are survival strategies, not failures.",
         partLabel: "Layer 3 · How You Cope",
-        partInsight: "These are the parts that react when pain breaks through. They numb, escape, fight, or distract. They're not bad — they're trying to protect you.",
+        partInsight: "In IFS, these are your firefighters — the parts that react when pain breaks through. They numb, escape, fight, or distract. They're not bad — they're trying to protect you.",
         prompts: [
           "What does this coping look like in your life?",
           "What is this part trying to protect you from?",
@@ -1122,10 +1123,10 @@ const COPY = {
       },
       {
         number: "Question Four",
-        text: "Which images feel like what you most need?",
-        hint: "What would healing, peace, or wholeness look like for you?\nThink about a moment you felt most like yourself.",
+        text: "What do you actually need?",
+        hint: "Pick 3 images that feel like what would make you feel whole.\nThink about a moment you felt most like yourself.",
         partLabel: "Layer 4 · What You Need",
-        partInsight: "This is your core — calm, curious, compassionate, clear. It's always there, sometimes just buried under layers of protection.",
+        partInsight: "In IFS, this is your Self — calm, curious, compassionate, clear. It's always there, sometimes just buried under layers of protection.",
         prompts: [
           "What would change in your life if you had this?",
           "What's the biggest thing standing between you and this?",
@@ -1134,9 +1135,9 @@ const COPY = {
       },
     ],
     transitions: [
-      { text: "Let's go a little deeper.", sub: "Next: what you carry but rarely show." },
-      { text: "Now think about your reactions.", sub: "Next: what you do when things get hard." },
-      { text: "One more — this one matters most.", sub: "Next: what you most need." },
+      { text: "Let's go a little deeper.", sub: "Next: what you carry but don't show." },
+      { text: "Now think about your reactions.", sub: "Next: what you do when it gets too hard." },
+      { text: "One more — this one matters most.", sub: "Next: what you actually need." },
       { text: "Here's what you uncovered.", sub: "" },
     ],
     summaryDesc: "Each question surfaced a different layer. Here's what showed up.",
@@ -1194,8 +1195,8 @@ const PHOTOS = [
   // PLACES: transition + disorientation (1–8)
   { id: 1,  title: "Alone In Terminal",    src: "https://images.unsplash.com/photo-1683890822115-08dfb6b4e911?w=400&h=267&fit=crop&auto=format", credit: "Michal Parzuchowski" },
   { id: 2,  title: "Tunnel Passage",       src: "https://images.unsplash.com/photo-1720465701412-81b548a82b71?w=400&h=267&fit=crop&auto=format", credit: "Andre Chao" },
-  { id: 3,  title: "Lost In The Crowd",    src: "https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=400&h=267&fit=crop&auto=format", credit: "Jezael Melgoza" },
-  { id: 4,  title: "Closed Doors",         src: "https://images.unsplash.com/photo-1664075853320-81cf85fac626?w=400&h=267&fit=crop&auto=format", credit: "Anthony Sebbo" },
+  { id: 3,  title: "Which Way",            src: "https://images.unsplash.com/photo-1764605445814-68867e620b74?w=400&h=267&fit=crop&auto=format", credit: "Sean Lee" },
+  { id: 4,  title: "Every Door The Same",  src: "https://images.unsplash.com/photo-1669826199913-2f0382758d2c?w=400&h=267&fit=crop&auto=format", credit: "Leon Hu" },
   { id: 5,  title: "Empty Lecture Hall",   src: "https://images.unsplash.com/photo-1760121788536-9797394e210e?w=400&h=267&fit=crop&auto=format", credit: "Zsofia Hajnal" },
   { id: 6,  title: "Night Wait",           src: "https://images.unsplash.com/photo-1645544091185-6f0b4ae25670?w=400&h=267&fit=crop&auto=format", credit: "Chuko Cribb" },
   { id: 7,  title: "Foreign Aisle",        src: "https://images.unsplash.com/photo-1646806950396-5dbe86c336cd?w=400&h=267&fit=crop&auto=format", credit: "Frankie Cordoba" },
@@ -1213,7 +1214,7 @@ const PHOTOS = [
   { id: 18, title: "Counting Pennies",     src: "https://images.unsplash.com/photo-1585401586477-2a671e1cae4e?w=400&h=267&fit=crop&auto=format", credit: "Emil Kalibradov" },
   // PEOPLE: belonging + invisibility + trust (19–25)
   { id: 19, title: "Standing Still",       src: "https://images.unsplash.com/photo-1761290534308-030ca49f0650?w=400&h=267&fit=crop&auto=format", credit: "Claudio Alba" },
-  { id: 20, title: "Empty Cafeteria",      src: "https://images.unsplash.com/photo-1769989016283-a233d974c1d1?w=400&h=267&fit=crop&auto=format", credit: "Spencer Plouzek" },
+  { id: 20, title: "Table For One",        src: "https://images.unsplash.com/photo-1762113246682-74830fb87a46?w=400&h=267&fit=crop&auto=format", credit: "Roman" },
   { id: 21, title: "Walking Together",     src: "https://images.unsplash.com/photo-1624355275924-d5426f2e4542?w=400&h=267&fit=crop&auto=format", credit: "Taha" },
   { id: 22, title: "Gentle Conversation",  src: "https://images.unsplash.com/photo-1626108862021-d6a7af6521b7?w=400&h=267&fit=crop&auto=format", credit: "gaspar zaldo" },
   { id: 23, title: "Around The Table",     src: "https://images.unsplash.com/photo-1673280529860-39b642ccb9a6?w=400&h=267&fit=crop&auto=format", credit: "Frankie Cordoba" },
@@ -1221,10 +1222,10 @@ const PHOTOS = [
   { id: 25, title: "Looking Away",         src: "https://images.unsplash.com/photo-1622016492308-5ce8554c2387?w=400&h=267&fit=crop&auto=format", credit: "绵 绵" },
   // FEELINGS: metaphor images (26–30)
   { id: 26, title: "Foggy Glass",          src: "https://images.unsplash.com/photo-1565231952678-923294d26ce5?w=400&h=267&fit=crop&auto=format", credit: "Nathan DeFiesta" },
-  { id: 27, title: "Balancing Stones",     src: "https://images.unsplash.com/photo-1758499947613-545e373b2ee5?w=400&h=267&fit=crop&auto=format", credit: "Amanda Swanepoel" },
+  { id: 27, title: "Walking The Line",     src: "https://images.unsplash.com/photo-1511762180596-d03b808430fe?w=400&h=267&fit=crop&auto=format", credit: "Casey Horner" },
   { id: 28, title: "Locked Door",          src: "https://images.unsplash.com/photo-1636708835095-d1a480d24aed?w=400&h=267&fit=crop&auto=format", credit: "Christelle Hayek" },
   { id: 29, title: "Open Door",            src: "https://images.unsplash.com/photo-1723713296731-a82e99a1873e?w=400&h=267&fit=crop&auto=format", credit: "Yzy Pop" },
-  { id: 30, title: "Morning Light",        src: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400&h=267&fit=crop&auto=format", credit: "Federico Respini" },
+  { id: 30, title: "Morning Light",        src: "https://images.unsplash.com/photo-1760243790660-a7958d7843ee?w=400&h=267&fit=crop&auto=format", credit: "realfish" },
 ];
 
 // ─── STATE ───
