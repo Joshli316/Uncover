@@ -11,7 +11,7 @@
   <meta property="og:image" content="/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="/og.png">
-  <meta property="og:url" content="https://uncover.pages.dev">
+  <meta property="og:url" content="https://uncover.frontiercommons.workers.dev">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C4704B'/><text x='16' y='24' text-anchor='middle' font-family='system-ui' font-weight='700' font-size='22' fill='white'>U</text></svg>">
   <link rel="apple-touch-icon" href="/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -338,7 +338,7 @@
       .hero-mosaic-grid { grid-template-columns: repeat(5, 1fr); }
     }
     @media (max-width: 480px) {
-      .hero-mosaic-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero-mosaic-grid { grid-template-columns: repeat(3, 1fr); max-height: 180px; overflow: hidden; }
     }
 
     /* Landing CTA */
@@ -459,7 +459,9 @@
 
     .q-footer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: rgba(250, 249, 247, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--border); padding: 16px 24px; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; justify-content: space-between; transform: translateY(100%); transition: transform 0.3s ease; }
     .q-footer.show { transform: translateY(0); }
-    .q-footer-count { font-size: 14px; color: var(--muted); }
+    .q-back-btn { background: none; border: none; cursor: pointer; color: var(--muted); padding: 8px; margin: -8px; border-radius: 50%; transition: all 0.2s ease; flex-shrink: 0; }
+    .q-back-btn:hover { color: var(--ink); background: var(--accent-glow); }
+    .q-footer-count { font-size: 14px; color: var(--muted); flex: 1; }
     .q-footer-count strong { color: var(--ink); }
 
     /* ═══════════════════════════════════════
@@ -512,6 +514,19 @@
     .summary-cta-block .btn + .btn {
       margin-left: 12px;
     }
+    .summary-restart {
+      display: block;
+      margin: 16px auto 0;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .summary-restart:hover { color: var(--ink-light); }
 
     /* Facilitator guide */
     .guide { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px; margin-top: 72px; }
@@ -647,6 +662,7 @@
       .summary-cta-block { padding: 32px 20px; }
       .summary-cta-block .btn + .btn { margin-left: 0; margin-top: 12px; }
       .summary-cta-block .btn { display: block; width: 100%; }
+      .summary-restart { margin-top: 20px; }
     }
     @media (max-width: 480px) {
       .card-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
@@ -665,7 +681,7 @@
     /* Audio toggle */
     .audio-toggle {
       position: fixed;
-      bottom: 24px;
+      bottom: 80px;
       right: 24px;
       z-index: 100;
       width: 44px;
@@ -707,8 +723,13 @@
 
     /* Print */
     @media print {
-      .q-footer, .btn, .progress-bar, .mode-toggle, .audio-toggle { display: none; }
-      .screen { display: block !important; opacity: 1 !important; }
+      .q-footer, .progress-bar, .mode-toggle, .audio-toggle, .email-save, .summary-cta-block, .summary-restart { display: none !important; }
+      .screen { display: none !important; opacity: 1 !important; }
+      #screen-summary { display: block !important; }
+      .summary { padding: 20px; max-width: 100%; }
+      .summary-pick img { break-inside: avoid; }
+      .summary-section { break-inside: avoid; margin-bottom: 40px; }
+      .guide { break-before: page; }
     }
   </style>
 </head>
@@ -869,6 +890,9 @@
       <div class="card-grid" id="card-grid"></div>
     </div>
     <div class="q-footer" id="q-footer">
+      <button class="q-back-btn" id="back-btn" onclick="prevQuestion()" style="display:none;" aria-label="Go back">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4L6 10L12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
       <div class="q-footer-count" id="q-footer-count"></div>
       <button class="btn btn-accent" id="next-btn" disabled onclick="nextQuestion()">Continue</button>
     </div>
@@ -899,9 +923,9 @@
 
       <div class="summary-cta-block">
         <p>What you uncovered matters. Don't let it stay here. Share it with one person this week.</p>
-        <button class="btn btn-outline" onclick="restart()">Start Over</button>
-        <button class="btn btn-outline" id="share-btn" onclick="shareResults()" style="display:none;">Share</button>
-        <a class="btn btn-accent" href="https://frontiercommons.org#community" target="_blank">Find Community</a>
+        <button class="btn btn-accent" id="share-btn" onclick="shareResults()" style="display:none;">Share Your Results</button>
+        <a class="btn btn-outline" href="https://frontiercommons.org#community" target="_blank">Find Community</a>
+        <button class="summary-restart" onclick="restart()">or start over</button>
       </div>
 
       <div class="email-save" id="email-save">
@@ -1170,7 +1194,7 @@ const PHOTOS = [
   // PLACES: transition + disorientation (1–8)
   { id: 1,  title: "Alone In Terminal",    src: "https://images.unsplash.com/photo-1683890822115-08dfb6b4e911?w=400&h=267&fit=crop&auto=format", credit: "Michal Parzuchowski" },
   { id: 2,  title: "Tunnel Passage",       src: "https://images.unsplash.com/photo-1720465701412-81b548a82b71?w=400&h=267&fit=crop&auto=format", credit: "Andre Chao" },
-  { id: 3,  title: "Which Direction",      src: "https://images.unsplash.com/photo-1665057303526-5c92e60d9fa0?w=400&h=267&fit=crop&auto=format", credit: "tommao wang" },
+  { id: 3,  title: "Lost In The Crowd",    src: "https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=400&h=267&fit=crop&auto=format", credit: "Jezael Melgoza" },
   { id: 4,  title: "Closed Doors",         src: "https://images.unsplash.com/photo-1664075853320-81cf85fac626?w=400&h=267&fit=crop&auto=format", credit: "Anthony Sebbo" },
   { id: 5,  title: "Empty Lecture Hall",   src: "https://images.unsplash.com/photo-1760121788536-9797394e210e?w=400&h=267&fit=crop&auto=format", credit: "Zsofia Hajnal" },
   { id: 6,  title: "Night Wait",           src: "https://images.unsplash.com/photo-1645544091185-6f0b4ae25670?w=400&h=267&fit=crop&auto=format", credit: "Chuko Cribb" },
@@ -1261,13 +1285,24 @@ function showQuestion() {
   renderCardGrid();
   updateFooter();
   document.getElementById('next-btn').disabled = true;
-  document.getElementById('next-btn').textContent = currentQ === 3 ? 'See what I uncovered' : 'Continue';
+  document.getElementById('next-btn').textContent = 'Continue';
+  document.getElementById('back-btn').style.display = currentQ > 0 ? '' : 'none';
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 function renderCardGrid() {
   const grid = document.getElementById('card-grid');
   grid.innerHTML = '';
-  PHOTOS.forEach((photo, i) => {
+  const shuffled = shuffleArray(PHOTOS);
+  shuffled.forEach((photo, i) => {
     const card = document.createElement('div');
     card.className = 'card img-wrap stagger-in';
     card.style.animationDelay = `${i * 25}ms`;
@@ -1303,7 +1338,10 @@ function toggleCard(id, card) {
   });
   updatePills();
   updateFooter();
-  document.getElementById('next-btn').disabled = currentSelections.length !== 3;
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.disabled = currentSelections.length !== 3;
+  nextBtn.textContent = (currentQ === 3 && currentSelections.length === 3) ? 'See what I uncovered' : 'Continue';
+  saveProgress();
 }
 
 function updatePills() {
@@ -1329,7 +1367,29 @@ function updateFooter() {
 }
 
 function saveProgress() {
-  try { sessionStorage.setItem('uncover_progress', JSON.stringify({ currentQ, selections, mode: MODE })); } catch(e) {}
+  try { sessionStorage.setItem('uncover_progress', JSON.stringify({ currentQ, selections, currentSelections, mode: MODE })); } catch(e) {}
+}
+
+function prevQuestion() {
+  if (currentQ <= 0) return;
+  currentQ--;
+  const savedPicks = selections[currentQ] || [];
+  delete selections[currentQ];
+  showQuestion();
+  // Restore picks after showQuestion resets currentSelections
+  currentSelections = savedPicks;
+  document.querySelectorAll('.card').forEach(c => {
+    const cid = parseInt(c.dataset.id);
+    const si = currentSelections.indexOf(cid);
+    if (si > -1) {
+      c.classList.add('selected');
+      c.querySelector('.card-badge').textContent = si + 1;
+    }
+    c.classList.toggle('maxed-out', currentSelections.length >= 3 && si === -1);
+  });
+  updatePills();
+  updateFooter();
+  document.getElementById('next-btn').disabled = currentSelections.length !== 3;
 }
 
 function nextQuestion() {
@@ -1537,10 +1597,28 @@ try {
   if (saved && saved.currentQ > 0 && saved.currentQ < 4) {
     selections = saved.selections || {};
     currentQ = saved.currentQ;
+    currentSelections = saved.currentSelections || [];
     if (saved.mode) applyMode(saved.mode);
     showQuestion();
     showScreen('screen-question');
-    setTimeout(() => document.getElementById('q-footer').classList.add('show'), 400);
+    setTimeout(() => {
+      document.getElementById('q-footer').classList.add('show');
+      // Re-apply in-progress selections visually
+      if (currentSelections.length > 0) {
+        document.querySelectorAll('.card').forEach(c => {
+          const cid = parseInt(c.dataset.id);
+          const si = currentSelections.indexOf(cid);
+          if (si > -1) {
+            c.classList.add('selected');
+            c.querySelector('.card-badge').textContent = si + 1;
+          }
+          c.classList.toggle('maxed-out', currentSelections.length >= 3 && si === -1);
+        });
+        updatePills();
+        updateFooter();
+        document.getElementById('next-btn').disabled = currentSelections.length !== 3;
+      }
+    }, 400);
   }
 } catch(e) {}
 
