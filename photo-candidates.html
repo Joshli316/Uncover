@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uncover — 50 Photo Candidates</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: #111; color: #eee; padding: 20px; }
+  h1 { text-align: center; margin-bottom: 8px; font-size: 1.5rem; }
+  p.subtitle { text-align: center; color: #999; margin-bottom: 30px; font-size: 0.9rem; }
+  h2 { color: #f0a; margin: 30px 0 15px; font-size: 1.1rem; border-bottom: 1px solid #333; padding-bottom: 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .card {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #222;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #f0a; }
+  .card img {
+    width: 100%;
+    aspect-ratio: 3/2;
+    object-fit: cover;
+    display: block;
+  }
+  .card .label {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .card .info {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+  .card .info .title { font-weight: 600; }
+  .card .info .desc { color: #999; margin-top: 4px; }
+  .current-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-bottom: 40px; }
+  .current-card {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #222;
+  }
+  .current-card img {
+    width: 100%;
+    aspect-ratio: 3/2;
+    object-fit: cover;
+    display: block;
+  }
+  .current-card .label {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .current-card .info {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+    color: #ccc;
+  }
+</style>
+</head>
+<body>
+
+<h1>Uncover — Photo Selection</h1>
+<p class="subtitle">Current 30 photos (C1–C30) + 50 new candidates (N1–N50). Tell me which C numbers to replace with which N numbers.</p>
+
+<h2>CURRENT 30 PHOTOS (for reference)</h2>
+<div class="current-grid">
+  <div class="current-card"><div class="label">C1</div><img src="https://plus.unsplash.com/premium_photo-1755001019700-8d9178fe922d?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Arrivals</div></div>
+  <div class="current-card"><div class="label">C2</div><img src="https://images.unsplash.com/photo-1749250731763-53c3589d96f3?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Waiting Platform</div></div>
+  <div class="current-card"><div class="label">C3</div><img src="https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Campus Crossroads</div></div>
+  <div class="current-card"><div class="label">C4</div><img src="https://plus.unsplash.com/premium_photo-1724788725974-4cb2f09e81e6?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Small Room</div></div>
+  <div class="current-card"><div class="label">C5</div><img src="https://images.unsplash.com/photo-1760121788536-9797394e210e?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Empty Lecture Hall</div></div>
+  <div class="current-card"><div class="label">C6</div><img src="https://images.unsplash.com/photo-1756155380343-9a3a3b91ed9b?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Bus Stop</div></div>
+  <div class="current-card"><div class="label">C7</div><img src="https://images.unsplash.com/photo-1646806950396-5dbe86c336cd?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Foreign Aisle</div></div>
+  <div class="current-card"><div class="label">C8</div><img src="https://images.unsplash.com/photo-1644249360770-a0e104b04587?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Rainy Distance</div></div>
+  <div class="current-card"><div class="label">C9</div><img src="https://images.unsplash.com/photo-1454496406107-dc34337da8d6?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Passport Papers</div></div>
+  <div class="current-card"><div class="label">C10</div><img src="https://images.unsplash.com/photo-1760095435041-3957a2fa220e?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Half-Packed Life</div></div>
+  <div class="current-card"><div class="label">C11</div><img src="https://plus.unsplash.com/premium_photo-1664284793211-0771739401c2?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Phone Glow</div></div>
+  <div class="current-card"><div class="label">C12</div><img src="https://images.unsplash.com/photo-1745848413078-f85af10e5bf2?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">App Overload</div></div>
+  <div class="current-card"><div class="label">C13</div><img src="https://images.unsplash.com/photo-1668621175883-c3a42fa76da4?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Packed Calendar</div></div>
+  <div class="current-card"><div class="label">C14</div><img src="https://images.unsplash.com/photo-1733087157951-ed8f545b7f8a?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">2AM Grind</div></div>
+  <div class="current-card"><div class="label">C15</div><img src="https://images.unsplash.com/photo-1759923593745-6302b220d719?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Survival Meal</div></div>
+  <div class="current-card"><div class="label">C16</div><img src="https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Tuned Out</div></div>
+  <div class="current-card"><div class="label">C17</div><img src="https://images.unsplash.com/photo-1639705124640-8336eedfbd49?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Study Stack</div></div>
+  <div class="current-card"><div class="label">C18</div><img src="https://images.unsplash.com/photo-1585401586477-2a671e1cae4e?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Counting Pennies</div></div>
+  <div class="current-card"><div class="label">C19</div><img src="https://images.unsplash.com/photo-1752650143223-f5b817b4e724?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Standing Still</div></div>
+  <div class="current-card"><div class="label">C20</div><img src="https://images.unsplash.com/photo-1762113246682-74830fb87a46?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Table For One</div></div>
+  <div class="current-card"><div class="label">C21</div><img src="https://images.unsplash.com/photo-1624355275924-d5426f2e4542?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Walking Together</div></div>
+  <div class="current-card"><div class="label">C22</div><img src="https://images.unsplash.com/photo-1626108862021-d6a7af6521b7?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Gentle Conversation</div></div>
+  <div class="current-card"><div class="label">C23</div><img src="https://images.unsplash.com/photo-1711915482570-a7714a3a4660?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Crumpled Bills</div></div>
+  <div class="current-card"><div class="label">C24</div><img src="https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Rain Touch</div></div>
+  <div class="current-card"><div class="label">C25</div><img src="https://images.unsplash.com/photo-1584299191647-0fc9f89f0555?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Holding It In</div></div>
+  <div class="current-card"><div class="label">C26</div><img src="https://images.unsplash.com/photo-1742223858704-61e6071c75e8?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Foggy Glass</div></div>
+  <div class="current-card"><div class="label">C27</div><img src="https://images.unsplash.com/photo-1511762180596-d03b808430fe?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Walking The Line</div></div>
+  <div class="current-card"><div class="label">C28</div><img src="https://images.unsplash.com/photo-1636708835095-d1a480d24aed?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Locked Door</div></div>
+  <div class="current-card"><div class="label">C29</div><img src="https://images.unsplash.com/photo-1726804550899-f0e01f066031?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Open Door</div></div>
+  <div class="current-card"><div class="label">C30</div><img src="https://images.unsplash.com/photo-1645017004614-0cbd77d7d6d7?w=400&h=267&fit=crop&auto=format" loading="lazy"><div class="info">Morning Light</div></div>
+</div>
+
+<h2>CANDIDATES — PLACES: Transition + Disorientation (N1–N13)</h2>
+<div class="grid">
+  <div class="card">
+    <div class="label">N1</div>
+    <img src="https://images.unsplash.com/photo-1678355633887-8be6a11e797a?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Rainy Street Walk</div><div class="desc">Person walking down city street in rain — London</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N2</div>
+    <img src="https://images.unsplash.com/photo-1480944657103-7fed22359e1d?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Umbrella Alone</div><div class="desc">Person walking down street holding umbrella — solitary</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N3</div>
+    <img src="https://images.unsplash.com/photo-1542119545-2e265f3d8221?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Silhouette Under Umbrella</div><div class="desc">Dark silhouette with umbrella, neon reflections in rain</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N4</div>
+    <img src="https://images.unsplash.com/photo-1749019569092-1e7804cc245b?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Rain Walk Japan</div><div class="desc">Person walks in rain with umbrella — moody Japanese street</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N5</div>
+    <img src="https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Long Hallway</div><div class="desc">Long dark hallway with light through windows — liminal space</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N6</div>
+    <img src="https://images.unsplash.com/photo-1623822380073-afda9d1095db?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Empty Corridor</div><div class="desc">Empty hallway with fluorescent lights at night — institutional</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N7</div>
+    <img src="https://images.unsplash.com/photo-1692431217017-de09cc61c552?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Which Way</div><div class="desc">Sign post with many colored directional arrows — Japan, lost</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N8</div>
+    <img src="https://images.unsplash.com/photo-1727892496215-e5e70ed70236?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Late Night Laundry</div><div class="desc">Dimly lit laundromat — routine chores in new place</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N9</div>
+    <img src="https://images.unsplash.com/photo-1604335398980-ededcadcc37d?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Fluorescent Wash</div><div class="desc">Laundromat at night, fluorescent, empty machines — Bristol UK</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N10</div>
+    <img src="https://images.unsplash.com/photo-1758634016761-74aaacbf8739?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Empty Cafeteria</div><div class="desc">Empty cafeteria tables and chairs — no one to sit with</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N11</div>
+    <img src="https://images.unsplash.com/photo-1743866691397-50f22c9c72f1?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Empty Booth</div><div class="desc">Empty restaurant booth at night — table for one feeling</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N12</div>
+    <img src="https://images.unsplash.com/photo-1647652544050-b999322b771e?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Foggy Bridge</div><div class="desc">Person walking across bridge on foggy day — crossing into unknown</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N13</div>
+    <img src="https://images.unsplash.com/photo-1569335468885-d7d1a41e570c?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Platform Departure</div><div class="desc">Man with backpack walking towards train — leaving/arriving</div></div>
+  </div>
+</div>
+
+<h2>CANDIDATES — OBJECTS: Pressure + Bureaucracy + Coping (N14–N26)</h2>
+<div class="grid">
+  <div class="card">
+    <div class="label">N14</div>
+    <img src="https://images.unsplash.com/photo-1419640303358-44f0d27f48e7?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Study Lamp</div><div class="desc">Desk lamp beside pile of books — late night studying</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N15</div>
+    <img src="https://images.unsplash.com/photo-1752934885630-10f55da26a74?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Messy Desk</div><div class="desc">Messy desk with computer and books — overwhelm</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N16</div>
+    <img src="https://images.unsplash.com/photo-1747515203898-2df8f083f417?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Library Alone</div><div class="desc">Person studying at desk in library — cinematic, quiet pressure</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N17</div>
+    <img src="https://images.unsplash.com/photo-1633158829875-e5316a358c6f?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Savings Jar</div><div class="desc">Glass jar with coins and plant — counting every cent</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N18</div>
+    <img src="https://images.unsplash.com/photo-1583902340377-052b7159b97b?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Coin Pile</div><div class="desc">Coins on glass jar — budgeting anxiety</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N19</div>
+    <img src="https://images.unsplash.com/photo-1698945298325-8902550a45dd?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Unmade Bed</div><div class="desc">Unmade bed in dimly lit room — can't get up, or just got in</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N20</div>
+    <img src="https://images.unsplash.com/photo-1530011940847-04cba36df39f?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Rumpled Sheets</div><div class="desc">Unmade bed, rumpled sheets — exhaustion</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N21</div>
+    <img src="https://images.unsplash.com/photo-1673505705715-8deb093d39e8?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Open Suitcase</div><div class="desc">Open suitcase with clothes — half-unpacked, not yet home</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N22</div>
+    <img src="https://images.unsplash.com/photo-1704713911962-409fa07a4a3a?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Grocery Run</div><div class="desc">Shopping cart in grocery store aisle — foreign brands</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N23</div>
+    <img src="https://images.unsplash.com/photo-1680022087238-eafecd5a8933?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Warm Cup</div><div class="desc">Hands holding coffee cup — small comfort in a new place</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N24</div>
+    <img src="https://images.unsplash.com/photo-1668713784031-c8a0519eafbd?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Coffee Cup</div><div class="desc">Hand holding cup of coffee — solo ritual</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N25</div>
+    <img src="https://images.unsplash.com/photo-1535186696008-7cba739a3103?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Tiny Kitchen</div><div class="desc">Kitchen interior — Berlin student room, cooking for one</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N26</div>
+    <img src="https://images.unsplash.com/photo-1714374573636-1ac7697befef?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Dark Hallway Door</div><div class="desc">Dark hallway leading to door with light at end — hope or isolation</div></div>
+  </div>
+</div>
+
+<h2>CANDIDATES — PEOPLE: Belonging + Invisibility + Trust (N27–N40)</h2>
+<div class="grid">
+  <div class="card">
+    <div class="label">N27</div>
+    <img src="https://images.unsplash.com/photo-1726864258488-bb80be194ddc?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Window Gazer</div><div class="desc">Person sitting at table looking out window — longing</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N28</div>
+    <img src="https://images.unsplash.com/photo-1638674678884-95744f968012?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Night Window</div><div class="desc">Person looking out window at night — alone with thoughts</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N29</div>
+    <img src="https://images.unsplash.com/photo-1509313082614-db67e7d2b1ea?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Window Silhouette</div><div class="desc">Silhouette of man at window — watching world outside</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N30</div>
+    <img src="https://images.unsplash.com/photo-1628413787550-8f39016b8df2?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Brick View</div><div class="desc">Looking out window at brick building — sad, trapped feeling</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N31</div>
+    <img src="https://images.unsplash.com/photo-1743854278586-c7ae34d5b8d1?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Park Bench</div><div class="desc">Person sits alone on bench — minimalist, solitude</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N32</div>
+    <img src="https://images.unsplash.com/photo-1428263197823-ce6a8620d1e1?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Bench Alone</div><div class="desc">Person sitting on bench — stillness, waiting</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N33</div>
+    <img src="https://images.unsplash.com/photo-1758573093791-733413f228a1?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Dark Park</div><div class="desc">Person sitting alone in dark grassy park — isolation at dusk</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N34</div>
+    <img src="https://images.unsplash.com/photo-1759629048371-58afe652244f?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Lost in Crowd</div><div class="desc">People crossing busy street at crosswalk — anonymous in crowd</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N35</div>
+    <img src="https://images.unsplash.com/photo-1762792020162-9e714c21bef8?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Night Blur</div><div class="desc">Blurred figures crossing street at night — world rushing past</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N36</div>
+    <img src="https://images.unsplash.com/photo-1551713154-3779384f6623?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Crosswalk Woman</div><div class="desc">Asian woman walking night crosswalk — alone in the city</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N37</div>
+    <img src="https://images.unsplash.com/photo-1742608303775-3162be5da45f?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Birds Eye Crowd</div><div class="desc">Crowded crosswalk from above, B&W — everyone moving</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N38</div>
+    <img src="https://images.unsplash.com/photo-1657624332868-2159deacefa9?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Bed & Laptop</div><div class="desc">Woman on bed with laptop — doom scrolling, video calling home</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N39</div>
+    <img src="https://images.unsplash.com/photo-1667996111947-ba85f3e8a6fb?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Waiting Girl</div><div class="desc">Girl sitting on bench with backpack — waiting, in between</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N40</div>
+    <img src="https://images.unsplash.com/photo-1517840901100-8179e982acb7?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Bridge Crossing</div><div class="desc">Woman with backpack and suitcase crossing bridge — the journey</div></div>
+  </div>
+</div>
+
+<h2>CANDIDATES — FEELINGS: Metaphor Images (N41–N50)</h2>
+<div class="grid">
+  <div class="card">
+    <div class="label">N41</div>
+    <img src="https://images.unsplash.com/photo-1694250533515-a10ce86e5603?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Train Reflection</div><div class="desc">Reflection of person in train window — between two worlds</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N42</div>
+    <img src="https://images.unsplash.com/photo-1761165307483-8f293ad3f1e9?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Train Watcher</div><div class="desc">Man sitting by train window looking out — journey, distance</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N43</div>
+    <img src="https://images.unsplash.com/photo-1749236785892-a77b86650889?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Headed Home</div><div class="desc">Train window with person looking outside — solitary transit</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N44</div>
+    <img src="https://images.unsplash.com/photo-1671870624760-01ba60cd9eba?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">London Underground</div><div class="desc">Woman on train looking out — lonely passenger</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N45</div>
+    <img src="https://images.unsplash.com/photo-1644532067783-79e81a22ecb4?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Broken Mirror</div><div class="desc">Reflection in broken/cracked mirror — fractured identity</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N46</div>
+    <img src="https://images.unsplash.com/photo-1506020219892-72208636c758?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Moody Glass</div><div class="desc">Moody reflections — seeing yourself dimly</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N47</div>
+    <img src="https://images.unsplash.com/photo-1759503167002-f3efe840e36a?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Sunset Silhouette</div><div class="desc">Silhouette at window during sunset — between day and night</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N48</div>
+    <img src="https://images.unsplash.com/photo-1771211908285-2ec8925f37d3?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Empty Diner</div><div class="desc">Empty diner booth awaits — waiting for someone, or no one</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N49</div>
+    <img src="https://images.unsplash.com/photo-1457144759132-40d119c2f120?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Vintage Laundry</div><div class="desc">Woman standing in laundromat — vintage, mundane ritual</div></div>
+  </div>
+  <div class="card">
+    <div class="label">N50</div>
+    <img src="https://images.unsplash.com/photo-1612529377791-b3de2b201f0e?w=400&h=267&fit=crop&auto=format" loading="lazy">
+    <div class="info"><div class="title">Green Pillow</div><div class="desc">Person laying on bed — exhaustion, hiding, retreating</div></div>
+  </div>
+</div>
+
+<div style="height: 60px;"></div>
+
+</body>
+</html>
