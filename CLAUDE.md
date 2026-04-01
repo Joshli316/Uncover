@@ -1,6 +1,9 @@
 # Uncover
 
-Visual conversation tool with 30 photos and IFS-inspired layers for self-discovery.
+Visual conversation tool for facilitators who work with international students. 30 photos, 4 IFS-inspired questions, printable session kit.
+
+## Current Focus
+Facilitator pivot — reframing from self-discovery app to facilitator tool. General mode being removed. Spec and plan at `docs/superpowers/specs/` and `docs/superpowers/plans/`.
 
 ## Tech Stack
 - Hono on Cloudflare Workers (`src/worker.ts`)
