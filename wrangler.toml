@@ -8,5 +8,5 @@ directory = "./public"
 [[d1_databases]]
 binding = "DB"
 database_name = "uncover-db"
-database_id = "75ef4dea-9a35-4336-be19-d19009745039"
+database_id = "e57bc084-f5c2-4ada-86c8-d1eb3ea6fd90"
 migrations_dir = "migrations"
