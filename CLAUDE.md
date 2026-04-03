@@ -3,13 +3,14 @@
 Visual conversation tool for facilitators who work with international students. 30 photos, 4 IFS-inspired questions, printable session kit.
 
 ## Current Focus
-Facilitator pivot — reframing from self-discovery app to facilitator tool. General mode being removed. Spec and plan at `docs/superpowers/specs/` and `docs/superpowers/plans/`.
+Facilitator pivot complete and deployed. General mode removed, landing page rewritten for facilitators, printable session kit added. Spec and plan at `docs/superpowers/specs/` and `docs/superpowers/plans/`.
 
 ## Tech Stack
 - Hono on Cloudflare Workers (`src/worker.ts`)
 - D1 database (`uncover-db`), static assets in `public/`
 - TypeScript
-- Repo: github.com/fc-us/uncover
+- Repo: github.com/Joshli316/Uncover
+- Live: https://uncover.yellow-longitudinal.workers.dev
 
 ## Commands
 - `npm run dev` -- Local dev server

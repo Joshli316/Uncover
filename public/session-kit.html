@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Uncover — Session Kit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -235,7 +235,7 @@
 
   <!-- Page 1: Facilitator Cheat Sheet -->
   <div class="kit-page">
-    <div class="kit-page-label">Page 1 of 6</div>
+    <div class="kit-page-label">Page 1 of 7</div>
     <h2>Facilitator Cheat Sheet</h2>
     <p>Uncover is a visual conversation tool. Participants browse 30 photographs and pick the ones that resonate — revealing patterns about how they move through the world, what they're protecting, and what they need.</p>
     <p style="margin-top:8px;"><strong>Format:</strong> 20–30 minutes · Groups of 4–8 · Phones or printed photo grid</p>
@@ -269,7 +269,7 @@
 
   <!-- Page 2: Photo Grid -->
   <div class="kit-page">
-    <div class="kit-page-label">Page 2 of 6</div>
+    <div class="kit-page-label">Page 2 of 7</div>
     <h2>Photo Grid</h2>
     <p style="margin-bottom:20px;">Print this page and lay it on the table — participants point to or call out numbers. Or project it on a screen.</p>
     <div class="photo-grid" id="photo-grid"></div>
@@ -281,39 +281,59 @@
   <div class="kit-page" id="q-card-3"></div>
   <div class="kit-page" id="q-card-4"></div>
 
+  <!-- Page 7: Deeper Facilitation Guide -->
+  <div class="kit-page">
+    <div class="kit-page-label">Page 7 of 7</div>
+    <h2>Going Deeper: A Facilitator's Guide</h2>
+    <p>Uncover uses a layers framework — the idea that we all have different layers inside us. Some protect, some carry pain, some hold joy. These images help surface those layers without forcing anyone to name them directly.</p>
+
+    <div class="kit-tip"><strong>Curiosity, not interpretation.</strong> Ask "what drew you to this?" — never "I think this means you're..." Let them lead.</div>
+    <div class="kit-tip"><strong>Name the cultural weight.</strong> If someone is far from home, acknowledge it: "That sounds like it carries something." Don't minimize what distance costs.</div>
+    <div class="kit-tip"><strong>Question two is the heart.</strong> "What you carry but rarely show" surfaces the deepest layers. Go slow. Sit with whatever comes up.</div>
+    <div class="kit-tip"><strong>Share your own picks first.</strong> Vulnerability invites vulnerability. When you go first with honesty, you give permission.</div>
+    <div class="kit-tip"><strong>Point toward committed community.</strong> This tool opens doors. What matters is what happens next — a group, a friendship, a place to belong.</div>
+    <div class="kit-tip"><strong>This is not therapy.</strong> It's a conversation starter. If something heavy surfaces: "Thank you for sharing that. Would you want to explore that more with someone?" Know your limits.</div>
+
+    <h3 style="margin-top:28px;">For Faith-Based Settings</h3>
+    <div class="kit-tip"><strong>Lament.</strong> Psalm 42 ("My tears have been my food day and night") and Psalm 137 ("How can we sing the Lord's song in a foreign land?") are natural companions to Question 2. Let people sit in the ache before rushing to resolution.</div>
+    <div class="kit-tip"><strong>Prayer.</strong> After Question 4, invite the group to hold their "wholeness" images and pray — for themselves, for each other. Let the images become prayers.</div>
+    <div class="kit-tip"><strong>Being known.</strong> 1 Corinthians 13:12 ("Now I know in part; then I shall know fully, even as I am fully known") and Psalm 139 speak to the ache of wholeness. We are fully known — and fully loved.</div>
+    <div class="kit-tip"><strong>Scripture touchpoints.</strong> Genesis 12 (Abram leaving home), Ruth (loyalty across cultures), the exile psalms, Jesus as sojourner ("Foxes have holes, but the Son of Man has no place to lay his head" — Matt 8:20). These texts meet people where the images take them.</div>
+  </div>
+
 <script>
 // Photo data (same as main app)
 const PHOTOS = [
-  { id: 1,  title: "Arrivals",             src: "https://plus.unsplash.com/premium_photo-1755001019700-8d9178fe922d?w=400&h=267&fit=crop&auto=format" },
-  { id: 2,  title: "Waiting Platform",     src: "https://images.unsplash.com/photo-1749250731763-53c3589d96f3?w=400&h=267&fit=crop&auto=format" },
-  { id: 3,  title: "Campus Crossroads",    src: "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=400&h=267&fit=crop&auto=format" },
-  { id: 4,  title: "Small Room",           src: "https://plus.unsplash.com/premium_photo-1724788725974-4cb2f09e81e6?w=400&h=267&fit=crop&auto=format" },
-  { id: 5,  title: "Empty Lecture Hall",   src: "https://images.unsplash.com/photo-1760121788536-9797394e210e?w=400&h=267&fit=crop&auto=format" },
-  { id: 6,  title: "Bus Stop",             src: "https://images.unsplash.com/photo-1756155380343-9a3a3b91ed9b?w=400&h=267&fit=crop&auto=format" },
-  { id: 7,  title: "Foreign Aisle",        src: "https://images.unsplash.com/photo-1646806950396-5dbe86c336cd?w=400&h=267&fit=crop&auto=format" },
-  { id: 8,  title: "Rainy Distance",       src: "https://images.unsplash.com/photo-1644249360770-a0e104b04587?w=400&h=267&fit=crop&auto=format" },
-  { id: 9,  title: "Passport Papers",      src: "https://images.unsplash.com/photo-1454496406107-dc34337da8d6?w=400&h=267&fit=crop&auto=format" },
-  { id: 10, title: "Half-Packed Life",     src: "https://images.unsplash.com/photo-1760095435041-3957a2fa220e?w=400&h=267&fit=crop&auto=format" },
-  { id: 11, title: "Phone Glow",           src: "https://plus.unsplash.com/premium_photo-1664284793211-0771739401c2?w=400&h=267&fit=crop&auto=format" },
-  { id: 12, title: "App Overload",         src: "https://images.unsplash.com/photo-1745848413078-f85af10e5bf2?w=400&h=267&fit=crop&auto=format" },
-  { id: 13, title: "Packed Calendar",      src: "https://images.unsplash.com/photo-1668621175883-c3a42fa76da4?w=400&h=267&fit=crop&auto=format" },
-  { id: 14, title: "2AM Grind",            src: "https://images.unsplash.com/photo-1733087157951-ed8f545b7f8a?w=400&h=267&fit=crop&auto=format" },
-  { id: 15, title: "Survival Meal",        src: "https://images.unsplash.com/photo-1759923593745-6302b220d719?w=400&h=267&fit=crop&auto=format" },
-  { id: 16, title: "Tuned Out",            src: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=400&h=267&fit=crop&auto=format" },
-  { id: 17, title: "Study Stack",          src: "https://images.unsplash.com/photo-1639705124640-8336eedfbd49?w=400&h=267&fit=crop&auto=format" },
-  { id: 18, title: "Counting Pennies",     src: "https://images.unsplash.com/photo-1585401586477-2a671e1cae4e?w=400&h=267&fit=crop&auto=format" },
-  { id: 19, title: "Standing Still",       src: "https://images.unsplash.com/photo-1752650143223-f5b817b4e724?w=400&h=267&fit=crop&auto=format" },
-  { id: 20, title: "Table For One",        src: "https://images.unsplash.com/photo-1762113246682-74830fb87a46?w=400&h=267&fit=crop&auto=format" },
-  { id: 21, title: "Walking Together",     src: "https://images.unsplash.com/photo-1624355275924-d5426f2e4542?w=400&h=267&fit=crop&auto=format" },
-  { id: 22, title: "Gentle Conversation",  src: "https://images.unsplash.com/photo-1626108862021-d6a7af6521b7?w=400&h=267&fit=crop&auto=format" },
-  { id: 23, title: "Crumpled Bills",       src: "https://images.unsplash.com/photo-1711915482570-a7714a3a4660?w=400&h=267&fit=crop&auto=format" },
-  { id: 24, title: "Rain Touch",           src: "https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=400&h=267&fit=crop&auto=format" },
-  { id: 25, title: "Holding It In",        src: "https://images.unsplash.com/photo-1584299191647-0fc9f89f0555?w=400&h=267&fit=crop&auto=format" },
-  { id: 26, title: "Foggy Glass",          src: "https://images.unsplash.com/photo-1742223858704-61e6071c75e8?w=400&h=267&fit=crop&auto=format" },
-  { id: 27, title: "Walking The Line",     src: "https://images.unsplash.com/photo-1511762180596-d03b808430fe?w=400&h=267&fit=crop&auto=format" },
-  { id: 28, title: "Locked Door",          src: "https://images.unsplash.com/photo-1636708835095-d1a480d24aed?w=400&h=267&fit=crop&auto=format" },
-  { id: 29, title: "Open Door",            src: "https://images.unsplash.com/photo-1726804550899-f0e01f066031?w=400&h=267&fit=crop&auto=format" },
-  { id: 30, title: "Morning Light",        src: "https://images.unsplash.com/photo-1645017004614-0cbd77d7d6d7?w=400&h=267&fit=crop&auto=format" },
+  { id: 1,  title: "Angry",              src: "/photos/angry.jpg" },
+  { id: 2,  title: "Broke",              src: "/photos/broke.jpg" },
+  { id: 3,  title: "Busy",               src: "/photos/busy.jpg" },
+  { id: 4,  title: "Calm",               src: "/photos/calm.jpg" },
+  { id: 5,  title: "Conversations",      src: "/photos/conversations.jpg" },
+  { id: 6,  title: "Creativity",         src: "/photos/creativity.jpg" },
+  { id: 7,  title: "Drowning",           src: "/photos/drowning.jpg" },
+  { id: 8,  title: "Enjoying Food",      src: "/photos/enjoying-food.jpg" },
+  { id: 9,  title: "Escaping Reality",   src: "/photos/escaping-reality.jpg" },
+  { id: 10, title: "Faithful",           src: "/photos/faithful.jpg" },
+  { id: 11, title: "Family",             src: "/photos/family.jpg" },
+  { id: 12, title: "In Pain",            src: "/photos/in-pain.jpg" },
+  { id: 13, title: "Laborious",          src: "/photos/laborious.jpg" },
+  { id: 14, title: "Lazy",               src: "/photos/lazy.jpg" },
+  { id: 15, title: "Medical Problems",   src: "/photos/medical-problems.jpg" },
+  { id: 16, title: "Meditative",         src: "/photos/meditative.jpg" },
+  { id: 17, title: "Mourning",           src: "/photos/mourning.jpg" },
+  { id: 18, title: "On the Phone",       src: "/photos/on-the-phone.jpg" },
+  { id: 19, title: "Pet Companionship",  src: "/photos/pet-companionship.jpg" },
+  { id: 20, title: "Romantic",           src: "/photos/romantic.jpg" },
+  { id: 21, title: "Sleep",              src: "/photos/sleep.jpg" },
+  { id: 22, title: "Sorrowful",          src: "/photos/sorrowful.jpg" },
+  { id: 23, title: "Studious",           src: "/photos/studious.jpg" },
+  { id: 24, title: "Successful",         src: "/photos/successful.jpg" },
+  { id: 25, title: "The Married Life",   src: "/photos/the-married-life.jpg" },
+  { id: 26, title: "Tired",              src: "/photos/tired.jpg" },
+  { id: 27, title: "Traveling",          src: "/photos/traveling.jpg" },
+  { id: 28, title: "Wealthy",            src: "/photos/wealthy.jpg" },
+  { id: 29, title: "With Community",     src: "/photos/with-community.jpg" },
+  { id: 30, title: "A Hug",              src: "/photos/a-hug.jpg" },
 ];
 
 const QUESTIONS = [
@@ -389,7 +409,7 @@ QUESTIONS.forEach((q, i) => {
   const card = document.getElementById(`q-card-${i + 1}`);
   const promptsHTML = q.prompts.map(p => `<li>${p}</li>`).join('');
   card.innerHTML = `
-    <div class="kit-page-label">Page ${q.pageNum} of 6</div>
+    <div class="kit-page-label">Page ${q.pageNum} of 7</div>
     <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">${q.label}</div>
     <div class="q-card-question">${q.text}</div>
     <div class="q-card-hint">${q.hint}</div>

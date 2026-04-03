@@ -11,23 +11,27 @@ interface Layer {
   prompts: string[];
 }
 
+function esc(s: string): string {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 export function buildEmailHTML(results: Layer[]): string {
   const layersHTML = results.map(r => `
     <div style="margin-bottom:40px;">
-      <div style="font-family:'Helvetica Neue',sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#4A8B7F;margin-bottom:8px;">${r.layer}</div>
-      <div style="font-family:'Helvetica Neue',sans-serif;font-size:20px;font-weight:600;color:#1C2B33;margin-bottom:6px;">${r.question}</div>
-      <div style="font-size:14px;color:#7A909A;font-style:italic;margin-bottom:16px;line-height:1.5;">${r.insight}</div>
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#4A8B7F;margin-bottom:8px;">${esc(r.layer)}</div>
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:20px;font-weight:600;color:#1C2B33;margin-bottom:6px;">${esc(r.question)}</div>
+      <div style="font-size:14px;color:#7A909A;font-style:italic;margin-bottom:16px;line-height:1.5;">${esc(r.insight)}</div>
       <div style="margin-bottom:16px;">
         ${r.picks.map(p => `
           <div style="display:inline-block;width:30%;margin-right:3%;vertical-align:top;">
-            <img src="${p.src}" alt="${p.title}" style="width:100%;border-radius:8px;display:block;" />
-            <div style="font-size:12px;color:#7A909A;margin-top:4px;">${p.title}</div>
+            <img src="https://uncover.yellow-longitudinal.workers.dev${esc(p.src)}" alt="${esc(p.title)}" style="width:100%;border-radius:8px;display:block;" />
+            <div style="font-size:12px;color:#7A909A;margin-top:4px;">${esc(p.title)}</div>
           </div>
         `).join('')}
       </div>
       <div style="background:#FFFFFF;border:1px solid #D6DFE4;border-radius:8px;padding:16px;margin-top:12px;">
         <div style="font-size:11px;font-weight:600;color:#4A8B7F;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Go deeper</div>
-        ${r.prompts.map(p => `<div style="font-size:13px;color:#3D5561;line-height:1.6;padding:2px 0;">→ ${p}</div>`).join('')}
+        ${r.prompts.map(p => `<div style="font-size:13px;color:#3D5561;line-height:1.6;padding:2px 0;">→ ${esc(p)}</div>`).join('')}
       </div>
     </div>
   `).join('<hr style="border:none;border-top:1px solid #D6DFE4;margin:32px 0;" />');
