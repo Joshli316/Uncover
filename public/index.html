@@ -16,7 +16,7 @@
   <link rel="apple-touch-icon" href="/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #F4F7F9;
@@ -31,8 +31,8 @@
       --muted: #7A909A;
       --border: #D6DFE4;
       --radius: 12px;
-      --font-display: 'Space Grotesk', system-ui, sans-serif;
-      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-display: 'Space Grotesk', 'Noto Sans SC', system-ui, sans-serif;
+      --font-body: 'DM Sans', 'Noto Sans SC', system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
@@ -466,13 +466,6 @@
     .q-footer-count strong { color: var(--ink); }
 
     /* ═══════════════════════════════════════
-       TRANSITION SCREEN
-       ═══════════════════════════════════════ */
-    .transition-screen { min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; }
-    .transition-text { font-family: var(--font-display); font-size: clamp(24px, 5vw, 36px); font-weight: 600; color: var(--ink-light); opacity: 0; animation: fadeUp 0.6s 0.1s ease both; }
-    .transition-sub { font-size: 14px; color: var(--muted); margin-top: 12px; opacity: 0; animation: fadeUp 0.6s 0.3s ease both; }
-
-    /* ═══════════════════════════════════════
        SUMMARY
        ═══════════════════════════════════════ */
     .summary { padding: 80px 24px 60px; max-width: 800px; margin: 0 auto; }
@@ -735,6 +728,30 @@
       .summary-section { break-inside: avoid; margin-bottom: 40px; }
       .guide { break-before: page; }
     }
+
+    /* Language toggle */
+    .lang-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 100;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 13px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      transition: all 0.2s ease;
+    }
+    .lang-toggle:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+    .lang-option { color: var(--muted); transition: color 0.2s; }
+    .lang-option.active { color: var(--accent); font-weight: 600; }
+    .lang-sep { color: var(--border); }
   </style>
 </head>
 <body>
@@ -749,6 +766,13 @@
     </div>
   </button>
 
+  <!-- Language toggle -->
+  <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">
+    <span class="lang-option active" data-lang="en">EN</span>
+    <span class="lang-sep">|</span>
+    <span class="lang-option" data-lang="zh">中文</span>
+  </button>
+
   <!-- ═══════════════════════════════════════
        LANDING PAGE
        ═══════════════════════════════════════ -->
@@ -756,12 +780,12 @@
 
     <!-- Hero -->
     <div class="landing-hero">
-      <div class="hero-label">For facilitators</div>
-      <h1>A 20-minute exercise that gets international students talking about what they actually carry.</h1>
-      <p class="landing-subtitle">30 photographs. 4 questions. A framework for seeing the layers beneath the surface.</p>
+      <div class="hero-label" id="hero-label">For facilitators</div>
+      <h1 id="hero-title">A 20-minute exercise that gets international students talking about what they actually carry.</h1>
+      <p class="landing-subtitle" id="hero-subtitle">30 photographs. 4 questions. A framework for seeing the layers beneath the surface.</p>
       <div class="hero-ctas">
-        <button class="btn btn-primary btn-large" onclick="startQuestions()">Try It Yourself</button>
-        <a class="btn btn-outline btn-large" href="/session-kit.html" target="_blank">Open Session Kit</a>
+        <button class="btn btn-primary btn-large" id="try-btn-1" onclick="startQuestions()">Try It Yourself</button>
+        <a class="btn btn-outline btn-large" id="kit-btn-1" href="/session-kit.html" target="_blank">Open Session Kit</a>
       </div>
       <div class="photo-strip">
         <img src="/photos/conversations.jpg" alt="">
@@ -772,78 +796,32 @@
         <img src="/photos/calm.jpg" alt="">
       </div>
       <div class="testimonial">
-        <blockquote>"Within 10 minutes, students were sharing things they'd never said out loud before. The photos gave them permission."</blockquote>
-        <cite>— Campus minister, orientation week</cite>
+        <blockquote id="testimonial-quote">"Within 10 minutes, students were sharing things they'd never said out loud before. The photos gave them permission."</blockquote>
+        <cite id="testimonial-cite">— Campus minister, orientation week</cite>
       </div>
     </div>
 
     <!-- What Happens in a Session -->
     <div class="landing-section reveal">
-      <div class="section-label">What happens in a session</div>
-      <h2 class="section-heading">Each person browses 30 photos and picks 3 per question</h2>
-      <p class="section-body">The 4 questions map to layers from <a href="https://ifs-institute.com" target="_blank" style="color:var(--accent);text-decoration:underline;text-underline-offset:2px;">Internal Family Systems</a> (IFS) — a therapy model that sees the mind as made up of different parts, each with its own role.</p>
-      <div class="parts-grid">
-        <div class="part-card">
-          <div class="part-card-label">Q1 · The Surface</div>
-          <h4>"What does your everyday life look like?"</h4>
-        </div>
-        <div class="part-card">
-          <div class="part-card-label">Q2 · What You Carry</div>
-          <h4>"What do you carry that nobody sees?"</h4>
-        </div>
-        <div class="part-card">
-          <div class="part-card-label">Q3 · How You Cope</div>
-          <h4>"What do you do when it gets too heavy?"</h4>
-        </div>
-        <div class="part-card">
-          <div class="part-card-label">Q4 · What You Need</div>
-          <h4>"What do you actually need?"</h4>
-        </div>
-      </div>
-      <p class="section-body" style="font-size:14px;color:var(--muted);margin-top:20px;">After each question, the facilitator uses built-in conversation prompts to guide the group discussion.</p>
+      <div class="section-label" id="what-happens-label">What happens in a session</div>
+      <h2 class="section-heading" id="what-happens-heading">Each person browses 30 photos and picks 3 per question</h2>
+      <p class="section-body" id="what-happens-body"></p>
+      <div class="parts-grid" id="parts-grid"></div>
+      <p class="section-body" id="what-happens-note" style="font-size:14px;color:var(--muted);margin-top:20px;"></p>
     </div>
 
     <!-- Running a Session -->
     <div class="landing-section full-warm reveal">
       <div class="section-inner">
-        <div class="section-label">Running a session</div>
-        <h2 class="section-heading">Everything you need to facilitate</h2>
-        <div class="session-steps">
-          <div class="session-step">
-            <div class="session-step-num">1</div>
-            <div>
-              <h4>Set up (2 min)</h4>
-              <p>Group of 4–8 people. Everyone opens Uncover on their phone. Or print the session kit for no-wifi settings.</p>
-            </div>
-          </div>
-          <div class="session-step">
-            <div class="session-step-num">2</div>
-            <div>
-              <h4>Pick photos (10 min)</h4>
-              <p>Read each question aloud. Give people 2 minutes to browse and pick 3 photos. Silence is fine — let them sit with it.</p>
-            </div>
-          </div>
-          <div class="session-step">
-            <div class="session-step-num">3</div>
-            <div>
-              <h4>Share & discuss (10–15 min)</h4>
-              <p>After each question, invite 2–3 people to share what they picked and why. Use the built-in prompts to go deeper. Don't force anyone.</p>
-            </div>
-          </div>
-          <div class="session-step">
-            <div class="session-step-num">4</div>
-            <div>
-              <h4>Close (5 min)</h4>
-              <p>Everyone sees their summary. Ask: "What surprised you?" Close with one word for how they're feeling.</p>
-            </div>
-          </div>
-        </div>
+        <div class="section-label" id="running-label">Running a session</div>
+        <h2 class="section-heading" id="running-heading">Everything you need to facilitate</h2>
+        <div class="session-steps" id="session-steps"></div>
       </div>
     </div>
 
     <!-- Who It's For -->
     <div class="landing-section reveal">
-      <div class="section-label">Who it's for</div>
+      <div class="section-label" id="who-label">Who it's for</div>
       <h2 class="section-heading" id="who-heading"></h2>
       <p class="section-body" id="who-body"></p>
       <div class="uses-list" id="uses-list"></div>
@@ -851,15 +829,15 @@
 
     <!-- CTA -->
     <div class="landing-cta reveal">
-      <h2>Ready to run a session?</h2>
-      <p>Free. No sign-up. Takes 20–30 minutes.</p>
+      <h2 id="cta-heading">Ready to run a session?</h2>
+      <p id="cta-subtext">Free. No sign-up. Takes 20–30 minutes.</p>
       <div class="hero-ctas" style="animation:none;opacity:1;transform:none;">
-        <button class="btn btn-primary btn-large" onclick="startQuestions()">Try It Yourself</button>
-        <a class="btn btn-outline btn-large" href="/session-kit.html" target="_blank">Open Session Kit</a>
+        <button class="btn btn-primary btn-large" id="try-btn-2" onclick="startQuestions()">Try It Yourself</button>
+        <a class="btn btn-outline btn-large" id="kit-btn-2" href="/session-kit.html" target="_blank">Open Session Kit</a>
       </div>
     </div>
 
-    <div class="landing-footer">
+    <div class="landing-footer" id="landing-footer">
       Built by <a href="https://frontiercommons.org" target="_blank">Frontier Commons</a>
     </div>
   </div>
@@ -903,48 +881,36 @@
   </div>
 
   <!-- ═══════════════════════════════════════
-       TRANSITION
-       ═══════════════════════════════════════ -->
-  <div id="screen-transition" class="screen">
-    <div class="transition-screen">
-      <div>
-        <div class="transition-text" id="transition-text"></div>
-        <div class="transition-sub" id="transition-sub"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════
        SUMMARY
        ═══════════════════════════════════════ -->
   <div id="screen-summary" class="screen">
     <div class="summary">
       <div class="summary-header">
-        <button class="summary-back" onclick="restart()"><span aria-hidden="true">←</span> Start Over</button>
-        <h2>What You Uncovered</h2>
+        <button class="summary-back" id="summary-back-btn" onclick="restart()"><span aria-hidden="true">←</span> Start Over</button>
+        <h2 id="summary-heading-text">What You Uncovered</h2>
         <p id="summary-desc"></p>
       </div>
       <div id="summary-content"></div>
 
       <div class="summary-cta-block">
-        <p>What you uncovered matters. Don't let it stay here. Share it with one person this week.</p>
+        <p id="summary-cta-text">What you uncovered matters. Don't let it stay here. Share it with one person this week.</p>
         <button class="btn btn-accent" id="share-btn" onclick="shareResults()" style="display:none;">Share Your Results</button>
-        <a class="btn btn-outline" href="https://frontiercommons.org#community" target="_blank">Find Community</a>
-        <button class="summary-restart" onclick="restart()">or start over</button>
+        <a class="btn btn-outline" id="community-btn" href="https://frontiercommons.org#community" target="_blank">Find Community</a>
+        <button class="summary-restart" id="restart-btn" onclick="restart()">or start over</button>
       </div>
 
       <div class="email-save" id="email-save">
-        <div class="email-save-label">Save Your Results</div>
-        <p>Want to save this? We'll email you your results so you can revisit them later.</p>
+        <div class="email-save-label" id="email-label">Save Your Results</div>
+        <p id="email-body-text">Want to save this? We'll email you your results so you can revisit them later.</p>
         <form class="email-save-form" onsubmit="sendResults(event)">
           <input type="email" class="email-save-input" id="email-input" placeholder="your@email.com" required aria-label="Email address">
           <button type="submit" class="email-save-btn" id="email-btn">Email My Results</button>
         </form>
         <div class="email-save-msg" id="email-msg"></div>
-        <div class="email-save-fine">No spam. Just your results.</div>
+        <div class="email-save-fine" id="email-fine">No spam. Just your results.</div>
       </div>
 
-      <div class="summary-footer">
+      <div class="summary-footer" id="summary-footer">
         <p>
           Built by <a href="https://frontiercommons.org" target="_blank">Frontier Commons</a>.
         </p>
@@ -953,118 +919,387 @@
   </div>
 
 <script>
-const COPY = {
-  tagline: "A visual tool for naming what you carry between worlds.",
-  whatBody1: "Every journey between cultures carries weight — goodbyes that linger, languages that don't capture what you mean, holidays nobody around you knows. Uncover gives you a way to see that weight, name it, and share it.",
-  whatBody2: "You'll look at 30 photographs — each one chosen to stir something — and pick the ones that resonate. The images you choose reveal patterns about how you move through the world, what you're protecting, and what you need.",
-  frameworkHeading: "We all carry more than we show",
-  frameworkBody1: "When you cross cultures, you learn to hold multiple worlds inside you. Some parts keep it together for everyone watching. Some parts carry the ache of what you left behind. Some parts kick in when the weight gets too heavy. And underneath all of it is something whole — the you that exists before and after all the performing.",
-  frameworkBody2: "Uncover helps you see all four layers.",
-  layer1Desc: "The parts that run your daily life here. They plan, achieve, adapt, and keep things together. They're the face you show the world.",
-  layer2Desc: "The parts that carry homesickness, loneliness, the goodbyes you never fully processed. They're often hidden — even from you.",
-  layer3Desc: "What kicks in when the weight is too much — overworking, retreating, numbing, performing. They're not bad — they're surviving.",
-  layer4Desc: "The calm underneath all the layers. Being fully known, fully at rest. Not perfection — just wholeness.",
-  whoHeading: "Built for anyone who works with international students",
-  whoBody: "Uncover gives you a way to talk about inner experience without needing the vocabulary for it. Especially powerful for people carrying the weight of distance — from home, from language, from the version of themselves they left behind.",
-  tags: ["Orientation programs", "Campus ministry", "ISSS offices", "Small groups", "Retreats", "Counselors", "Cross-cultural teams"],
-  questions: [
-    {
-      number: "Question One",
-      text: "What does your everyday life look like?",
-      hint: "Pick 3 images that feel like a normal day for you right now.",
-      partLabel: "Layer 1 · The Surface",
-      partInsight: "The face you show the world.",
-      prompts: [
-        "What does this image capture about your life here?",
-        "Is this how you want to show up, or just how you've learned to?",
-        "What part of you is working hardest in this image?",
-      ],
+// ─── I18N ───
+const I18N = {
+  en: {
+    heroLabel: "For facilitators",
+    heroTitle: "A 20-minute exercise that gets international students talking about what they actually carry.",
+    heroSubtitle: "30 photographs. 4 questions. A framework for seeing the layers beneath the surface.",
+    tryBtn: "Try It Yourself",
+    sessionKitBtn: "Open Session Kit",
+    testimonialQuote: "\u201CWithin 10 minutes, students were sharing things they\u2019d never said out loud before. The photos gave them permission.\u201D",
+    testimonialCite: "\u2014 Campus minister, orientation week",
+    whatHappensLabel: "What happens in a session",
+    whatHappensHeading: "Each person browses 30 photos and picks 3 per question",
+    whatHappensBody: 'The 4 questions map to layers from <a href="https://ifs-institute.com" target="_blank" style="color:var(--accent);text-decoration:underline;text-underline-offset:2px;">Internal Family Systems</a> (IFS) \u2014 a therapy model that sees the mind as made up of different parts, each with its own role.',
+    whatHappensNote: "After each question, the facilitator uses built-in conversation prompts to guide the group discussion.",
+    partCards: [
+      { label: "Q1 \u00b7 The Surface", question: "\u201CWhat does your everyday life look like?\u201D" },
+      { label: "Q2 \u00b7 What You Carry", question: "\u201CWhat do you carry that nobody sees?\u201D" },
+      { label: "Q3 \u00b7 How You Cope", question: "\u201CWhat do you do when it gets too heavy?\u201D" },
+      { label: "Q4 \u00b7 What You Need", question: "\u201CWhat do you actually need?\u201D" },
+    ],
+    runningLabel: "Running a session",
+    runningHeading: "Everything you need to facilitate",
+    steps: [
+      { title: "Set up (2 min)", body: "Group of 4\u20138 people. Everyone opens Uncover on their phone. Or print the session kit for no-wifi settings." },
+      { title: "Pick photos (10 min)", body: "Read each question aloud. Give people 2 minutes to browse and pick 3 photos. Silence is fine \u2014 let them sit with it." },
+      { title: "Share & discuss (10\u201315 min)", body: "After each question, invite 2\u20133 people to share what they picked and why. Use the built-in prompts to go deeper. Don\u2019t force anyone." },
+      { title: "Close (5 min)", body: "Everyone sees their summary. Ask: \u201CWhat surprised you?\u201D Close with one word for how they\u2019re feeling." },
+    ],
+    whoLabel: "Who it\u2019s for",
+    whoHeading: "Built for anyone who works with international students",
+    whoBody: "Uncover gives you a way to talk about inner experience without needing the vocabulary for it. Especially powerful for people carrying the weight of distance \u2014 from home, from language, from the version of themselves they left behind.",
+    tags: ["Orientation programs", "Campus ministry", "ISSS offices", "Small groups", "Retreats", "Counselors", "Cross-cultural teams"],
+    ctaHeading: "Ready to run a session?",
+    ctaSubtext: "Free. No sign-up. Takes 20\u201330 minutes.",
+    footerHtml: 'Built by <a href="https://frontiercommons.org" target="_blank">Frontier Commons</a>',
+    questions: [
+      {
+        number: "Question One",
+        text: "What does your everyday life look like?",
+        hint: "Pick 3 images that feel like a normal day for you right now.",
+        partLabel: "Layer 1 \u00b7 The Surface",
+        partInsight: "The face you show the world.",
+        prompts: [
+          "What does this image capture about your life here?",
+          "Is this how you want to show up, or just how you\u2019ve learned to?",
+          "What part of you is working hardest in this image?",
+        ],
+      },
+      {
+        number: "Question Two",
+        text: "What do you carry that nobody sees?",
+        hint: "Pick 3 images that feel like the stuff you don\u2019t talk about.",
+        partLabel: "Layer 2 \u00b7 What You Carry",
+        partInsight: "The weight you don\u2019t talk about.",
+        prompts: [
+          "When did this feeling first show up for you?",
+          "What does this part need that it hasn\u2019t gotten?",
+          "What would happen if someone here really saw this part of you?",
+        ],
+      },
+      {
+        number: "Question Three",
+        text: "What do you do when it gets too heavy?",
+        hint: "Pick 3 images that feel like your go-to when you\u2019re overwhelmed.\nNo judgment. These are survival strategies, not failures.",
+        partLabel: "Layer 3 \u00b7 How You Cope",
+        partInsight: "What keeps you standing when it\u2019s too much.",
+        prompts: [
+          "What does this coping look like in your daily life?",
+          "What is this part trying to protect you from feeling?",
+          "If this part could talk, what would it say it needs?",
+        ],
+      },
+      {
+        number: "Question Four",
+        text: "What do you actually need?",
+        hint: "Pick 3 images that feel like what would make you feel whole.\nThink about a moment you felt most like yourself.",
+        partLabel: "Layer 4 \u00b7 What You Need",
+        partInsight: "The you underneath all the performing.",
+        prompts: [
+          "What would change in your life if you had this?",
+          "What\u2019s the biggest thing standing between you and this?",
+          "Where \u2014 or with whom \u2014 do you feel closest to this?",
+        ],
+      },
+    ],
+    summaryDesc: "Four layers. One conversation. Here\u2019s what showed up when you stopped performing and started noticing.",
+    photoTitles: {
+      1: "Angry", 2: "Broke", 3: "Busy", 4: "Calm", 5: "Conversations",
+      6: "Creativity", 7: "Drowning", 8: "Enjoying Food", 9: "Escaping Reality", 10: "Faithful",
+      11: "Family", 12: "In Pain", 13: "Laborious", 14: "Lazy", 15: "Medical Problems",
+      16: "Meditative", 17: "Mourning", 18: "On the Phone", 19: "Pet Companionship", 20: "Romantic",
+      21: "Sleep", 22: "Sorrowful", 23: "Studious", 24: "Successful", 25: "The Married Life",
+      26: "Tired", 27: "Traveling", 28: "Wealthy", 29: "With Community", 30: "A Hug",
     },
-    {
-      number: "Question Two",
-      text: "What do you carry that nobody sees?",
-      hint: "Pick 3 images that feel like the stuff you don't talk about.",
-      partLabel: "Layer 2 · What You Carry",
-      partInsight: "The weight you don't talk about.",
-      prompts: [
-        "When did this feeling first show up for you?",
-        "What does this part need that it hasn't gotten?",
-        "What would happen if someone here really saw this part of you?",
-      ],
+    continueBtn: "Continue",
+    seeResultsBtn: "See what I uncovered",
+    pickPrompt: 'Pick <strong>3</strong> images',
+    pickCount: '<strong>{n}</strong> of <strong>3</strong> selected',
+    pickDone: 'All <strong>3</strong> selected',
+    backLabel: "Go back",
+    audioLabel: "Toggle ambient music",
+    summaryBackText: "Start Over",
+    summaryHeading: "What You Uncovered",
+    goDeeper: "Go Deeper",
+    summaryCta: "What you uncovered matters. Don\u2019t let it stay here. Share it with one person this week.",
+    shareBtn: "Share Your Results",
+    communityBtn: "Find Community",
+    restartBtn: "or start over",
+    emailLabel: "Save Your Results",
+    emailBody: "Want to save this? We\u2019ll email you your results so you can revisit them later.",
+    emailPlaceholder: "your@email.com",
+    emailBtn: "Email My Results",
+    emailFine: "No spam. Just your results.",
+    emailSending: "Sending\u2026",
+    emailSent: "Sent! Check your inbox.",
+    emailSentBtn: "Sent \u2713",
+    emailError: "Could not send right now. Try again later.",
+    shareText: "I just uncovered my four layers with Uncover \u2014 a visual conversation tool. Try it yourself:",
+    shareTitle: "Uncover \u2014 What I Uncovered",
+    shareCopied: "Copied!",
+  },
+  zh: {
+    heroLabel: "\u5e26\u9886\u8005\u4e13\u7528",
+    heroTitle: "\u4e00\u4e2a20\u5206\u949f\u7684\u7ec3\u4e60\uff0c\u8ba9\u7559\u5b66\u751f\u8bf4\u51fa\u5185\u5fc3\u771f\u6b63\u627f\u8f7d\u7684\u4e1c\u897f\u3002",
+    heroSubtitle: "30\u5f20\u7167\u7247\u30024\u4e2a\u95ee\u9898\u3002\u4e00\u4e2a\u770b\u89c1\u8868\u9762\u4e4b\u4e0b\u5c42\u6b21\u7684\u6846\u67b6\u3002",
+    tryBtn: "\u4eb2\u81ea\u4f53\u9a8c",
+    sessionKitBtn: "\u6253\u5f00\u5e26\u9886\u5de5\u5177\u5305",
+    testimonialQuote: "\u201c\u4e0d\u523010\u5206\u949f\uff0c\u5b66\u751f\u4eec\u5c31\u5f00\u59cb\u5206\u4eab\u4ece\u672a\u8bf4\u51fa\u53e3\u7684\u5fc3\u91cc\u8bdd\u3002\u7167\u7247\u7ed9\u4e86\u4ed6\u4eec\u5f00\u53e3\u7684\u52c7\u6c14\u3002\u201d",
+    testimonialCite: "\u2014 \u6821\u56ed\u4e8b\u5de5\u540c\u5de5\uff0c\u8fce\u65b0\u5468",
+    whatHappensLabel: "\u4e00\u6b21\u4f53\u9a8c\u662f\u4ec0\u4e48\u6837\u7684",
+    whatHappensHeading: "\u6bcf\u4eba\u6d4f\u89c830\u5f20\u7167\u7247\uff0c\u6bcf\u4e2a\u95ee\u9898\u90093\u5f20",
+    whatHappensBody: '\u8fd94\u4e2a\u95ee\u9898\u5bf9\u5e94<a href="https://ifs-institute.com" target="_blank" style="color:var(--accent);text-decoration:underline;text-underline-offset:2px;">\u5185\u5728\u5bb6\u5ead\u7cfb\u7edf</a>\uff08IFS\uff09\u7684\u4e0d\u540c\u5c42\u6b21\u2014\u2014\u4e00\u79cd\u5c06\u5185\u5fc3\u770b\u4f5c\u7531\u4e0d\u540c\u90e8\u5206\u7ec4\u6210\u7684\u5fc3\u7406\u6cbb\u7597\u6a21\u578b\uff0c\u6bcf\u4e2a\u90e8\u5206\u90fd\u6709\u5404\u81ea\u7684\u89d2\u8272\u3002',
+    whatHappensNote: "\u6bcf\u4e2a\u95ee\u9898\u4e4b\u540e\uff0c\u5e26\u9886\u8005\u53ef\u4ee5\u4f7f\u7528\u5185\u7f6e\u7684\u5bf9\u8bdd\u5f15\u5bfc\u6765\u5e26\u52a8\u5c0f\u7ec4\u8ba8\u8bba\u3002",
+    partCards: [
+      { label: "\u95ee\u9898\u4e00 \u00b7 \u8868\u9762", question: "\u201c\u4f60\u7684\u65e5\u5e38\u751f\u6d3b\u662f\u4ec0\u4e48\u6837\u7684\uff1f\u201d" },
+      { label: "\u95ee\u9898\u4e8c \u00b7 \u627f\u8f7d", question: "\u201c\u4f60\u80cc\u8d1f\u7740\u4ec0\u4e48\u662f\u522b\u4eba\u770b\u4e0d\u5230\u7684\uff1f\u201d" },
+      { label: "\u95ee\u9898\u4e09 \u00b7 \u5e94\u5bf9", question: "\u201c\u5f53\u4e00\u5207\u53d8\u5f97\u592a\u6c89\u91cd\u65f6\u4f60\u4f1a\u600e\u4e48\u505a\uff1f\u201d" },
+      { label: "\u95ee\u9898\u56db \u00b7 \u9700\u8981", question: "\u201c\u4f60\u771f\u6b63\u9700\u8981\u7684\u662f\u4ec0\u4e48\uff1f\u201d" },
+    ],
+    runningLabel: "\u5982\u4f55\u5e26\u9886\u4e00\u573a\u4f53\u9a8c",
+    runningHeading: "\u5e26\u9886\u6240\u9700\u7684\u4e00\u5207",
+    steps: [
+      { title: "\u51c6\u5907\uff082\u5206\u949f\uff09", body: "4-8\u4eba\u4e00\u7ec4\u3002\u6bcf\u4eba\u5728\u624b\u673a\u4e0a\u6253\u5f00 Uncover\uff0c\u6216\u6253\u5370\u5de5\u5177\u5305\u7528\u4e8e\u65e0\u7f51\u7edc\u73af\u5883\u3002" },
+      { title: "\u9009\u7167\u7247\uff0810\u5206\u949f\uff09", body: "\u5927\u58f0\u6717\u8bfb\u6bcf\u4e2a\u95ee\u9898\u3002\u7ed9\u5927\u5bb62\u5206\u949f\u6d4f\u89c8\u5e76\u90093\u5f20\u7167\u7247\u3002\u6c89\u9ed8\u4e5f\u6ca1\u5173\u7cfb\u2014\u2014\u8ba9\u4ed6\u4eec\u9759\u9759\u611f\u53d7\u3002" },
+      { title: "\u5206\u4eab\u4e0e\u8ba8\u8bba\uff0810-15\u5206\u949f\uff09", body: "\u6bcf\u4e2a\u95ee\u9898\u540e\uff0c\u9080\u8bf72-3\u4eba\u5206\u4eab\u4ed6\u4eec\u9009\u4e86\u4ec0\u4e48\u4ee5\u53ca\u539f\u56e0\u3002\u4f7f\u7528\u5185\u7f6e\u5f15\u5bfc\u6df1\u5165\u4ea4\u6d41\u3002\u4e0d\u8981\u5f3a\u8feb\u4efb\u4f55\u4eba\u3002" },
+      { title: "\u7ed3\u675f\uff085\u5206\u949f\uff09", body: "\u6bcf\u4e2a\u4eba\u67e5\u770b\u81ea\u5df1\u7684\u603b\u7ed3\u3002\u95ee\uff1a\u201c\u4ec0\u4e48\u8ba9\u4f60\u611f\u5230\u610f\u5916\uff1f\u201d\u7528\u4e00\u4e2a\u8bcd\u5f62\u5bb9\u73b0\u5728\u7684\u611f\u53d7\u6765\u7ed3\u675f\u3002" },
+    ],
+    whoLabel: "\u9002\u7528\u5bf9\u8c61",
+    whoHeading: "\u4e3a\u6240\u6709\u4e0e\u7559\u5b66\u751f\u540c\u884c\u7684\u4eba\u800c\u8bbe\u8ba1",
+    whoBody: "Uncover \u8ba9\u4f60\u65e0\u9700\u627e\u5230\u7cbe\u786e\u7684\u8bcd\u6c47\u5c31\u80fd\u8c08\u8bba\u5185\u5fc3\u4f53\u9a8c\u3002\u5bf9\u4e8e\u627f\u53d7\u7740\u8ddd\u79bb\u4e4b\u91cd\u7684\u4eba\u5c24\u5176\u6709\u529b\u2014\u2014\u8fdc\u79bb\u5bb6\u4e61\u3001\u8fdc\u79bb\u6bcd\u8bed\u3001\u8fdc\u79bb\u66fe\u7ecf\u7684\u81ea\u5df1\u3002",
+    tags: ["\u8fce\u65b0\u6d3b\u52a8", "\u6821\u56ed\u4e8b\u5de5", "\u56fd\u9645\u5b66\u751f\u670d\u52a1", "\u5c0f\u7ec4", "\u9000\u4fee\u4f1a", "\u5fc3\u7406\u54a8\u8be2", "\u8de8\u6587\u5316\u56e2\u961f"],
+    ctaHeading: "\u51c6\u5907\u597d\u5e26\u9886\u4e00\u573a\u4f53\u9a8c\u4e86\u5417\uff1f",
+    ctaSubtext: "\u514d\u8d39\u3002\u65e0\u9700\u6ce8\u518c\u300220-30\u5206\u949f\u3002",
+    footerHtml: '\u7531 <a href="https://frontiercommons.org" target="_blank">Frontier Commons</a> \u5f00\u53d1',
+    questions: [
+      {
+        number: "\u95ee\u9898\u4e00",
+        text: "\u4f60\u7684\u65e5\u5e38\u751f\u6d3b\u662f\u4ec0\u4e48\u6837\u7684\uff1f",
+        hint: "\u90093\u5f20\u611f\u89c9\u50cf\u4f60\u73b0\u5728\u65e5\u5e38\u7684\u7167\u7247\u3002",
+        partLabel: "\u7b2c\u4e00\u5c42 \u00b7 \u8868\u9762",
+        partInsight: "\u4f60\u5c55\u73b0\u7ed9\u4e16\u754c\u7684\u90a3\u4e00\u9762\u3002",
+        prompts: [
+          "\u8fd9\u5f20\u56fe\u7247\u6355\u6349\u5230\u4e86\u4f60\u751f\u6d3b\u4e2d\u7684\u4ec0\u4e48\uff1f",
+          "\u8fd9\u662f\u4f60\u60f3\u8981\u5448\u73b0\u7684\u6837\u5b50\uff0c\u8fd8\u662f\u4f60\u5b66\u4f1a\u4e86\u8fd9\u6837\u8868\u73b0\uff1f",
+          "\u5728\u8fd9\u5f20\u56fe\u7247\u4e2d\uff0c\u4f60\u7684\u54ea\u4e2a\u90e8\u5206\u6700\u8f9b\u82e6\uff1f",
+        ],
+      },
+      {
+        number: "\u95ee\u9898\u4e8c",
+        text: "\u4f60\u80cc\u8d1f\u7740\u4ec0\u4e48\u662f\u522b\u4eba\u770b\u4e0d\u5230\u7684\uff1f",
+        hint: "\u90093\u5f20\u611f\u89c9\u50cf\u90a3\u4e9b\u4f60\u4e0d\u4f1a\u8c08\u53ca\u7684\u4e1c\u897f\u7684\u7167\u7247\u3002",
+        partLabel: "\u7b2c\u4e8c\u5c42 \u00b7 \u627f\u8f7d",
+        partInsight: "\u4f60\u4e0d\u66fe\u8a00\u8bf4\u7684\u91cd\u91cf\u3002",
+        prompts: [
+          "\u8fd9\u79cd\u611f\u89c9\u6700\u65e9\u662f\u4ec0\u4e48\u65f6\u5019\u51fa\u73b0\u7684\uff1f",
+          "\u8fd9\u4e2a\u90e8\u5206\u9700\u8981\u4ec0\u4e48\u662f\u5b83\u8fd8\u6ca1\u6709\u5f97\u5230\u7684\uff1f",
+          "\u5982\u679c\u8fd9\u91cc\u6709\u4eba\u771f\u6b63\u770b\u5230\u4e86\u4f60\u7684\u8fd9\u4e00\u9762\uff0c\u4f1a\u600e\u6837\uff1f",
+        ],
+      },
+      {
+        number: "\u95ee\u9898\u4e09",
+        text: "\u5f53\u4e00\u5207\u53d8\u5f97\u592a\u6c89\u91cd\u65f6\u4f60\u4f1a\u600e\u4e48\u505a\uff1f",
+        hint: "\u90093\u5f20\u611f\u89c9\u50cf\u4f60\u88ab\u538b\u5938\u65f6\u7684\u5e94\u5bf9\u65b9\u5f0f\u7684\u7167\u7247\u3002\n\u6ca1\u6709\u8bc4\u5224\u3002\u8fd9\u4e9b\u662f\u751f\u5b58\u7b56\u7565\uff0c\u4e0d\u662f\u5931\u8d25\u3002",
+        partLabel: "\u7b2c\u4e09\u5c42 \u00b7 \u5e94\u5bf9",
+        partInsight: "\u5f53\u4e00\u5207\u592a\u6c89\u91cd\u65f6\u652f\u6491\u4f60\u7684\u65b9\u5f0f\u3002",
+        prompts: [
+          "\u8fd9\u79cd\u5e94\u5bf9\u65b9\u5f0f\u5728\u4f60\u7684\u65e5\u5e38\u751f\u6d3b\u4e2d\u662f\u4ec0\u4e48\u6837\u7684\uff1f",
+          "\u8fd9\u4e2a\u90e8\u5206\u5728\u8bd5\u56fe\u4fdd\u62a4\u4f60\u4e0d\u53bb\u611f\u53d7\u4ec0\u4e48\uff1f",
+          "\u5982\u679c\u8fd9\u4e2a\u90e8\u5206\u80fd\u8bf4\u8bdd\uff0c\u5b83\u4f1a\u8bf4\u5b83\u9700\u8981\u4ec0\u4e48\uff1f",
+        ],
+      },
+      {
+        number: "\u95ee\u9898\u56db",
+        text: "\u4f60\u771f\u6b63\u9700\u8981\u7684\u662f\u4ec0\u4e48\uff1f",
+        hint: "\u90093\u5f20\u8ba9\u4f60\u611f\u89c9\u5b8c\u6574\u7684\u7167\u7247\u3002\n\u60f3\u60f3\u4e00\u4e2a\u4f60\u6700\u50cf\u81ea\u5df1\u7684\u65f6\u523b\u3002",
+        partLabel: "\u7b2c\u56db\u5c42 \u00b7 \u6240\u9700",
+        partInsight: "\u6240\u6709\u8868\u6f14\u4e4b\u4e0b\u7684\u90a3\u4e2a\u4f60\u3002",
+        prompts: [
+          "\u5982\u679c\u4f60\u62e5\u6709\u4e86\u8fd9\u4e2a\uff0c\u4f60\u7684\u751f\u6d3b\u4f1a\u6709\u4ec0\u4e48\u6539\u53d8\uff1f",
+          "\u5728\u4f60\u548c\u8fd9\u4e2a\u4e4b\u95f4\u6700\u5927\u7684\u969c\u7887\u662f\u4ec0\u4e48\uff1f",
+          "\u5728\u54ea\u91cc\u2014\u2014\u6216\u8005\u548c\u8c01\u5728\u4e00\u8d77\u2014\u2014\u4f60\u6700\u63a5\u8fd1\u8fd9\u79cd\u611f\u89c9\uff1f",
+        ],
+      },
+    ],
+    summaryDesc: "\u56db\u4e2a\u5c42\u6b21\u3002\u4e00\u6b21\u5bf9\u8bdd\u3002\u5f53\u4f60\u505c\u6b62\u8868\u6f14\u3001\u5f00\u59cb\u89c9\u5bdf\u65f6\uff0c\u8fd9\u4e9b\u6d6e\u73b0\u4e86\u51fa\u6765\u3002",
+    photoTitles: {
+      1: "\u6124\u6012", 2: "\u62ee\u636e", 3: "\u5fd9\u788c", 4: "\u5e73\u9759", 5: "\u4ea4\u8c08",
+      6: "\u521b\u9020\u529b", 7: "\u6323\u624e", 8: "\u4eab\u53d7\u7f8e\u98df", 9: "\u9003\u907f\u73b0\u5b9e", 10: "\u8654\u8bda",
+      11: "\u5bb6\u4eba", 12: "\u75db\u82e6", 13: "\u8f9b\u52b3", 14: "\u6175\u61d2", 15: "\u5065\u5eb7\u95ee\u9898",
+      16: "\u51a5\u60f3", 17: "\u54c0\u60bc", 18: "\u6253\u7535\u8bdd", 19: "\u5ba0\u7269\u966a\u4f34", 20: "\u6d6a\u6f2b",
+      21: "\u7761\u7720", 22: "\u60b2\u4f24", 23: "\u52e4\u5b66", 24: "\u6210\u529f", 25: "\u5a5a\u59fb\u751f\u6d3b",
+      26: "\u75b2\u60eb", 27: "\u65c5\u884c", 28: "\u5bcc\u88d5", 29: "\u793e\u7fa4", 30: "\u62e5\u62b1",
     },
-    {
-      number: "Question Three",
-      text: "What do you do when it gets too heavy?",
-      hint: "Pick 3 images that feel like your go-to when you're overwhelmed.\nNo judgment. These are survival strategies, not failures.",
-      partLabel: "Layer 3 · How You Cope",
-      partInsight: "What keeps you standing when it's too much.",
-      prompts: [
-        "What does this coping look like in your daily life?",
-        "What is this part trying to protect you from feeling?",
-        "If this part could talk, what would it say it needs?",
-      ],
-    },
-    {
-      number: "Question Four",
-      text: "What do you actually need?",
-      hint: "Pick 3 images that feel like what would make you feel whole.\nThink about a moment you felt most like yourself.",
-      partLabel: "Layer 4 · What You Need",
-      partInsight: "The you underneath all the performing.",
-      prompts: [
-        "What would change in your life if you had this?",
-        "What's the biggest thing standing between you and this?",
-        "Where — or with whom — do you feel closest to this?",
-      ],
-    },
-  ],
-  transitions: [
-    { text: "Missing home isn't weakness. It's proof you loved something.", sub: "Next: what you carry but don't show." },
-    { text: "Now think about your reactions.", sub: "Next: what you do when things get heavy." },
-    { text: "One more — this one matters most.", sub: "Next: what you actually need." },
-    { text: "Here's what you uncovered.", sub: "" },
-  ],
-  summaryDesc: "Four layers. One conversation. Here's what showed up when you stopped performing and started noticing.",
+    continueBtn: "\u7ee7\u7eed",
+    seeResultsBtn: "\u67e5\u770b\u6211\u7684\u53d1\u73b0",
+    pickPrompt: '\u9009\u62e9 <strong>3</strong> \u5f20\u56fe\u7247',
+    pickCount: '\u5df2\u9009 <strong>{n}</strong> / <strong>3</strong>',
+    pickDone: '\u5df2\u9009\u6ee1 <strong>3</strong> \u5f20',
+    backLabel: "\u8fd4\u56de",
+    audioLabel: "\u5207\u6362\u80cc\u666f\u97f3\u4e50",
+    summaryBackText: "\u91cd\u65b0\u5f00\u59cb",
+    summaryHeading: "\u4f60\u53d1\u73b0\u4e86\u4ec0\u4e48",
+    goDeeper: "\u6df1\u5165\u63a2\u7d22",
+    summaryCta: "\u4f60\u7684\u53d1\u73b0\u5f88\u91cd\u8981\u3002\u4e0d\u8981\u8ba9\u5b83\u505c\u7559\u5728\u8fd9\u91cc\u3002\u8fd9\u5468\u548c\u4e00\u4e2a\u4eba\u5206\u4eab\u5427\u3002",
+    shareBtn: "\u5206\u4eab\u7ed3\u679c",
+    communityBtn: "\u5bfb\u627e\u793e\u7fa4",
+    restartBtn: "\u6216\u8005\u91cd\u65b0\u5f00\u59cb",
+    emailLabel: "\u4fdd\u5b58\u4f60\u7684\u7ed3\u679c",
+    emailBody: "\u60f3\u4fdd\u5b58\u5417\uff1f\u6211\u4eec\u4f1a\u628a\u7ed3\u679c\u53d1\u5230\u4f60\u7684\u90ae\u7bb1\uff0c\u65b9\u4fbf\u4f60\u4ee5\u540e\u56de\u770b\u3002",
+    emailPlaceholder: "\u4f60\u7684\u90ae\u7bb1",
+    emailBtn: "\u53d1\u9001\u5230\u90ae\u7bb1",
+    emailFine: "\u4e0d\u4f1a\u53d1\u9001\u5783\u573e\u90ae\u4ef6\u3002\u53ea\u6709\u4f60\u7684\u7ed3\u679c\u3002",
+    emailSending: "\u53d1\u9001\u4e2d\u2026",
+    emailSent: "\u5df2\u53d1\u9001\uff01\u8bf7\u67e5\u6536\u90ae\u4ef6\u3002",
+    emailSentBtn: "\u5df2\u53d1\u9001 \u2713",
+    emailError: "\u6682\u65f6\u65e0\u6cd5\u53d1\u9001\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\u3002",
+    shareText: "\u6211\u521a\u521a\u7528 Uncover \u53d1\u73b0\u4e86\u81ea\u5df1\u7684\u56db\u4e2a\u5c42\u6b21\u2014\u2014\u4e00\u4e2a\u89c6\u89c9\u5bf9\u8bdd\u5de5\u5177\u3002\u6765\u8bd5\u8bd5\uff1a",
+    shareTitle: "Uncover \u2014 \u6211\u7684\u53d1\u73b0",
+    shareCopied: "\u5df2\u590d\u5236\uff01",
+  },
 };
-
 
 // ─── PHOTOS (30) — curated for international student experience ───
 const PHOTOS = [
-  { id: 1,  title: "Angry",              src: "/photos/angry.jpg" },
-  { id: 2,  title: "Broke",              src: "/photos/broke.jpg" },
-  { id: 3,  title: "Busy",               src: "/photos/busy.jpg" },
-  { id: 4,  title: "Calm",               src: "/photos/calm.jpg" },
-  { id: 5,  title: "Conversations",      src: "/photos/conversations.jpg" },
-  { id: 6,  title: "Creativity",         src: "/photos/creativity.jpg" },
-  { id: 7,  title: "Drowning",           src: "/photos/drowning.jpg" },
-  { id: 8,  title: "Enjoying Food",      src: "/photos/enjoying-food.jpg" },
-  { id: 9,  title: "Escaping Reality",   src: "/photos/escaping-reality.jpg" },
-  { id: 10, title: "Faithful",           src: "/photos/faithful.jpg" },
-  { id: 11, title: "Family",             src: "/photos/family.jpg" },
-  { id: 12, title: "In Pain",            src: "/photos/in-pain.jpg" },
-  { id: 13, title: "Laborious",          src: "/photos/laborious.jpg" },
-  { id: 14, title: "Lazy",               src: "/photos/lazy.jpg" },
-  { id: 15, title: "Medical Problems",   src: "/photos/medical-problems.jpg" },
-  { id: 16, title: "Meditative",         src: "/photos/meditative.jpg" },
-  { id: 17, title: "Mourning",           src: "/photos/mourning.jpg" },
-  { id: 18, title: "On the Phone",       src: "/photos/on-the-phone.jpg" },
-  { id: 19, title: "Pet Companionship",  src: "/photos/pet-companionship.jpg" },
-  { id: 20, title: "Romantic",           src: "/photos/romantic.jpg" },
-  { id: 21, title: "Sleep",              src: "/photos/sleep.jpg" },
-  { id: 22, title: "Sorrowful",          src: "/photos/sorrowful.jpg" },
-  { id: 23, title: "Studious",           src: "/photos/studious.jpg" },
-  { id: 24, title: "Successful",         src: "/photos/successful.jpg" },
-  { id: 25, title: "The Married Life",   src: "/photos/the-married-life.jpg" },
-  { id: 26, title: "Tired",              src: "/photos/tired.jpg" },
-  { id: 27, title: "Traveling",          src: "/photos/traveling.jpg" },
-  { id: 28, title: "Wealthy",            src: "/photos/wealthy.jpg" },
-  { id: 29, title: "With Community",     src: "/photos/with-community.jpg" },
-  { id: 30, title: "A Hug",              src: "/photos/a-hug.jpg" },
+  { id: 1,  src: "/photos/angry.jpg" },
+  { id: 2,  src: "/photos/broke.jpg" },
+  { id: 3,  src: "/photos/busy.jpg" },
+  { id: 4,  src: "/photos/calm.jpg" },
+  { id: 5,  src: "/photos/conversations.jpg" },
+  { id: 6,  src: "/photos/creativity.jpg" },
+  { id: 7,  src: "/photos/drowning.jpg" },
+  { id: 8,  src: "/photos/enjoying-food.jpg" },
+  { id: 9,  src: "/photos/escaping-reality.jpg" },
+  { id: 10, src: "/photos/faithful.jpg" },
+  { id: 11, src: "/photos/family.jpg" },
+  { id: 12, src: "/photos/in-pain.jpg" },
+  { id: 13, src: "/photos/laborious.jpg" },
+  { id: 14, src: "/photos/lazy.jpg" },
+  { id: 15, src: "/photos/medical-problems.jpg" },
+  { id: 16, src: "/photos/meditative.jpg" },
+  { id: 17, src: "/photos/mourning.jpg" },
+  { id: 18, src: "/photos/on-the-phone.jpg" },
+  { id: 19, src: "/photos/pet-companionship.jpg" },
+  { id: 20, src: "/photos/romantic.jpg" },
+  { id: 21, src: "/photos/sleep.jpg" },
+  { id: 22, src: "/photos/sorrowful.jpg" },
+  { id: 23, src: "/photos/studious.jpg" },
+  { id: 24, src: "/photos/successful.jpg" },
+  { id: 25, src: "/photos/the-married-life.jpg" },
+  { id: 26, src: "/photos/tired.jpg" },
+  { id: 27, src: "/photos/traveling.jpg" },
+  { id: 28, src: "/photos/wealthy.jpg" },
+  { id: 29, src: "/photos/with-community.jpg" },
+  { id: 30, src: "/photos/a-hug.jpg" },
 ];
 
 // ─── STATE ───
 let currentQ = 0;
 let selections = {};
 let currentSelections = [];
+let shuffledPhotos = null;
+let currentLang = localStorage.getItem('uncover_lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
+
+// ─── HELPERS ───
+function L() { return I18N[currentLang]; }
+function photoTitle(id) { return L().photoTitles[id]; }
+
+function restoreCardSelections() {
+  document.querySelectorAll('.card').forEach(c => {
+    const cid = parseInt(c.dataset.id);
+    const si = currentSelections.indexOf(cid);
+    if (si > -1) {
+      c.classList.add('selected');
+      c.querySelector('.card-badge').textContent = si + 1;
+    }
+    c.classList.toggle('maxed-out', currentSelections.length >= 3 && si === -1);
+  });
+}
+
+// ─── LANGUAGE ───
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'zh' : 'en';
+  localStorage.setItem('uncover_lang', currentLang);
+  document.documentElement.lang = currentLang;
+  applyLanguage();
+  document.querySelectorAll('.lang-option').forEach(el => {
+    el.classList.toggle('active', el.dataset.lang === currentLang);
+  });
+  if (document.getElementById('screen-question').classList.contains('active')) {
+    const savedPicks = [...currentSelections];
+    showQuestion();
+    currentSelections = savedPicks;
+    restoreCardSelections();
+    updatePills();
+    updateFooter();
+    document.getElementById('next-btn').disabled = currentSelections.length !== 3;
+    document.getElementById('next-btn').textContent = (currentQ === 3 && currentSelections.length === 3) ? L().seeResultsBtn : L().continueBtn;
+  }
+  if (document.getElementById('screen-summary').classList.contains('active')) {
+    renderSummary();
+  }
+}
+
+function applyLanguage() {
+  const l = L();
+  document.getElementById('hero-label').textContent = l.heroLabel;
+  document.getElementById('hero-title').textContent = l.heroTitle;
+  document.getElementById('hero-subtitle').textContent = l.heroSubtitle;
+  document.getElementById('try-btn-1').textContent = l.tryBtn;
+  document.getElementById('kit-btn-1').textContent = l.sessionKitBtn;
+  document.getElementById('try-btn-2').textContent = l.tryBtn;
+  document.getElementById('kit-btn-2').textContent = l.sessionKitBtn;
+  document.getElementById('testimonial-quote').textContent = l.testimonialQuote;
+  document.getElementById('testimonial-cite').textContent = l.testimonialCite;
+  document.getElementById('what-happens-label').textContent = l.whatHappensLabel;
+  document.getElementById('what-happens-heading').textContent = l.whatHappensHeading;
+  document.getElementById('what-happens-body').innerHTML = l.whatHappensBody;
+  document.getElementById('what-happens-note').textContent = l.whatHappensNote;
+  document.getElementById('parts-grid').innerHTML = l.partCards.map(pc => `
+    <div class="part-card">
+      <div class="part-card-label">${pc.label}</div>
+      <h4>${pc.question}</h4>
+    </div>
+  `).join('');
+  document.getElementById('running-label').textContent = l.runningLabel;
+  document.getElementById('running-heading').textContent = l.runningHeading;
+  document.getElementById('session-steps').innerHTML = l.steps.map((s, i) => `
+    <div class="session-step">
+      <div class="session-step-num">${i + 1}</div>
+      <div>
+        <h4>${s.title}</h4>
+        <p>${s.body}</p>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('who-label').textContent = l.whoLabel;
+  document.getElementById('who-heading').textContent = l.whoHeading;
+  document.getElementById('who-body').textContent = l.whoBody;
+  document.getElementById('uses-list').innerHTML = l.tags.map(t => `<span class="use-tag">${t}</span>`).join('');
+  document.getElementById('cta-heading').textContent = l.ctaHeading;
+  document.getElementById('cta-subtext').textContent = l.ctaSubtext;
+  document.getElementById('landing-footer').innerHTML = l.footerHtml;
+  document.getElementById('summary-footer').innerHTML = '<p>' + l.footerHtml + '.</p>';
+  document.getElementById('summary-back-btn').innerHTML = '<span aria-hidden="true">&larr;</span> ' + l.summaryBackText;
+  document.getElementById('summary-heading-text').textContent = l.summaryHeading;
+  document.getElementById('summary-desc').textContent = l.summaryDesc;
+  document.getElementById('summary-cta-text').textContent = l.summaryCta;
+  document.getElementById('share-btn').textContent = l.shareBtn;
+  document.getElementById('community-btn').textContent = l.communityBtn;
+  document.getElementById('restart-btn').textContent = l.restartBtn;
+  document.getElementById('email-label').textContent = l.emailLabel;
+  document.getElementById('email-body-text').textContent = l.emailBody;
+  document.getElementById('email-input').placeholder = l.emailPlaceholder;
+  document.getElementById('email-btn').textContent = l.emailBtn;
+  document.getElementById('email-fine').textContent = l.emailFine;
+  document.getElementById('audio-toggle').title = l.audioLabel;
+  document.getElementById('audio-toggle').setAttribute('aria-label', l.audioLabel);
+  document.title = currentLang === 'en'
+    ? 'Uncover \u2014 A Conversation Tool for International Student Groups'
+    : 'Uncover \u2014 \u7559\u5b66\u751f\u7fa4\u4f53\u5bf9\u8bdd\u5de5\u5177';
+}
 
 // ─── SCREEN MANAGEMENT ───
 function showScreen(id, delay = 0) {
@@ -1077,32 +1312,24 @@ function showScreen(id, delay = 0) {
     void target.offsetWidth;
     requestAnimationFrame(() => target.classList.add('visible'));
     window.scrollTo({ top: 0, behavior: 'instant' });
-    // Show audio toggle only outside landing page
     const audioBtn = document.getElementById('audio-toggle');
     if (id === 'screen-landing') audioBtn.classList.remove('visible');
     else audioBtn.classList.add('visible');
   }, delay || 350);
 }
 
-function initLanding() {
-  document.getElementById('who-heading').textContent = COPY.whoHeading;
-  document.getElementById('who-body').textContent = COPY.whoBody;
-  document.getElementById('summary-desc').textContent = COPY.summaryDesc;
-  const tagsList = document.getElementById('uses-list');
-  tagsList.innerHTML = COPY.tags.map(t => `<span class="use-tag">${t}</span>`).join('');
-}
-
 // ─── QUESTIONS ───
 function startQuestions() {
   currentQ = 0;
   selections = {};
+  shuffledPhotos = null;
   showQuestion();
   showScreen('screen-question');
   setTimeout(() => document.getElementById('q-footer').classList.add('show'), 400);
 }
 
 function showQuestion() {
-  const q = COPY.questions[currentQ];
+  const q = L().questions[currentQ];
   currentSelections = [];
   document.getElementById('q-number').textContent = q.number;
   document.getElementById('q-text').textContent = q.text;
@@ -1115,8 +1342,9 @@ function showQuestion() {
   renderCardGrid();
   updateFooter();
   document.getElementById('next-btn').disabled = true;
-  document.getElementById('next-btn').textContent = 'Continue';
+  document.getElementById('next-btn').textContent = L().continueBtn;
   document.getElementById('back-btn').style.display = currentQ > 0 ? '' : 'none';
+  document.getElementById('back-btn').setAttribute('aria-label', L().backLabel);
 }
 
 function shuffleArray(arr) {
@@ -1131,15 +1359,16 @@ function shuffleArray(arr) {
 function renderCardGrid() {
   const grid = document.getElementById('card-grid');
   grid.innerHTML = '';
-  const shuffled = shuffleArray(PHOTOS);
-  shuffled.forEach((photo, i) => {
+  if (!shuffledPhotos) shuffledPhotos = shuffleArray(PHOTOS);
+  shuffledPhotos.forEach((photo, i) => {
+    const title = photoTitle(photo.id);
     const card = document.createElement('div');
     card.className = 'card img-wrap stagger-in';
     card.style.animationDelay = `${i * 25}ms`;
     card.dataset.id = photo.id;
     const img = document.createElement('img');
     img.src = photo.src;
-    img.alt = photo.title;
+    img.alt = title;
     img.loading = i < 12 ? 'eager' : 'lazy';
     img.onload = () => img.classList.add('loaded');
     card.innerHTML = `<div class="card-badge"></div>`;
@@ -1147,7 +1376,7 @@ function renderCardGrid() {
     card.addEventListener('click', () => toggleCard(photo.id, card));
     card.setAttribute('tabindex', '0');
     card.setAttribute('role', 'button');
-    card.setAttribute('aria-label', photo.title);
+    card.setAttribute('aria-label', title);
     card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCard(photo.id, card); } });
     grid.appendChild(card);
   });
@@ -1174,7 +1403,7 @@ function toggleCard(id, card) {
   updateFooter();
   const nextBtn = document.getElementById('next-btn');
   nextBtn.disabled = currentSelections.length !== 3;
-  nextBtn.textContent = (currentQ === 3 && currentSelections.length === 3) ? 'See what I uncovered' : 'Continue';
+  nextBtn.textContent = (currentQ === 3 && currentSelections.length === 3) ? L().seeResultsBtn : L().continueBtn;
   saveProgress();
 }
 
@@ -1182,8 +1411,9 @@ function updatePills() {
   for (let i = 0; i < 3; i++) {
     const pill = document.getElementById(`pill-${i}`);
     if (currentSelections[i]) {
+      const title = photoTitle(currentSelections[i]);
       const photo = PHOTOS.find(p => p.id === currentSelections[i]);
-      pill.innerHTML = `<img src="${photo.src}" alt="${photo.title}">`;
+      pill.innerHTML = `<img src="${photo.src}" alt="${title}">`;
       pill.classList.add('filled');
     } else {
       pill.innerHTML = '';
@@ -1195,9 +1425,9 @@ function updatePills() {
 function updateFooter() {
   const count = currentSelections.length;
   const el = document.getElementById('q-footer-count');
-  if (count === 0) el.innerHTML = 'Pick <strong>3</strong> images';
-  else if (count < 3) el.innerHTML = `<strong>${count}</strong> of <strong>3</strong> selected`;
-  else el.innerHTML = 'All <strong>3</strong> selected';
+  if (count === 0) el.innerHTML = L().pickPrompt;
+  else if (count < 3) el.innerHTML = L().pickCount.replace('{n}', count);
+  else el.innerHTML = L().pickDone;
 }
 
 function saveProgress() {
@@ -1210,17 +1440,8 @@ function prevQuestion() {
   const savedPicks = selections[currentQ] || [];
   delete selections[currentQ];
   showQuestion();
-  // Restore picks after showQuestion resets currentSelections
   currentSelections = savedPicks;
-  document.querySelectorAll('.card').forEach(c => {
-    const cid = parseInt(c.dataset.id);
-    const si = currentSelections.indexOf(cid);
-    if (si > -1) {
-      c.classList.add('selected');
-      c.querySelector('.card-badge').textContent = si + 1;
-    }
-    c.classList.toggle('maxed-out', currentSelections.length >= 3 && si === -1);
-  });
+  restoreCardSelections();
   updatePills();
   updateFooter();
   document.getElementById('next-btn').disabled = currentSelections.length !== 3;
@@ -1230,10 +1451,6 @@ function nextQuestion() {
   selections[currentQ] = [...currentSelections];
   currentQ++;
   saveProgress();
-  const t = COPY.transitions[currentQ - 1];
-  document.getElementById('transition-text').textContent = t.text;
-  document.getElementById('transition-sub').textContent = t.sub;
-
   if (currentQ >= 4) {
     document.getElementById('q-footer').classList.remove('show');
     document.getElementById('progress-fill').style.width = '100%';
@@ -1248,7 +1465,7 @@ function nextQuestion() {
 // ─── SUMMARY ───
 function renderSummary() {
   const container = document.getElementById('summary-content');
-  const questions = COPY.questions;
+  const questions = L().questions;
   container.innerHTML = '';
   questions.forEach((q, qi) => {
     const picks = selections[qi] || [];
@@ -1257,7 +1474,8 @@ function renderSummary() {
     section.style.animationDelay = `${qi * 150}ms`;
     const picksHTML = picks.map(pid => {
       const photo = PHOTOS.find(p => p.id === pid);
-      return `<div><div class="summary-pick img-wrap"><img src="${photo.src}" alt="${photo.title}" class="loaded"></div><div class="summary-pick-title">${photo.title}</div></div>`;
+      const title = photoTitle(pid);
+      return `<div><div class="summary-pick img-wrap"><img src="${photo.src}" alt="${title}" class="loaded"></div><div class="summary-pick-title">${title}</div></div>`;
     }).join('');
     const promptsHTML = q.prompts.map(p => `<li>${p}</li>`).join('');
     section.innerHTML = `
@@ -1265,7 +1483,7 @@ function renderSummary() {
       <div class="summary-q-text">${q.text}</div>
       <div class="summary-q-insight">${q.partInsight}</div>
       <div class="summary-picks">${picksHTML}</div>
-      <div class="conversation-prompt"><h4>Go Deeper</h4><ul>${promptsHTML}</ul></div>
+      <div class="conversation-prompt"><h4>${L().goDeeper}</h4><ul>${promptsHTML}</ul></div>
     `;
     container.appendChild(section);
     if (qi < questions.length - 1) {
@@ -1274,14 +1492,10 @@ function renderSummary() {
       container.appendChild(d);
     }
   });
-
-  // Show share button
   const shareBtn = document.getElementById('share-btn');
   if (shareBtn) shareBtn.style.display = '';
-
-  // Analytics beacon
   try {
-    navigator.sendBeacon('/api/analytics', JSON.stringify({ event: 'summary_rendered', mode: 'intl', questions: 4, timestamp: Date.now() }));
+    navigator.sendBeacon('/api/analytics', JSON.stringify({ event: 'summary_rendered', mode: 'intl', questions: 4, lang: currentLang, timestamp: Date.now() }));
   } catch(e) {}
 }
 
@@ -1292,41 +1506,37 @@ async function sendResults(e) {
   const btn = document.getElementById('email-btn');
   const msg = document.getElementById('email-msg');
   btn.disabled = true;
-  btn.textContent = 'Sending…';
-
-  // Build results payload
-  const questions = COPY.questions;
+  btn.textContent = L().emailSending;
+  const questions = L().questions;
   const results = questions.map((q, qi) => ({
     question: q.text,
     layer: q.partLabel,
     insight: q.partInsight,
     picks: (selections[qi] || []).map(pid => {
       const photo = PHOTOS.find(p => p.id === pid);
-      return { title: photo.title, src: photo.src };
+      return { title: photoTitle(pid), src: photo.src };
     }),
     prompts: q.prompts,
   }));
-
   try {
     const res = await fetch('/api/email-results', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, mode: 'intl', results }),
+      body: JSON.stringify({ email, mode: 'intl', lang: currentLang, results }),
     });
     if (res.ok) {
-      msg.textContent = 'Sent! Check your inbox.';
+      msg.textContent = L().emailSent;
       msg.style.display = 'block';
       document.getElementById('email-save').classList.add('sent');
-      btn.textContent = 'Sent ✓';
+      btn.textContent = L().emailSentBtn;
     } else {
       throw new Error('Failed');
     }
   } catch (err) {
-    // Fallback: save results locally if API unavailable
-    msg.textContent = 'Could not send right now. Try again later.';
+    msg.textContent = L().emailError;
     msg.style.display = 'block';
     msg.style.color = 'var(--muted)';
-    btn.textContent = 'Send';
+    btn.textContent = L().emailBtn;
     btn.disabled = false;
   }
 }
@@ -1334,21 +1544,21 @@ async function sendResults(e) {
 function restart() {
   if (audioPlaying && audioSource) { try { audioSource.stop(); } catch(e) {} document.getElementById('audio-toggle').classList.remove('playing'); audioPlaying = false; }
   currentQ = 0; selections = {}; currentSelections = [];
+  shuffledPhotos = null;
   sessionStorage.removeItem('uncover_progress');
   showScreen('screen-landing');
 }
 
-// Share results via native share or clipboard fallback
 async function shareResults() {
-  const text = 'I just uncovered my four layers with Uncover — a visual conversation tool. Try it yourself:';
+  const text = L().shareText;
   const url = window.location.origin;
   if (navigator.share) {
-    try { await navigator.share({ title: 'Uncover — What I Uncovered', text, url }); } catch (e) {}
+    try { await navigator.share({ title: L().shareTitle, text, url }); } catch (e) {}
   } else {
     await navigator.clipboard.writeText(`${text} ${url}`);
     const btn = document.getElementById('share-btn');
-    btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = 'Share', 2000);
+    btn.textContent = L().shareCopied;
+    setTimeout(() => btn.textContent = L().shareBtn, 2000);
   }
 }
 
@@ -1365,24 +1575,19 @@ let audioBuffer = null;
 let audioSource = null;
 let gainNode = null;
 
-// Generate a gentle ambient drone procedurally (no external file needed)
 function createAmbientDrone() {
   const duration = 30;
   const sampleRate = audioCtx.sampleRate;
   const buffer = audioCtx.createBuffer(2, sampleRate * duration, sampleRate);
-
   for (let ch = 0; ch < 2; ch++) {
     const data = buffer.getChannelData(ch);
     for (let i = 0; i < data.length; i++) {
       const t = i / sampleRate;
-      // Layered sine waves at consonant intervals (C2, G2, C3, E3) with slow modulation
       const base = Math.sin(2 * Math.PI * 65.41 * t) * 0.3;
       const fifth = Math.sin(2 * Math.PI * 98.0 * t + ch * 0.5) * 0.2;
       const octave = Math.sin(2 * Math.PI * 130.81 * t) * 0.15;
       const third = Math.sin(2 * Math.PI * 164.81 * t + ch * 0.3) * 0.1;
-      // Slow amplitude modulation for breathing feel
       const mod = 0.7 + 0.3 * Math.sin(2 * Math.PI * 0.08 * t + ch * 1.5);
-      // Slight detuning for warmth
       const detune = Math.sin(2 * Math.PI * 0.5 * t) * 0.002;
       const warm = Math.sin(2 * Math.PI * (65.41 + detune) * t) * 0.1;
       data[i] = (base + fifth + octave + third + warm) * mod;
@@ -1400,7 +1605,6 @@ audioToggle.addEventListener('click', () => {
     gainNode.gain.value = 0.15;
   }
   if (audioCtx.state === 'suspended') audioCtx.resume();
-
   if (!audioPlaying) {
     if (!audioBuffer) audioBuffer = createAmbientDrone();
     audioSource = audioCtx.createBufferSource();
@@ -1418,9 +1622,12 @@ audioToggle.addEventListener('click', () => {
 });
 
 // ─── INIT ───
-initLanding();
+document.documentElement.lang = currentLang;
+document.querySelectorAll('.lang-option').forEach(el => {
+  el.classList.toggle('active', el.dataset.lang === currentLang);
+});
+applyLanguage();
 
-// Restore in-progress session
 try {
   const saved = JSON.parse(sessionStorage.getItem('uncover_progress'));
   if (saved && saved.currentQ > 0 && saved.currentQ < 4) {
@@ -1431,17 +1638,8 @@ try {
     showScreen('screen-question');
     setTimeout(() => {
       document.getElementById('q-footer').classList.add('show');
-      // Re-apply in-progress selections visually
       if (currentSelections.length > 0) {
-        document.querySelectorAll('.card').forEach(c => {
-          const cid = parseInt(c.dataset.id);
-          const si = currentSelections.indexOf(cid);
-          if (si > -1) {
-            c.classList.add('selected');
-            c.querySelector('.card-badge').textContent = si + 1;
-          }
-          c.classList.toggle('maxed-out', currentSelections.length >= 3 && si === -1);
-        });
+        restoreCardSelections();
         updatePills();
         updateFooter();
         document.getElementById('next-btn').disabled = currentSelections.length !== 3;
